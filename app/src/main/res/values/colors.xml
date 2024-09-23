@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blue_200">#73e8ff</color>
+    <color name="blue_500">#29b6f6</color>
+    <color name="blue_700">#0086c3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="text_color">#3E4958</color>
+    <color name="edittext_background">#F7F8F9</color>
+    <color name="edittext_stroke">#D5DDE0</color>
+    <color name="button_background">#1152FD</color>
+    <color name="sub_content">#979EB6</color>
+    <color name="forgot_password">#BABABA</color>
+    <color name="light_silver">#D9D9D9</color>
+    <color name="gray">#929292</color>
+    <color name="yellow">#ffed00</color>
+</resources>

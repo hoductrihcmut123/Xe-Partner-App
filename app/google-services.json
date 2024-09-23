@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "776749896643",
+    "firebase_url": "https://xe-vivu-app-default-rtdb.firebaseio.com",
+    "project_id": "xe-vivu-app",
+    "storage_bucket": "xe-vivu-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776749896643:android:c03d3b69b7850810b3e376",
+        "android_client_info": {
+          "package_name": "com.example.xepartnerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuO0MhWkkDaL0HMkRjO2lAZA042HW55dQ"
+        },
+        {
+          "current_key": "AIzaSyBi6mZxqoX5AoQ-b1UtDW3jPuuOD46lQ4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776749896643:android:97e248d4ccdfc62cb3e376",
+        "android_client_info": {
+          "package_name": "com.example.xevivuapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776749896643-qvgpkv4s3aiu76e23n6dgonjps8jvu91.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.xevivuapp",
+            "certificate_hash": "658d5dcd4bf227e6af9b87844d64d7928e8f7078"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuO0MhWkkDaL0HMkRjO2lAZA042HW55dQ"
+        },
+        {
+          "current_key": "AIzaSyBi6mZxqoX5AoQ-b1UtDW3jPuuOD46lQ4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

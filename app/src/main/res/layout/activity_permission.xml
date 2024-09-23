@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".signup_login.permissions.PermissionActivity">
+
+    <ImageView
+        android:id="@+id/permissionIcon"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_125sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/permissionTitle"
+        android:layout_marginTop="@dimen/_150sdp"
+        app:srcCompat="@drawable/location_icon" />
+
+    <TextView
+        android:id="@+id/permissionTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:textFontWeight="700"
+        android:text="@string/LocationPermission"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/_26ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/permissionIcon"
+        app:layout_constraintBottom_toTopOf="@id/guideContent"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/guideContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:textFontWeight="400"
+        android:text="Để có thể sử dụng những tính năng của ứng dụng, bạn vui lòng Cấp quyền truy cập vị trí cho ứng dụng bằng cách ấn vào tùy chọn Cho phép Trong khi dùng ứng dụng nhé !"
+        android:gravity="center"
+        android:textColor="@color/sub_content"
+        android:textSize="@dimen/_18ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/permissionTitle"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_100sdp"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginEnd="@dimen/_25sdp" />
+
+    <Button
+        android:id="@+id/permissionButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:background="@drawable/stroke_button_border"
+        android:fontFamily="@font/inter"
+        android:padding="@dimen/_16sdp"
+        android:stateListAnimator="@null"
+        android:text="@string/GrantLocationPermission"
+        android:drawableLeft="@drawable/path_icon"
+        android:textAllCaps="false"
+        android:textColor="@color/button_background"
+        android:textFontWeight="400"
+        android:textSize="@dimen/_22ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideContent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

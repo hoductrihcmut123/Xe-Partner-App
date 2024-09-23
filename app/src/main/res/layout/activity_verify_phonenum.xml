@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="@dimen/_16sdp"
+    tools:context=".signup_login.signup.VerifyPhoneNumActivity">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:backgroundTint="@color/white"
+        app:borderWidth="0dp"
+        app:elevation="@dimen/_10sdp"
+        app:fabCustomSize="@dimen/_40sdp"
+        app:layout_constraintEnd_toStartOf="@id/loginTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back_icon"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/loginTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:textFontWeight="700"
+        android:gravity="center"
+        android:text="@string/VerificationCode"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/_26ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_75sdp"
+        android:layout_marginEnd="@dimen/_75sdp"/>
+
+    <TextView
+        android:id="@+id/guideContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:textFontWeight="400"
+        android:text="Một mã xác minh đã được gửi đến +xxx qua tin nhắn SMS"
+        android:gravity="center"
+        android:textColor="@color/sub_content"
+        android:textSize="@dimen/_18ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginTitle"
+        app:layout_constraintBottom_toTopOf="@id/inputCode"
+        android:layout_marginTop="@dimen/_100sdp"
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginEnd="@dimen/_25sdp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/inputCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideContent"
+        app:layout_constraintBottom_toTopOf="@id/resendCode">
+
+        <com.chaos.view.PinView
+            android:id="@+id/id_otp"
+            style="@style/PinWidget.PinView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cursorVisible="true"
+            android:fontFamily="@font/inter"
+            android:inputType="number"
+            android:itemBackground="@color/white"
+            android:textColor="@color/button_background"
+            android:textFontWeight="700"
+            android:textSize="@dimen/_34ssp"
+            app:hideLineWhenFilled="true"
+            app:itemCount="6"
+            app:itemRadius="@dimen/_5sdp"
+            app:lineColor="@color/button_background"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/resendCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:textFontWeight="400"
+        android:text="@string/ResendCode"
+        android:gravity="center"
+        android:textColor="@color/sub_content"
+        android:textSize="@dimen/_18ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputCode"
+        app:layout_constraintBottom_toTopOf="@id/verifyButton"
+        android:layout_marginTop="@dimen/_100sdp"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_100sdp"/>
+
+    <Button
+        android:id="@+id/verifyButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_100sdp"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:background="@drawable/button_border"
+        android:backgroundTint="@color/button_background"
+        android:fontFamily="@font/inter"
+        android:padding="@dimen/_16sdp"
+        android:stateListAnimator="@null"
+        android:text="@string/Verify"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textFontWeight="700"
+        android:textSize="@dimen/_22ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/resendCode"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
