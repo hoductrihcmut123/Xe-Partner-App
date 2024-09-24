@@ -90,7 +90,6 @@
     <string name="Gender">GENDER</string>
     <string name="Male">Male</string>
     <string name="Female">Female</string>
-    <string name="Other">Other</string>
     <string name="MachineNumber">Frame number/Engine number</string>
     <string name="LicensePlate">License plate</string>
     <string name="PlaceOfManufacture">Place of manufacture</string>
@@ -99,4 +98,8 @@
     <string name="NumberOfSeats">NUMBER OF SEATS</string>
     <string name="YearOfManufacture">YEAR OF MANUFACTURE</string>
     <string name="VehicleBrand">VEHICLE BRAND</string>
+    <string name="YouAre">YOU ARE: (REQUIRED)</string>
+    <string name="Driver">Driver</string>
+    <string name="RentalPerson">Rental person</string>
+    <string name="PleaseSelectUserType">Please select User Type !</string>
 </resources>

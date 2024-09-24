@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.xepartnerapp.HomeActivity
+import com.example.xepartnerapp.HomeDriverActivity
 import com.example.xepartnerapp.R
 import com.example.xepartnerapp.databinding.ActivitySignupDriverBinding
 import com.example.xepartnerapp.signup_login.login.LoginActivity
@@ -22,7 +22,7 @@ class SignupDriverActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignupDriverBinding
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var passengersCollection: CollectionReference
+    private lateinit var driversCollection: CollectionReference
 
     private lateinit var auth: FirebaseAuth
     lateinit var storedVerificationId: String
@@ -30,10 +30,21 @@ class SignupDriverActivity : AppCompatActivity() {
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
 
-    private lateinit var signupLastname: String
-    private lateinit var signupFirstname: String
-    private lateinit var signupPhoneNumber: String
-    private lateinit var signupPassword: String
+    private lateinit var lastname: String
+    private lateinit var firstname: String
+    private lateinit var phoneNumber: String
+    private lateinit var password: String
+    private lateinit var cardID: String
+    private lateinit var license: String
+    private var gender: Boolean? = null
+    private lateinit var machineNumber: String
+    private lateinit var licensePlate: String
+    private lateinit var placeManufacture: String
+    private lateinit var vehicleColor: String
+    private lateinit var vehicleType: String
+    private var seatNum: Int? = null
+    private var yearManufacture: Int? = null
+    private lateinit var vehicleBrand: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,26 +52,45 @@ class SignupDriverActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firestore = FirebaseFirestore.getInstance()
-        passengersCollection = firestore.collection("Passengers")
+        driversCollection = firestore.collection("Drivers")
         auth = FirebaseAuth.getInstance()
 
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            startActivity(Intent(this@SignupDriverActivity, HomeActivity::class.java))
+            startActivity(Intent(this@SignupDriverActivity, HomeDriverActivity::class.java))
             finish()
         }
 
+        binding.radioGroupGender.setOnCheckedChangeListener { _, checkedId ->
+            gender = when (checkedId) {
+                R.id.radioMale -> true  // true cho Male
+                R.id.radioFemale -> false // false cho Female
+                else -> null
+            }
+        }
+
         binding.signupButton.setOnClickListener {
+            lastname = binding.signupLastname.text.toString()
+            firstname = binding.signupFirstname.text.toString()
+            phoneNumber = binding.signupPhoneNumber.text.toString()
+            password = binding.signupPasswordChild.text.toString()
+            cardID = binding.signupIDCard.text.toString()
+            license = binding.signupLicense.text.toString()
+            machineNumber = binding.signupMachineNumber.text.toString()
+            licensePlate = binding.signupLicensePlate.text.toString()
+            placeManufacture = binding.signupPlaceManufacture.text.toString()
+            vehicleColor = binding.signupColor.text.toString()
+            vehicleType = binding.signupType.text.toString()
+            seatNum = binding.signupSeatNum.text.toString().toIntOrNull()
+            yearManufacture = binding.signupYearManufacture.text.toString().toIntOrNull()
+            vehicleBrand = binding.signupVehicleBrand.text.toString()
 
-            signupLastname = binding.signupLastname.text.toString()
-            signupFirstname = binding.signupFirstname.text.toString()
-            signupPhoneNumber = binding.signupPhoneNumber.text.toString()
-            signupPassword = binding.signupPasswordChild.text.toString()
-
-            if (signupLastname.isNotEmpty() && signupFirstname.isNotEmpty() &&
-                signupPhoneNumber.isNotEmpty() && signupPassword.isNotEmpty()
-            ) {
-                signupPassenger(signupPhoneNumber)
+            if (lastname.isNotEmpty() && firstname.isNotEmpty() && phoneNumber.isNotEmpty()
+                && password.isNotEmpty() && cardID.isNotEmpty() && license.isNotEmpty()
+                && gender != null && machineNumber.isNotEmpty() && licensePlate.isNotEmpty()
+                && placeManufacture.isNotEmpty() && vehicleColor.isNotEmpty() && vehicleType.isNotEmpty()
+                && seatNum != null && yearManufacture != null && vehicleBrand.isNotEmpty()) {
+                signupDriver(phoneNumber)
             } else {
                 Toast.makeText(
                     this@SignupDriverActivity, getString(R.string.PleaseFillAllInformation),
@@ -77,7 +107,7 @@ class SignupDriverActivity : AppCompatActivity() {
         // Callback function for Phone Auth
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                startActivity(Intent(this@SignupDriverActivity, HomeActivity::class.java))
+                startActivity(Intent(this@SignupDriverActivity, HomeDriverActivity::class.java))
                 finish()
             }
 
@@ -100,17 +130,29 @@ class SignupDriverActivity : AppCompatActivity() {
 
                 val intent = Intent(this@SignupDriverActivity, VerifyPhoneNumActivity::class.java)
                 intent.putExtra("storedVerificationId", storedVerificationId)
-                intent.putExtra("signupLastname", signupLastname)
-                intent.putExtra("signupFirstname", signupFirstname)
-                intent.putExtra("signupPhoneNumber", signupPhoneNumber)
-                intent.putExtra("signupPassword", signupPassword)
+                intent.putExtra("driverLastname", lastname)
+                intent.putExtra("driverFirstname", firstname)
+                intent.putExtra("driverPhoneNumber", phoneNumber)
+                intent.putExtra("driverPassword", password)
+                intent.putExtra("driverCardID", cardID)
+                intent.putExtra("driverLicense", license)
+                intent.putExtra("driverGender", gender)
+                intent.putExtra("driverMachineNumber", machineNumber)
+                intent.putExtra("driverLicensePlate", licensePlate)
+                intent.putExtra("driverPlaceManufacture", placeManufacture)
+                intent.putExtra("driverVehicleColor", vehicleColor)
+                intent.putExtra("driverVehicleType", vehicleType)
+                intent.putExtra("driverSeatNum", seatNum)
+                intent.putExtra("driverYearManufacture", yearManufacture)
+                intent.putExtra("driverVehicleBrand", vehicleBrand)
+                intent.putExtra("isDriver", true)
                 startActivity(intent)
             }
         }
     }
 
-    private fun signupPassenger(phoneNumber: String) {
-        passengersCollection.whereEqualTo("mobile_No", phoneNumber)
+    private fun signupDriver(phoneNumber: String) {
+        driversCollection.whereEqualTo("mobile_No", phoneNumber)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.isEmpty) {

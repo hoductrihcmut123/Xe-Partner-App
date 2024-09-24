@@ -90,7 +90,6 @@
     <string name="Gender">GIỚI TÍNH</string>
     <string name="Male">Nam</string>
     <string name="Female">Nữ</string>
-    <string name="Other">Khác</string>
     <string name="MachineNumber">SỐ KHUNG/SỐ MÁY</string>
     <string name="LicensePlate">BIỂN SỐ XE</string>
     <string name="PlaceOfManufacture">NƠI SẢN XUẤT</string>
@@ -99,4 +98,8 @@
     <string name="NumberOfSeats">SỐ CHỖ NGỒI</string>
     <string name="YearOfManufacture">NĂM SẢN XUẤT</string>
     <string name="VehicleBrand">HIỆU XE</string>
+    <string name="YouAre">BẠN LÀ: (BẮT BUỘC CHỌN)</string>
+    <string name="Driver">Tài xế</string>
+    <string name="RentalPerson">Người cho thuê</string>
+    <string name="PleaseSelectUserType">Bạn vui lòng chọn Loại Người Dùng nhé !</string>
 </resources>

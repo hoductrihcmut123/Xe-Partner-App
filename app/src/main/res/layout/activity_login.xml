@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/loginPhoneNumber"
-        android:layout_marginTop="@dimen/_200sdp"
+        android:layout_marginTop="@dimen/_140sdp"
         android:layout_marginStart="@dimen/_25sdp" />
 
     <EditText
@@ -80,7 +80,7 @@
         android:layout_marginStart="@dimen/_25sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_25sdp"
-        app:layout_constraintBottom_toTopOf="@id/loginButton"
+        app:layout_constraintBottom_toTopOf="@id/titleUserType"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titlePassword"
@@ -106,6 +106,51 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
+        android:id="@+id/titleUserType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:textFontWeight="700"
+        android:text="@string/YouAre"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/_16ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginPassword"
+        app:layout_constraintBottom_toTopOf="@id/radioGroupUserType"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginEnd="@dimen/_25sdp" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupUserType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/loginForgotPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleUserType">
+
+        <RadioButton
+            android:id="@+id/radioDriver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/Driver" />
+
+        <RadioButton
+            android:id="@+id/radioCSO"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/RentalPerson" />
+    </RadioGroup>
+
+    <TextView
         android:id="@+id/loginForgotPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -117,8 +162,8 @@
         android:textSize="@dimen/_16ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginPassword"
-        android:layout_marginTop="@dimen/_15sdp"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupUserType"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_25sdp"
         android:drawableLeft="@drawable/login_forgotpassword_icon"/>
 
@@ -127,7 +172,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_25sdp"
-        android:layout_marginTop="@dimen/_100sdp"
+        android:layout_marginTop="@dimen/_50sdp"
         android:layout_marginEnd="@dimen/_25sdp"
         android:background="@drawable/button_border"
         android:backgroundTint="@color/button_background"
@@ -141,7 +186,7 @@
         android:textSize="@dimen/_22ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginPassword" />
+        app:layout_constraintTop_toBottomOf="@id/loginForgotPassword" />
 
     <TextView
         android:id="@+id/loginSubContent"

@@ -10,7 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.example.xepartnerapp.R
-import com.example.xepartnerapp.data.PassengerData
+import com.example.xepartnerapp.data.CsoData
+import com.example.xepartnerapp.data.DriverData
 import com.example.xepartnerapp.databinding.ActivityVerifyPhonenumBinding
 import com.example.xepartnerapp.signup_login.permissions.PermissionActivity
 import com.google.firebase.FirebaseException
@@ -27,7 +28,7 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityVerifyPhonenumBinding
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var passengersCollection: CollectionReference
+    private lateinit var collection: CollectionReference
 
     private lateinit var auth: FirebaseAuth
 
@@ -37,22 +38,48 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firestore = FirebaseFirestore.getInstance()
-        passengersCollection = firestore.collection("Passengers")
 
         auth = FirebaseAuth.getInstance()
         lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
         val storedVerificationId = intent.getStringExtra("storedVerificationId")
-        val signupLastname = intent.getStringExtra("signupLastname")
-        val signupFirstname = intent.getStringExtra("signupFirstname")
-        val signupPhoneNumber = intent.getStringExtra("signupPhoneNumber")
-        val signupPassword = intent.getStringExtra("signupPassword")
+        val isDriver = intent.getBooleanExtra("isDriver", true)
+
+        // Driver
+        val driverData = DriverData(
+            firstname = intent.getStringExtra("driverFirstname"),
+            lastname = intent.getStringExtra("driverLastname"),
+            mobile_No = intent.getStringExtra("driverPhoneNumber"),
+            password = intent.getStringExtra("driverPassword"),
+            card_ID = intent.getStringExtra("driverCardID"),
+            license = intent.getStringExtra("driverLicense"),
+            gender = intent.getBooleanExtra("driverGender", true),
+            machine_Number = intent.getStringExtra("driverMachineNumber"),
+            license_Plate = intent.getStringExtra("driverLicensePlate"),
+            place_Manufacture = intent.getStringExtra("driverPlaceManufacture"),
+            vehicle_Color = intent.getStringExtra("driverVehicleColor"),
+            vehicle_Type = intent.getStringExtra("driverVehicleType"),
+            seat_Num = intent.getIntExtra("driverSeatNum", 0),
+            year_Manufacture = intent.getIntExtra("driverYearManufacture", 0),
+            vehicle_Brand = intent.getStringExtra("driverVehicleBrand"),
+            point = 0,
+            ready = false
+        )
+
+        // CSO
+        // TODO Later
+        val csoData = CsoData(
+            mobile_No = intent.getStringExtra("csoPhoneNumber"),
+        )
 
         val otpGiven = binding.idOtp
         binding.backButton.setOnClickListener {
             onBackPressed()
         }
-        binding.guideContent.text = getString(R.string.VerificationMessage, signupPhoneNumber)
+        binding.guideContent.text = getString(
+            R.string.VerificationMessage,
+            if (isDriver) driverData.mobile_No else csoData.mobile_No
+        )
 
         val resendCode = binding.resendCode
         object : CountDownTimer(59000, 1000) {
@@ -80,7 +107,8 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        val number = "+84$signupPhoneNumber"
+                        val number =
+                            "+84${if (isDriver) driverData.mobile_No else csoData.mobile_No}"
                         val options = PhoneAuthOptions.newBuilder(auth)
                             .setPhoneNumber(number) // Phone number to verify
                             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
@@ -105,14 +133,9 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
                 val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(
                     storedVerificationId.toString(), otp
                 )
-                if (signupLastname != null && signupFirstname != null && signupPhoneNumber != null
-                    && signupPassword != null
-                ) {
-                    signInWithPhoneAuthCredential(
-                        credential, signupLastname, signupFirstname,
-                        signupPhoneNumber, signupPassword
-                    )
-                }
+                signInWithPhoneAuthCredential(
+                    credential, driverData, csoData, isDriver
+                )
             } else {
                 Toast.makeText(this, getString(R.string.PleaseEnterOTP), Toast.LENGTH_SHORT).show()
             }
@@ -132,23 +155,24 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
     }
 
     private fun signInWithPhoneAuthCredential(
-        credential: PhoneAuthCredential,
-        signupLastname: String, signupFirstname: String,
-        signupPhoneNumber: String, signupPassword: String
+        credential: PhoneAuthCredential, driverData: DriverData, csoData: CsoData, isDriver: Boolean
     ) {
+        collection = if (isDriver) {
+            firestore.collection("Drivers")
+        } else {
+            firestore.collection("CSOs")
+        }
+
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val userid = passengersCollection.document().id
-                    val passengerData = PassengerData(
-                        user_ID = userid,
-                        lastname = signupLastname,
-                        firstname = signupFirstname,
-                        mobile_No = signupPhoneNumber,
-                        password = signupPassword,
-                        point = 0
-                    )
-                    passengersCollection.document(userid).set(passengerData)
+                    val userid = collection.document().id
+                    val setData: Any = if (isDriver) {
+                        driverData.copy(driver_ID = userid)
+                    } else {
+                        csoData.copy(Cso_ID = userid)
+                    }
+                    collection.document(userid).set(setData)
                         .addOnSuccessListener {
                             Toast.makeText(
                                 this@VerifyPhoneNumActivity,
@@ -160,6 +184,7 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
                                 PermissionActivity::class.java
                             )
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            intent.putExtra("isDriver", isDriver)
                             startActivity(intent)
                             finish()
                         }
@@ -173,6 +198,7 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
 
                     val intent = Intent(this@VerifyPhoneNumActivity, PermissionActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    intent.putExtra("isDriver", isDriver)
                     startActivity(intent)
                     finish()
                 } else {

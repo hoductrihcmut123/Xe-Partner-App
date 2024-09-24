@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.example.xepartnerapp.R
 import com.example.xepartnerapp.signup_login.signup.SignupDriverActivity
 import com.example.xepartnerapp.databinding.ActivityForgotPasswordBinding
+import com.example.xepartnerapp.signup_login.signup.SignupCsoActivity
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
@@ -21,7 +22,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityForgotPasswordBinding
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var passengersCollection: CollectionReference
+    private lateinit var collection: CollectionReference
 
     private lateinit var auth: FirebaseAuth
     lateinit var storedVerificationId: String
@@ -36,8 +37,9 @@ class ForgotPasswordActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firestore = FirebaseFirestore.getInstance()
-        passengersCollection = firestore.collection("Passengers")
         auth = FirebaseAuth.getInstance()
+
+        val isDriver = intent.getBooleanExtra("isDriver", true)
 
         binding.backButton.setOnClickListener {
             onBackPressed()
@@ -48,7 +50,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
             fpPhoneNumber = binding.fpPhoneNumber.text.toString()
 
             if (fpPhoneNumber.isNotEmpty()) {
-                fpPassenger(fpPhoneNumber)
+                fpPassword(fpPhoneNumber, isDriver)
             } else {
                 Toast.makeText(
                     this@ForgotPasswordActivity, getString(R.string.PleaseEnterYourPhoneNumber),
@@ -58,14 +60,20 @@ class ForgotPasswordActivity : AppCompatActivity() {
         }
 
         binding.fpNavSignup.setOnClickListener {
-            startActivity(Intent(this@ForgotPasswordActivity, SignupDriverActivity::class.java))
+            if (isDriver) {
+                startActivity(Intent(this@ForgotPasswordActivity, SignupDriverActivity::class.java))
+            } else {
+                startActivity(Intent(this@ForgotPasswordActivity, SignupCsoActivity::class.java))
+            }
             finish()
         }
 
         // Callback function for Phone Auth
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                startActivity(Intent(this@ForgotPasswordActivity, NewPasswordActivity::class.java))
+                val intent = Intent(this@ForgotPasswordActivity, NewPasswordActivity::class.java)
+                intent.putExtra("isDriver", isDriver)
+                startActivity(intent)
                 finish()
             }
 
@@ -90,13 +98,19 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     Intent(this@ForgotPasswordActivity, VerifyPhoneNumFPActivity::class.java)
                 intent.putExtra("storedVerificationId", storedVerificationId)
                 intent.putExtra("fpPhoneNumber", fpPhoneNumber)
+                intent.putExtra("isDriver", isDriver)
                 startActivity(intent)
             }
         }
     }
 
-    private fun fpPassenger(phoneNumber: String) {
-        passengersCollection.whereEqualTo("mobile_No", phoneNumber)
+    private fun fpPassword(phoneNumber: String, isDriver: Boolean) {
+        collection = if (isDriver) {
+            firestore.collection("Drivers")
+        } else {
+            firestore.collection("CSOs")
+        }
+        collection.whereEqualTo("mobile_No", phoneNumber)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 if (!querySnapshot.isEmpty) {

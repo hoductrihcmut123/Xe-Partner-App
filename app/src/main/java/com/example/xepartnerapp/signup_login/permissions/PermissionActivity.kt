@@ -10,7 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.xepartnerapp.HomeActivity
+import com.example.xepartnerapp.HomeCsoActivity
+import com.example.xepartnerapp.HomeDriverActivity
 import com.example.xepartnerapp.R
 import com.example.xepartnerapp.databinding.ActivityPermissionBinding
 
@@ -19,11 +20,14 @@ const val REQUEST_CODE = 300
 class PermissionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPermissionBinding
+    private var isDriver: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPermissionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        isDriver = intent.getBooleanExtra("isDriver", true)
 
         if (ContextCompat.checkSelfPermission(
                 this,
@@ -34,7 +38,10 @@ class PermissionActivity : AppCompatActivity() {
                 android.Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            val intent = Intent(this@PermissionActivity, HomeActivity::class.java)
+            val intent = Intent(
+                this@PermissionActivity,
+                if (isDriver) HomeDriverActivity::class.java else HomeCsoActivity::class.java
+            )
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
         }
@@ -83,7 +90,10 @@ class PermissionActivity : AppCompatActivity() {
                         getString(R.string.WelcomeXePartner),
                         Toast.LENGTH_LONG
                     ).show()
-                    val intent = Intent(this@PermissionActivity, HomeActivity::class.java)
+                    val intent = Intent(
+                        this@PermissionActivity,
+                        if (isDriver) HomeDriverActivity::class.java else HomeCsoActivity::class.java
+                    )
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
                 } else {
@@ -92,7 +102,10 @@ class PermissionActivity : AppCompatActivity() {
                         getString(R.string.PleaseGrantLocation),
                         Toast.LENGTH_LONG
                     ).show()
-                    val intent = Intent(this@PermissionActivity, HomeActivity::class.java)
+                    val intent = Intent(
+                        this@PermissionActivity,
+                        if (isDriver) HomeDriverActivity::class.java else HomeCsoActivity::class.java
+                    )
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
                 }

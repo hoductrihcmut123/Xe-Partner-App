@@ -34,6 +34,7 @@ class VerifyPhoneNumFPActivity : AppCompatActivity() {
 
         val storedVerificationId = intent.getStringExtra("storedVerificationId")
         val fpPhoneNumber = intent.getStringExtra("fpPhoneNumber")
+        val isDriver = intent.getBooleanExtra("isDriver", true)
 
         val otpGiven = binding.idOtp
         binding.backButton.setOnClickListener {
@@ -54,6 +55,7 @@ class VerifyPhoneNumFPActivity : AppCompatActivity() {
                 resendCode.text = getString(R.string.ResendCodeMessage, millisUntilFinished / 1000)
                 resendCode.underline()
             }
+
             // Callback function, fired when the time is up
             override fun onFinish() {
                 resendCode.text = getString(R.string.ResendCode)
@@ -92,7 +94,7 @@ class VerifyPhoneNumFPActivity : AppCompatActivity() {
                     storedVerificationId.toString(), otp
                 )
                 if (fpPhoneNumber != null) {
-                    signInWithPhoneAuthCredential(credential, fpPhoneNumber)
+                    signInWithPhoneAuthCredential(credential, fpPhoneNumber, isDriver)
                 }
             } else {
                 Toast.makeText(this, getString(R.string.PleaseEnterOTP), Toast.LENGTH_SHORT).show()
@@ -112,18 +114,29 @@ class VerifyPhoneNumFPActivity : AppCompatActivity() {
 
     }
 
-    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential, fpPhoneNumber: String) {
+    private fun signInWithPhoneAuthCredential(
+        credential: PhoneAuthCredential,
+        fpPhoneNumber: String,
+        isDriver: Boolean
+    ) {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, getString(R.string.VerificationSuccessful), Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this@VerifyPhoneNumFPActivity, NewPasswordActivity::class.java)
+                    Toast.makeText(
+                        this,
+                        getString(R.string.VerificationSuccessful),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent =
+                        Intent(this@VerifyPhoneNumFPActivity, NewPasswordActivity::class.java)
                     intent.putExtra("fpPhoneNumber", fpPhoneNumber)
+                    intent.putExtra("isDriver", isDriver)
                     startActivity(intent)
                     finish()
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                        Toast.makeText(this, getString(R.string.InvalidOTP), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.InvalidOTP), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }

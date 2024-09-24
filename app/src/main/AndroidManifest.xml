@@ -22,7 +22,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAP_KEY}"/>
+            android:value="${MAP_KEY}" />
 
         <activity
             android:name=".signup_login.forgot_password.NewPasswordActivity"
@@ -41,9 +41,17 @@
             android:exported="false"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".HomeDriverActivity"
             android:exported="false"
             android:theme="@style/Theme.XePartnerApp" />
+        <activity
+            android:name=".HomeCsoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.XePartnerApp" />
+        <activity
+            android:name=".signup_login.signup.SignupCsoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.XePartnerApp"/>
         <activity
             android:name=".signup_login.signup.VerifyPhoneNumActivity"
             android:exported="false"

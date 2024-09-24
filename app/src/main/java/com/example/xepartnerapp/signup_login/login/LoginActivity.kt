@@ -7,9 +7,10 @@ import android.widget.Toast
 import com.example.xepartnerapp.R
 import com.example.xepartnerapp.signup_login.permissions.PermissionActivity
 import com.example.xepartnerapp.signup_login.signup.SignupDriverActivity
-import com.example.xepartnerapp.data.PassengerData
+import com.example.xepartnerapp.data.DriverData
 import com.example.xepartnerapp.databinding.ActivityLoginBinding
 import com.example.xepartnerapp.signup_login.forgot_password.ForgotPasswordActivity
+import com.example.xepartnerapp.signup_login.signup.SignupCsoActivity
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -17,7 +18,9 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var passengersCollection: CollectionReference
+    private lateinit var collection: CollectionReference
+
+    private var userType: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,18 +28,35 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firestore = FirebaseFirestore.getInstance()
-        passengersCollection = firestore.collection("Passengers")
+
+        binding.radioGroupUserType.setOnCheckedChangeListener { _, checkedId ->
+            userType = when (checkedId) {
+                R.id.radioDriver -> true  // true cho Driver
+                R.id.radioCSO -> false // false cho CSO
+                else -> null
+            }
+        }
 
         binding.loginForgotPassword.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, ForgotPasswordActivity::class.java))
+            if (userType != null) {
+                val intent = Intent(this@LoginActivity, ForgotPasswordActivity::class.java)
+                intent.putExtra("isDriver", userType)
+                startActivity(intent)
+            } else {
+                Toast.makeText(
+                    this@LoginActivity, getString(R.string.PleaseSelectUserType),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
         }
 
         binding.loginButton.setOnClickListener {
             val loginPhoneNumber = binding.loginPhoneNumber.text.toString()
             val loginPassword = binding.loginPasswordChild.text.toString()
 
-            if (loginPhoneNumber.isNotEmpty() && loginPassword.isNotEmpty()) {
-                loginPassenger(loginPhoneNumber, loginPassword)
+            if (loginPhoneNumber.isNotEmpty() && loginPassword.isNotEmpty() && userType != null) {
+                loginUser(loginPhoneNumber, loginPassword, userType!!)
             } else {
                 Toast.makeText(
                     this@LoginActivity, getString(R.string.PleaseFillAllInformation),
@@ -46,18 +66,34 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.loginNavSignup.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, SignupDriverActivity::class.java))
-            finish()
+            if (userType != null) {
+                if (userType as Boolean) {
+                    startActivity(Intent(this@LoginActivity, SignupDriverActivity::class.java))
+                } else {
+                    startActivity(Intent(this@LoginActivity, SignupCsoActivity::class.java))
+                }
+                finish()
+            } else {
+                Toast.makeText(
+                    this@LoginActivity, getString(R.string.PleaseSelectUserType),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
-    private fun loginPassenger(phoneNumber: String, password: String) {
-        passengersCollection.whereEqualTo("mobile_No", phoneNumber)
+    private fun loginUser(phoneNumber: String, password: String, isDriver: Boolean) {
+        collection = if (isDriver) {
+            firestore.collection("Drivers")
+        } else {
+            firestore.collection("CSOs")
+        }
+        collection.whereEqualTo("mobile_No", phoneNumber)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 if (!querySnapshot.isEmpty) {
                     for (document in querySnapshot.documents) {
-                        val userData = document.toObject(PassengerData::class.java)
+                        val userData = document.toObject(DriverData::class.java)
                         if (userData != null && userData.password == password) {
                             Toast.makeText(
                                 this@LoginActivity,
@@ -66,6 +102,7 @@ class LoginActivity : AppCompatActivity() {
                             ).show()
                             val intent = Intent(this@LoginActivity, PermissionActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            intent.putExtra("isDriver", isDriver)
                             startActivity(intent)
                             finish()
                             return@addOnSuccessListener
