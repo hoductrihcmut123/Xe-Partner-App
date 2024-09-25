@@ -102,4 +102,8 @@
     <string name="Driver">Tài xế</string>
     <string name="RentalPerson">Người cho thuê</string>
     <string name="PleaseSelectUserType">Bạn vui lòng chọn Loại Người Dùng nhé !</string>
+    <string name="BusinessName">TÊN TỔ CHỨC KINH DOANH</string>
+    <string name="EmailAddress">ĐỊA CHỈ EMAIL</string>
+    <string name="NotAccepting">Không nhận khách</string>
+    <string name="ReadyAccept">Sẵn sàng nhận khách !</string>
 </resources>

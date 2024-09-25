@@ -38,8 +38,10 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.example.xepartnerapp.HomeDriverActivity
 import com.example.xepartnerapp.signup_login.login.LoginActivity
 import com.example.xepartnerapp.R
+import com.example.xepartnerapp.signup_login.signup.SignupCsoActivity
 import com.example.xepartnerapp.signup_login.signup.SignupDriverActivity
 
 
@@ -95,7 +97,7 @@ fun LoginAndSignUpScreen() {
                         .height(60.sdp)
                         .fillMaxWidth(),
                     onClick = {
-                        context.startActivity(Intent(context, SignupDriverActivity::class.java))
+                        context.startActivity(Intent(context, HomeDriverActivity::class.java))
                     },
                     colors = ButtonDefaults.buttonColors(
                         contentColor = Color.White
@@ -123,7 +125,7 @@ fun LoginAndSignUpScreen() {
                         .height(60.sdp)
                         .fillMaxWidth(),
                     onClick = {
-                        context.startActivity(Intent(context, SignupDriverActivity::class.java))
+                        context.startActivity(Intent(context, SignupCsoActivity::class.java))
                     },
                     colors = ButtonDefaults.buttonColors(
                         contentColor = Color.White

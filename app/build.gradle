@@ -121,6 +121,9 @@ dependencies {
 
     // Firestore
     implementation "com.google.firebase:firebase-firestore"
+
+    // Switch button
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 }
 
 def getMapKey() {

@@ -67,9 +67,14 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
         )
 
         // CSO
-        // TODO Later
         val csoData = CsoData(
-            mobile_No = intent.getStringExtra("csoPhoneNumber"),
+            firstname = intent.getStringExtra("CSOFirstname"),
+            lastname = intent.getStringExtra("CSOLastname"),
+            mobile_No = intent.getStringExtra("CSOPhoneNumber"),
+            password = intent.getStringExtra("CSOPassword"),
+            business_Organization_Name = intent.getStringExtra("CSOBusinessName"),
+            email = intent.getStringExtra("CSOEmailAddress"),
+            point = 0
         )
 
         val otpGiven = binding.idOtp

@@ -102,4 +102,8 @@
     <string name="Driver">Driver</string>
     <string name="RentalPerson">Rental person</string>
     <string name="PleaseSelectUserType">Please select User Type !</string>
+    <string name="BusinessName">BUSINESS ORGANIZATION NAME</string>
+    <string name="EmailAddress">EMAIL ADDRESS</string>
+    <string name="NotAccepting">Not accepting guests</string>
+    <string name="ReadyAccept">Ready to receive guests !</string>
 </resources>
