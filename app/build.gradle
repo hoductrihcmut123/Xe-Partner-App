@@ -124,6 +124,9 @@ dependencies {
 
     // Switch button
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
+    // Geofire
+    implementation 'com.firebase:geofire-android-common:3.2.0'
 }
 
 def getMapKey() {

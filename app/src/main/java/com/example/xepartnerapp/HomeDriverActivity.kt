@@ -29,6 +29,8 @@ import com.example.xepartnerapp.common.utils.Utils
 import com.example.xepartnerapp.common.utils.Utils.isCheckLocationPermission
 import com.example.xepartnerapp.common.utils.showLocationPermissionDialog
 import com.example.xepartnerapp.databinding.ActivityHomeDriverBinding
+import com.firebase.geofire.GeoFireUtils
+import com.firebase.geofire.GeoLocation
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -52,6 +54,9 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.suke.widget.SwitchButton
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -60,6 +65,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityHomeDriverBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private lateinit var locationCallback: LocationCallback
@@ -72,6 +78,8 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
     private var duration: Int = 0
 
     private var paymentType: String? = null
+    private var isReady: Boolean? = null
+    private var skipTime: Int = 15
 
     private lateinit var bottomSheetBookingInfo: BottomSheetBehavior<View>
 
@@ -89,6 +97,8 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityHomeDriverBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firestore = FirebaseFirestore.getInstance()
+
         Places.initialize(applicationContext, BuildConfig.MAP_KEY)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFragment)
                 as SupportMapFragment
@@ -97,10 +107,10 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         mFusedLocationClient = this.let { LocationServices.getFusedLocationProviderClient(it) }
 
         val locationRequest = LocationRequest.create().apply {
-            interval = 12000
-            fastestInterval = 6000
+            interval = 20000
+            fastestInterval = 10000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            smallestDisplacement = 50f
+            smallestDisplacement = 100f
         }
 
         locationCallback = object : LocationCallback() {
@@ -155,6 +165,15 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
             finish()
         }
 
+        binding.switchButton.setOnCheckedChangeListener { _, isChecked ->
+            isReady = isChecked
+            if (isChecked) {
+                binding.title.text = getString(R.string.ReadyAccept)
+            } else {
+                binding.title.text = getString(R.string.NotAccepting)
+            }
+        }
+
         with(binding.bottomSheetBookingInfo) {
             cancelButton.setOnClickListener {
                 resetValue()
@@ -175,13 +194,30 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun updateLocationHandle(location: Location?) {
         zoomOnMap(LatLng(location!!.latitude, location.longitude), 16f)
+
+        if (isReady == true) {
+            skipTime -= 1
+            if (skipTime == 0) {
+                val lat = location.latitude
+                val lng = location.longitude
+                val hash = GeoFireUtils.getGeoHashForLocation(GeoLocation(lat, lng))
+                val updates: MutableMap<String, Any> = mutableMapOf(
+                    "geohash" to hash,
+                    "lat" to lat,
+                    "lng" to lng,
+                )
+                val ref = firestore.collection("Drivers").document("GsTVdwClHtRd1pzP5Rqq")
+                ref.update(updates)
+                skipTime = 15
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mGoogleMap = googleMap
 
-        mGoogleMap!!.setMaxZoomPreference(20.0f)
-        mGoogleMap!!.setMapStyle(
+        mGoogleMap?.setMaxZoomPreference(20.0f)
+        mGoogleMap?.setMapStyle(
             MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style)
         )
     }
