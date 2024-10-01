@@ -190,6 +190,7 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
                             )
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                             intent.putExtra("isDriver", isDriver)
+                            intent.putExtra("user_ID", userid)
                             startActivity(intent)
                             finish()
                         }
@@ -204,6 +205,7 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
                     val intent = Intent(this@VerifyPhoneNumActivity, PermissionActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     intent.putExtra("isDriver", isDriver)
+                    intent.putExtra("user_ID", userid)
                     startActivity(intent)
                     finish()
                 } else {

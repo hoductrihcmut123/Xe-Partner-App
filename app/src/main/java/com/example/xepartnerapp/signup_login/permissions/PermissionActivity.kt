@@ -21,6 +21,7 @@ class PermissionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPermissionBinding
     private var isDriver: Boolean = true
+    private var userID: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +29,7 @@ class PermissionActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         isDriver = intent.getBooleanExtra("isDriver", true)
+        userID = intent.getStringExtra("user_ID")
 
         if (ContextCompat.checkSelfPermission(
                 this,
@@ -42,6 +44,7 @@ class PermissionActivity : AppCompatActivity() {
                 this@PermissionActivity,
                 if (isDriver) HomeDriverActivity::class.java else HomeCsoActivity::class.java
             )
+            intent.putExtra("user_ID", userID)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
         }
@@ -94,6 +97,7 @@ class PermissionActivity : AppCompatActivity() {
                         this@PermissionActivity,
                         if (isDriver) HomeDriverActivity::class.java else HomeCsoActivity::class.java
                     )
+                    intent.putExtra("user_ID", userID)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
                 } else {
@@ -106,6 +110,7 @@ class PermissionActivity : AppCompatActivity() {
                         this@PermissionActivity,
                         if (isDriver) HomeDriverActivity::class.java else HomeCsoActivity::class.java
                     )
+                    intent.putExtra("user_ID", userID)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
                 }

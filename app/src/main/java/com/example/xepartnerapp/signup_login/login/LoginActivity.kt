@@ -103,6 +103,7 @@ class LoginActivity : AppCompatActivity() {
                             val intent = Intent(this@LoginActivity, PermissionActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                             intent.putExtra("isDriver", isDriver)
+                            intent.putExtra("user_ID", userData.driver_ID)
                             startActivity(intent)
                             finish()
                             return@addOnSuccessListener

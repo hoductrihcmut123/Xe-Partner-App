@@ -54,14 +54,16 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.suke.widget.SwitchButton
+import douglasspgyn.com.github.circularcountdown.CircularCountdown
+import douglasspgyn.com.github.circularcountdown.listener.CircularListener
 import org.json.JSONArray
 import org.json.JSONException
 
 class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mGoogleMap: GoogleMap? = null
+    private var driverID: String? = null
 
     private lateinit var binding: ActivityHomeDriverBinding
     private lateinit var auth: FirebaseAuth
@@ -69,6 +71,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private lateinit var locationCallback: LocationCallback
+    private var currentLocation: Location? = null
 
     private var originLatLng: LatLng? = null
     private var originAddress: String? = null
@@ -79,7 +82,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var paymentType: String? = null
     private var isReady: Boolean? = null
-    private var skipTime: Int = 15
+    private var skipTime: Int = 5
 
     private lateinit var bottomSheetBookingInfo: BottomSheetBehavior<View>
 
@@ -97,6 +100,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityHomeDriverBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        driverID = intent.getStringExtra("user_ID")
         firestore = FirebaseFirestore.getInstance()
 
         Places.initialize(applicationContext, BuildConfig.MAP_KEY)
@@ -131,8 +135,19 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         // Set up bottomSheetBookingInfo
         bottomSheetBookingInfo = BottomSheetBehavior.from(findViewById(R.id.bottomSheetBookingInfo))
         bottomSheetBookingInfo.peekHeight = 0
-        bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_EXPANDED
         bottomSheetBookingInfo.isDraggable = false
+        binding.bottomSheetBookingInfo.circularCountdown.create(11, 11, CircularCountdown.TYPE_SECOND)
+            .listener(object : CircularListener {
+                override fun onTick(progress: Int) {
+
+                }
+
+                override fun onFinish(newCycle: Boolean, cycleCount: Int) {
+
+                }
+            })
+            .start()
 
         binding.currentLocationButton.setOnClickListener {
             if (this@HomeDriverActivity.isCheckLocationPermission()) {
@@ -141,6 +156,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                     ?.addOnSuccessListener { location: Location? ->
                         if (location != null) {
                             originLatLng = LatLng(location.latitude, location.longitude)
+                            currentLocation = location
                         }
                         originLatLng?.let { originLatLng -> zoomOnMap(originLatLng, 16f) }
                         mGoogleMap!!.isMyLocationEnabled = true
@@ -167,34 +183,54 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding.switchButton.setOnCheckedChangeListener { _, isChecked ->
             isReady = isChecked
+            val ref = driverID?.let { firestore.collection("Drivers").document(it) }
             if (isChecked) {
                 binding.title.text = getString(R.string.ReadyAccept)
+                val lat = currentLocation?.latitude
+                val lng = currentLocation?.longitude
+                val hash = GeoFireUtils.getGeoHashForLocation(GeoLocation(lat!!, lng!!))
+                ref?.update(
+                    mapOf(
+                        "geohash" to hash,
+                        "current_Lat" to lat,
+                        "current_Lng" to lng,
+                        "isReady" to true
+                    )
+                )
             } else {
                 binding.title.text = getString(R.string.NotAccepting)
-            }
-        }
-
-        with(binding.bottomSheetBookingInfo) {
-            cancelButton.setOnClickListener {
-                resetValue()
-                bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_COLLAPSED
-
-                animator?.cancel()
-                mGoogleMap?.moveCamera(
-                    CameraUpdateFactory.newCameraPosition(
-                        CameraPosition.Builder().target(mGoogleMap?.cameraPosition!!.target)
-                            .tilt(0f)
-                            .zoom(14f)
-                            .build()
+                ref?.update(
+                    mapOf(
+                        "geohash" to FieldValue.delete(),
+                        "current_Lat" to FieldValue.delete(),
+                        "current_Lng" to FieldValue.delete(),
+                        "isReady" to false
                     )
                 )
             }
         }
+
+//        with(binding.bottomSheetBookingInfo) {
+//            cancelButton.setOnClickListener {
+//                resetValue()
+//                bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_COLLAPSED
+//
+//                animator?.cancel()
+//                mGoogleMap?.moveCamera(
+//                    CameraUpdateFactory.newCameraPosition(
+//                        CameraPosition.Builder().target(mGoogleMap?.cameraPosition!!.target)
+//                            .tilt(0f)
+//                            .zoom(14f)
+//                            .build()
+//                    )
+//                )
+//            }
+//        }
     }
 
     private fun updateLocationHandle(location: Location?) {
         zoomOnMap(LatLng(location!!.latitude, location.longitude), 16f)
-
+        currentLocation = location
         if (isReady == true) {
             skipTime -= 1
             if (skipTime == 0) {
@@ -203,12 +239,12 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 val hash = GeoFireUtils.getGeoHashForLocation(GeoLocation(lat, lng))
                 val updates: MutableMap<String, Any> = mutableMapOf(
                     "geohash" to hash,
-                    "lat" to lat,
-                    "lng" to lng,
+                    "current_Lat" to lat,
+                    "current_Lng" to lng,
                 )
-                val ref = firestore.collection("Drivers").document("GsTVdwClHtRd1pzP5Rqq")
-                ref.update(updates)
-                skipTime = 15
+                val ref = driverID?.let { firestore.collection("Drivers").document(it) }
+                ref?.update(updates)
+                skipTime = 5
             }
         }
     }

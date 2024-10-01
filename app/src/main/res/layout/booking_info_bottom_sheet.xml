@@ -128,24 +128,29 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/_16ssp"
                 android:layout_marginStart="@dimen/_10sdp"/>
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:gravity="end"
+                android:text="113.000 VND"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/_18ssp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_23sdp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_5sdp"
-        android:layout_marginVertical="@dimen/_12sdp"
-        android:background="@drawable/button_border"
-        android:backgroundTint="@color/button_background"
-        android:fontFamily="@font/inter_semibold"
-        android:padding="@dimen/_16sdp"
-        android:stateListAnimator="@null"
-        android:text="@string/CancelBooking"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_22ssp"
-        android:foreground="?attr/selectableItemBackground"/>
+    <douglasspgyn.com.github.circularcountdown.CircularCountdown
+        android:id="@+id/circularCountdown"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        app:countdownBackgroundColor="@color/light_silver"
+        app:countdownForegroundColor="@color/button_background"
+        app:countdownTextColor="@color/button_background"
+        app:countdownTextSize="@dimen/_25ssp" />
 
 </LinearLayout>
