@@ -146,11 +146,45 @@
     <douglasspgyn.com.github.circularcountdown.CircularCountdown
         android:id="@+id/circularCountdown"
         android:layout_gravity="center"
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_150sdp"
+        android:layout_width="@dimen/_160sdp"
+        android:layout_height="@dimen/_160sdp"
         app:countdownBackgroundColor="@color/light_silver"
         app:countdownForegroundColor="@color/button_background"
         app:countdownTextColor="@color/button_background"
         app:countdownTextSize="@dimen/_25ssp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/Duration"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/_16ssp"
+            android:gravity="end"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_10sdp"/>
+
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/Distance"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/_16ssp"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_10sdp"/>
+    </LinearLayout>
 
 </LinearLayout>

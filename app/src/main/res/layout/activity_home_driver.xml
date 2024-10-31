@@ -102,11 +102,48 @@
             app:srcCompat="@drawable/current_location_icon"
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <Button
+            android:id="@+id/refuseButton"
+            android:elevation="@dimen/_10sdp"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@color/refuse_background"
+            android:drawableStart="@drawable/close_refuse_icon"
+            android:paddingStart="@dimen/_15sdp"
+            android:fontFamily="@font/inter_medium"
+            android:padding="@dimen/_5sdp"
+            android:stateListAnimator="@null"
+            android:text="@string/NotAccept"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
         android:id="@+id/bottomSheetBookingInfo"
         layout="@layout/booking_info_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="gone" />
+
+    <include
+        android:id="@+id/bottomSheetIsComing"
+        layout="@layout/is_coming_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="gone" />
+
+    <include
+        android:id="@+id/bottomSheetDriverOnGoing"
+        layout="@layout/ongoing_driver_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"

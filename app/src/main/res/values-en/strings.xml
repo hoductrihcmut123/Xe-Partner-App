@@ -106,4 +106,13 @@
     <string name="EmailAddress">EMAIL ADDRESS</string>
     <string name="NotAccepting">Not accepting guests</string>
     <string name="ReadyAccept">Ready to receive guests !</string>
+    <string name="Duration">%d minutes</string>
+    <string name="Distance">%d km</string>
+    <string name="NotAccept">Not accept</string>
+    <string name="CancelTrip">Cancel trip</string>
+    <string name="IsComing">Arriving at pick up point</string>
+    <string name="WelcomedGuests">Welcomed guests</string>
+    <string name="ArriveDestination">Arrived</string>
+    <string name="TravelDistance">Travel distance: %1$d km</string>
+    <string name="EstimatedTime">Estimated time: %1$d minute</string>
 </resources>

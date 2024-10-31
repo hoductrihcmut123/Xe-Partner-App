@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rounded_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="@dimen/_15sdp"
+    app:behavior_hideable="true"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:src="@drawable/short_line" />
+
+    <TextView
+        android:id="@+id/tvTravelDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:fontFamily="@font/inter_medium"
+        android:text="@string/TravelDistance"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/_16ssp" />
+
+    <TextView
+        android:id="@+id/TvEstimateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:fontFamily="@font/inter_medium"
+        android:text="@string/EstimatedTime"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/_16ssp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:backgroundTint="@color/edittext_background"
+        app:cardCornerRadius="@dimen/_20sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/cash"
+                android:paddingTop="@dimen/_6sdp"
+                android:layout_marginStart="@dimen/_10sdp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="/"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/_16ssp"
+                android:layout_marginHorizontal="@dimen/_5sdp"/>
+
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/momo"
+                android:paddingVertical="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text=":"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/_16ssp"
+                android:layout_marginHorizontal="@dimen/_5sdp"/>
+
+            <TextView
+                android:id="@+id/tvPaymentType2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/Cash"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/_16ssp"
+                android:layout_marginStart="@dimen/_10sdp"/>
+
+            <TextView
+                android:id="@+id/tvPrice2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:gravity="end"
+                android:text="113.000 VND"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/_18ssp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_23sdp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/arriveDestinationButton"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_12sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@color/button_background"
+            android:fontFamily="@font/inter_semibold"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="@dimen/_16sdp"
+            android:stateListAnimator="@null"
+            android:text="@string/ArriveDestination"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_20ssp" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_12sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:background="@drawable/button_with_border"
+            android:fontFamily="@font/inter_semibold"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_16sdp"
+            android:stateListAnimator="@null"
+            android:text="@string/CancelTrip"
+            android:textAllCaps="false"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/_20ssp" />
+
+    </LinearLayout>
+</LinearLayout>

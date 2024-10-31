@@ -106,4 +106,13 @@
     <string name="EmailAddress">ĐỊA CHỈ EMAIL</string>
     <string name="NotAccepting">Không nhận khách</string>
     <string name="ReadyAccept">Sẵn sàng nhận khách !</string>
+    <string name="Duration">%d phút</string>
+    <string name="Distance">%d km</string>
+    <string name="NotAccept">Không nhận</string>
+    <string name="CancelTrip">Huỷ chuyến</string>
+    <string name="IsComing">Đang đến điểm đón</string>
+    <string name="WelcomedGuests">Đã đón khách</string>
+    <string name="ArriveDestination">Đến đích</string>
+    <string name="TravelDistance">Quãng đường di chuyển: %1$d km</string>
+    <string name="EstimatedTime">Thời gian dự kiến: %1$d phút</string>
 </resources>

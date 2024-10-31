@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rounded_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="@dimen/_15sdp"
+    app:behavior_hideable="true"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:src="@drawable/short_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="@dimen/_75sdp"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:src="@drawable/avatar_sample" />
+
+            <TextView
+                android:id="@+id/tvPassengerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:fontFamily="@font/inter_semibold"
+                android:gravity="center"
+                android:text="Nguyễn Văn A"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/_20ssp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/cancelTripButton"
+                android:layout_width="@dimen/_185sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@color/refuse_background"
+                android:fontFamily="@font/inter_semibold"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="@dimen/_13sdp"
+                android:stateListAnimator="@null"
+                android:text="@string/CancelTrip"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20ssp" />
+
+            <Button
+                android:id="@+id/passengerBoardButton"
+                android:layout_width="@dimen/_185sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/button_border"
+                android:backgroundTint="@color/button_background"
+                android:fontFamily="@font/inter_semibold"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="@dimen/_13sdp"
+                android:stateListAnimator="@null"
+                android:text="@string/WelcomedGuests"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20ssp"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_2sdp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/callButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_45sdp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/_5sdp"
+            app:fabCustomSize="@dimen/_72sdp"
+            app:maxImageSize="@dimen/_48sdp"
+            app:srcCompat="@drawable/call_icon" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/chatButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_20sdp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/_5sdp"
+            app:fabCustomSize="@dimen/_72sdp"
+            app:maxImageSize="@dimen/_48sdp"
+            app:srcCompat="@drawable/chat_icon" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/arrivedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_45sdp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/_5sdp"
+            app:fabCustomSize="@dimen/_72sdp"
+            app:maxImageSize="@dimen/_32sdp"
+            app:srcCompat="@drawable/arrived_icon" />
+
+    </LinearLayout>
+</LinearLayout>

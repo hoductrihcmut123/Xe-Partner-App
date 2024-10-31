@@ -5,7 +5,11 @@ import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.model.LatLng
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -84,6 +88,11 @@ object Utils {
         return dateFormat.format(currentTime)
     }
 
+    fun getHourAndMinute(dateString: String): String {
+        val time = dateString.split(" ")[3]
+        return time.substring(0, 5)
+    }
+
     fun valueAnimate(duration: Int, listener: AnimatorUpdateListener?): ValueAnimator? {
         val valueAnimate = ValueAnimator.ofFloat(0f, 200f)
         valueAnimate.duration = duration.toLong()
@@ -92,5 +101,21 @@ object Utils {
         valueAnimate.repeatMode = ValueAnimator.RESTART
         valueAnimate.start()
         return valueAnimate
+    }
+
+    fun vibrateCustomPattern(context: Context, times: Int, duration: Long, interval: Long) {
+        val vibrator = ContextCompat.getSystemService(context, Vibrator::class.java)
+        val pattern = LongArray(times * 2) { i ->
+            if (i % 2 == 0) interval else duration
+        }
+        pattern[0] = 0
+
+        if (vibrator != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
+            } else {
+                vibrator.vibrate(pattern, -1)
+            }
+        }
     }
 }

@@ -3,8 +3,6 @@ package com.example.xepartnerapp
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Point
 import android.location.Location
@@ -17,16 +15,23 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.xepartnerapp.common.utils.Constants
 import com.example.xepartnerapp.common.utils.Constants.DESIRED_NUM_OF_SPINS
 import com.example.xepartnerapp.common.utils.Constants.DESIRED_SECOND_PER_ONE_FULL_360_SPIN
 import com.example.xepartnerapp.common.utils.Constants.EFFECT_DURATION
 import com.example.xepartnerapp.common.utils.Utils
+import com.example.xepartnerapp.common.utils.Utils.convertMetersToKilometers
+import com.example.xepartnerapp.common.utils.Utils.convertSecondsToMinutes
+import com.example.xepartnerapp.common.utils.Utils.formatCurrency
+import com.example.xepartnerapp.common.utils.Utils.getHourAndMinute
 import com.example.xepartnerapp.common.utils.Utils.isCheckLocationPermission
+import com.example.xepartnerapp.common.utils.Utils.vibrateCustomPattern
 import com.example.xepartnerapp.common.utils.showLocationPermissionDialog
 import com.example.xepartnerapp.databinding.ActivityHomeDriverBinding
 import com.firebase.geofire.GeoFireUtils
@@ -41,7 +46,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.CircleOptions
@@ -56,6 +60,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import douglasspgyn.com.github.circularcountdown.CircularCountdown
 import douglasspgyn.com.github.circularcountdown.listener.CircularListener
 import org.json.JSONArray
@@ -64,6 +69,7 @@ import org.json.JSONException
 class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mGoogleMap: GoogleMap? = null
     private var driverID: String? = null
+    private var tripId: String? = null
 
     private lateinit var binding: ActivityHomeDriverBinding
     private lateinit var auth: FirebaseAuth
@@ -73,18 +79,31 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationCallback: LocationCallback
     private var currentLocation: Location? = null
 
-    private var originLatLng: LatLng? = null
-    private var originAddress: String? = null
-    private var destinationLatLng: LatLng? = null
-    private var destinationAddress: String? = null
+    private var currentLatLng: LatLng? = null
     private var distance: Double = 0.0
     private var duration: Int = 0
 
-    private var paymentType: String? = null
+    // Trip data
+    private var tripOriginLatLng: LatLng? = null
+    private var tripOriginAddress: String? = null
+    private var tripDestinationLatLng: LatLng? = null
+    private var tripDestinationAddress: String? = null
+    private var tripPaymentType: String? = null
+    private var tripPrice: Double = 0.0
+    private var tripDuration: Double = 0.0
+    private var tripDistance: Double = 0.0
+    private var tripBookingTime: String? = null
+    private var passengerID: String? = null
+    private var passengerPhone: String? = null
+
+    private var listenerTrip: ListenerRegistration? = null
+
     private var isReady: Boolean? = null
     private var skipTime: Int = 5
 
     private lateinit var bottomSheetBookingInfo: BottomSheetBehavior<View>
+    private lateinit var bottomSheetIsComing: BottomSheetBehavior<View>
+    private lateinit var bottomSheetDriverOnGoing: BottomSheetBehavior<View>
 
     // Effect
     private var lastUserCircle: Circle? = null
@@ -135,19 +154,20 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         // Set up bottomSheetBookingInfo
         bottomSheetBookingInfo = BottomSheetBehavior.from(findViewById(R.id.bottomSheetBookingInfo))
         bottomSheetBookingInfo.peekHeight = 0
-        bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_COLLAPSED
         bottomSheetBookingInfo.isDraggable = false
-        binding.bottomSheetBookingInfo.circularCountdown.create(11, 11, CircularCountdown.TYPE_SECOND)
-            .listener(object : CircularListener {
-                override fun onTick(progress: Int) {
 
-                }
+        // Set up bottomSheetIsComing
+        bottomSheetIsComing = BottomSheetBehavior.from(findViewById(R.id.bottomSheetIsComing))
+        bottomSheetIsComing.peekHeight = 0
+        bottomSheetIsComing.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetIsComing.isDraggable = false
 
-                override fun onFinish(newCycle: Boolean, cycleCount: Int) {
-
-                }
-            })
-            .start()
+        // Set up bottomSheetDriverOnGoing
+        bottomSheetDriverOnGoing = BottomSheetBehavior.from(findViewById(R.id.bottomSheetDriverOnGoing))
+        bottomSheetDriverOnGoing.peekHeight = 0
+        bottomSheetDriverOnGoing.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetDriverOnGoing.isDraggable = false
 
         binding.currentLocationButton.setOnClickListener {
             if (this@HomeDriverActivity.isCheckLocationPermission()) {
@@ -155,10 +175,10 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 mFusedLocationClient?.lastLocation
                     ?.addOnSuccessListener { location: Location? ->
                         if (location != null) {
-                            originLatLng = LatLng(location.latitude, location.longitude)
+                            currentLatLng = LatLng(location.latitude, location.longitude)
                             currentLocation = location
                         }
-                        originLatLng?.let { originLatLng -> zoomOnMap(originLatLng, 16f) }
+                        currentLatLng?.let { originLatLng -> zoomOnMap(originLatLng, 16f) }
                         mGoogleMap!!.isMyLocationEnabled = true
                     }
             } else {
@@ -194,7 +214,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                         "geohash" to hash,
                         "current_Lat" to lat,
                         "current_Lng" to lng,
-                        "isReady" to true
+                        "ready" to true
                     )
                 )
             } else {
@@ -204,29 +224,337 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                         "geohash" to FieldValue.delete(),
                         "current_Lat" to FieldValue.delete(),
                         "current_Lng" to FieldValue.delete(),
-                        "isReady" to false
+                        "ready" to false
                     )
                 )
             }
         }
 
-//        with(binding.bottomSheetBookingInfo) {
-//            cancelButton.setOnClickListener {
-//                resetValue()
-//                bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_COLLAPSED
-//
-//                animator?.cancel()
-//                mGoogleMap?.moveCamera(
-//                    CameraUpdateFactory.newCameraPosition(
-//                        CameraPosition.Builder().target(mGoogleMap?.cameraPosition!!.target)
-//                            .tilt(0f)
-//                            .zoom(14f)
-//                            .build()
-//                    )
-//                )
-//            }
-//        }
+        binding.refuseButton.setOnClickListener {
+            val ref = driverID?.let { firestore.collection("Drivers").document(it) }
+            ref?.update(
+                mapOf(
+                    "trip_ID" to FieldValue.delete()
+                )
+            )
+            val tripRef = tripId?.let { it1 -> firestore.collection("Trips").document(it1) }
+            tripRef?.update(
+                mapOf(
+                    "status" to Constants.REFUSE
+                )
+            )
+            resetValue()
+
+            binding.bottomSheetBookingInfo.circularCountdown.stop()
+            binding.title.isVisible = true
+            binding.switchButton.isVisible = true
+            binding.menuButton.isVisible = true
+            bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_COLLAPSED
+            binding.refuseButton.isVisible = false
+            tripId = null
+
+            animator?.cancel()
+            mGoogleMap?.setPadding(0, 0, 0, 0)
+            mGoogleMap?.moveCamera(
+                CameraUpdateFactory.newCameraPosition(
+                    CameraPosition.Builder().target(mGoogleMap?.cameraPosition!!.target)
+                        .tilt(0f)
+                        .zoom(14f)
+                        .build()
+                )
+            )
+        }
+
+        with(binding.bottomSheetIsComing) {
+            callButton.setOnClickListener {
+                val phoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$passengerPhone"))
+                startActivity(phoneIntent)
+            }
+            chatButton.setOnClickListener {
+                val smsIntent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:$passengerPhone"))
+                startActivity(smsIntent)
+            }
+            arrivedButton.setOnClickListener {
+                val currentLocation =
+                    GeoLocation(currentLatLng!!.latitude, currentLatLng!!.longitude)
+                val tripOriginLocation =
+                    GeoLocation(tripOriginLatLng!!.latitude, tripOriginLatLng!!.longitude)
+                val distanceToOrigin =
+                    GeoFireUtils.getDistanceBetween(currentLocation, tripOriginLocation)
+                if (distanceToOrigin <= Constants.MAX_DISTANCE_TO_ORIGIN_FOR_PICKUP) {
+                    val tripRef = tripId?.let { it1 -> firestore.collection("Trips").document(it1) }
+                    tripRef?.update(
+                        mapOf(
+                            "status" to Constants.PICK_UP_POINT
+                        )
+                    )
+                    passengerBoardButton.isVisible = true
+                }
+            }
+            passengerBoardButton.setOnClickListener {
+                val tripRef = tripId?.let { it1 -> firestore.collection("Trips").document(it1) }
+                tripRef?.update(
+                    mapOf(
+                        "status" to Constants.GOING
+                    )
+                )
+                // TODO later
+            }
+            cancelTripButton.setOnClickListener {
+                val ref = driverID?.let { firestore.collection("Drivers").document(it) }
+                ref?.update(
+                    mapOf(
+                        "trip_ID" to FieldValue.delete()
+                    )
+                )
+                val tripRef = tripId?.let { it1 -> firestore.collection("Trips").document(it1) }
+                tripRef?.update(
+                    mapOf(
+                        "status" to Constants.DRIVER_CANCEL
+                    )
+                )
+                resetValue()
+
+                binding.title.text = getString(R.string.NotAccepting)
+                binding.switchButton.isVisible = true
+                bottomSheetIsComing.state = BottomSheetBehavior.STATE_COLLAPSED
+                tripId = null
+
+                animator?.cancel()
+                mGoogleMap?.setPadding(0, 0, 0, 0)
+                mGoogleMap?.moveCamera(
+                    CameraUpdateFactory.newCameraPosition(
+                        CameraPosition.Builder().target(mGoogleMap?.cameraPosition!!.target)
+                            .tilt(0f)
+                            .zoom(14f)
+                            .build()
+                    )
+                )
+            }
+        }
+
+        listenToDriverCollection()
     }
+
+    private fun listenToTripCollection() {
+        val tripRef = firestore.collection("Trips").document(tripId!!)
+        listenerTrip = tripRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w("FirestoreListener", "Listen failed.", e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null && snapshot.exists()) {
+                val status = snapshot.getString("status")
+                if (status == Constants.PASSENGER_CANCEL) {
+                    vibrateCustomPattern(this, times = 1, duration = 350L, interval = 500L)
+                    val ref = driverID?.let { firestore.collection("Drivers").document(it) }
+                    ref?.update(
+                        mapOf(
+                            "trip_ID" to FieldValue.delete()
+                        )
+                    )
+                    resetValue()
+
+                    binding.title.text = getString(R.string.NotAccepting)
+                    binding.switchButton.isVisible = true
+                    bottomSheetIsComing.state = BottomSheetBehavior.STATE_COLLAPSED
+                    tripId = null
+
+                    animator?.cancel()
+                    mGoogleMap?.setPadding(0, 0, 0, 0)
+                    mGoogleMap?.moveCamera(
+                        CameraUpdateFactory.newCameraPosition(
+                            CameraPosition.Builder().target(mGoogleMap?.cameraPosition!!.target)
+                                .tilt(0f)
+                                .zoom(14f)
+                                .build()
+                        )
+                    )
+                }
+            } else {
+                Log.d("FirestoreListener", "Document does not exist.")
+            }
+        }
+    }
+
+    private fun listenToDriverCollection() {
+        val docRef = firestore.collection("Drivers").document(driverID!!)
+        docRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w("FirestoreListener", "Listen failed.", e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null && snapshot.exists()) {
+                tripId = snapshot.getString("trip_ID")
+                if (tripId != null) {
+                    vibrateCustomPattern(this, times = 2, duration = 250L, interval = 400L)
+                    val tripRef = firestore.collection("Trips").document(tripId!!)
+                    tripRef.get().addOnSuccessListener { document ->
+                        if (document.exists()) {
+                            passengerID = document.getString("passenger_ID")
+                            tripBookingTime = document.getString("bookingTime")
+                            tripOriginAddress = document.getString("originAddress")
+                            tripDestinationAddress = document.getString("destinationAddress")
+                            tripPaymentType = document.getString("paymentType")
+                            tripPrice = document.getDouble("price")!!
+                            tripDuration = document.getDouble("duration")!!
+                            tripDistance = document.getDouble("distance")!!
+                            tripOriginLatLng = document.getGeoPoint("originLatLng")?.let {
+                                LatLng(it.latitude, it.longitude)
+                            }
+                            tripDestinationLatLng = document.getGeoPoint("destinationLatLng")?.let {
+                                LatLng(it.latitude, it.longitude)
+                            }
+
+                            binding.bottomSheetBookingInfo.tvTimeBooking.text =
+                                getHourAndMinute(tripBookingTime!!)
+                            binding.bottomSheetBookingInfo.tvOriginAddress.text = tripOriginAddress
+                            binding.bottomSheetBookingInfo.tvDestinationAddress.text =
+                                tripDestinationAddress
+
+                            val paymentType = tripPaymentType
+                            when (paymentType) {
+                                Constants.CASH -> binding.bottomSheetBookingInfo.tvPaymentType.text =
+                                    getString(R.string.Cash)
+
+                                Constants.MOMO -> binding.bottomSheetBookingInfo.tvPaymentType.text =
+                                    getString(R.string.Momo)
+                            }
+                            binding.bottomSheetBookingInfo.tvPrice.text = tripPrice.formatCurrency()
+                            binding.bottomSheetBookingInfo.tvDuration.text = getString(
+                                R.string.Duration,
+                                tripDuration.toInt().convertSecondsToMinutes()
+                            )
+                            binding.bottomSheetBookingInfo.tvDistance.text = getString(
+                                R.string.Distance,
+                                tripDistance.convertMetersToKilometers().toInt()
+                            )
+
+                            binding.bottomSheetBookingInfo.circularCountdown.create(
+                                16,
+                                16,
+                                CircularCountdown.TYPE_SECOND
+                            )
+                                .listener(object : CircularListener {
+                                    override fun onTick(progress: Int) {
+                                    }
+
+                                    override fun onFinish(newCycle: Boolean, cycleCount: Int) {
+                                        if (cycleCount > 1 && cycleCount % 2 == 0) {
+                                            binding.bottomSheetBookingInfo.circularCountdown.stop()
+                                            tripRef.update(
+                                                mapOf(
+                                                    "status" to Constants.ACCEPT,
+                                                    "driver_ID" to driverID
+                                                )
+                                            )
+                                            setUpWhenTripAccepted()
+                                        }
+                                    }
+                                })
+                                .start()
+
+                            // Tilt
+                            val cameraPos = CameraPosition.Builder().target(tripOriginLatLng!!)
+                                .tilt(45f)
+                                .zoom(16f)
+                                .build()
+                            mGoogleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPos))
+
+                            // Set up camera bounds
+                            val bounds: LatLngBounds = LatLngBounds.builder()
+                                .include(tripOriginLatLng!!)
+                                .include(mGoogleMap?.cameraPosition?.target ?: tripOriginLatLng!!)
+                                .build()
+                            val point = Point()
+                            windowManager.defaultDisplay.getSize(point)
+                            mGoogleMap?.setPadding(60, 0, 60, 1000)
+                            mGoogleMap?.animateCamera(
+                                CameraUpdateFactory.newLatLngBounds(
+                                    bounds,
+                                    point.x,
+                                    200,
+                                    60
+                                )
+                            )
+
+                            // Start animation
+                            addMarkerWithPulseAnimation(tripOriginLatLng!!)
+                        }
+                    }
+                    binding.title.isVisible = false
+                    binding.switchButton.isVisible = false
+                    binding.menuButton.isVisible = false
+                    bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_EXPANDED
+                    binding.refuseButton.isVisible = true
+                } else {
+                    resetValue()
+                    binding.bottomSheetBookingInfo.circularCountdown.stop()
+                    binding.title.isVisible = true
+                    binding.switchButton.isVisible = true
+                    binding.menuButton.isVisible = true
+                    bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_COLLAPSED
+                    binding.refuseButton.isVisible = false
+                    tripId = null
+
+                    animator?.cancel()
+                    mGoogleMap?.setPadding(0, 0, 0, 0)
+                    mGoogleMap?.moveCamera(
+                        CameraUpdateFactory.newCameraPosition(
+                            CameraPosition.Builder().target(mGoogleMap?.cameraPosition!!.target)
+                                .tilt(0f)
+                                .zoom(14f)
+                                .build()
+                        )
+                    )
+                }
+            } else {
+                Log.d("FirestoreListener", "Document does not exist.")
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun setUpWhenTripAccepted() {
+        firestore.collection("Passengers").document(passengerID!!).get()
+            .addOnSuccessListener { document ->
+                passengerPhone = document.getString("mobile_No")
+                val passengerName =
+                    document.getString("lastname") + " " + document.getString("firstname")
+                binding.bottomSheetIsComing.tvPassengerName.text = passengerName
+            }
+
+        bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_COLLAPSED
+        binding.refuseButton.isVisible = false
+        binding.menuButton.isVisible = true
+        binding.title.isVisible = true
+        binding.title.text = getString(R.string.IsComing)
+        animator?.cancel()
+        mGoogleMap?.moveCamera(
+            CameraUpdateFactory.newCameraPosition(
+                CameraPosition.Builder().target(mGoogleMap?.cameraPosition!!.target)
+                    .tilt(0f)
+                    .zoom(14f)
+                    .build()
+            )
+        )
+
+        // Re-locate current location
+        mFusedLocationClient?.lastLocation
+            ?.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    currentLatLng = LatLng(location.latitude, location.longitude)
+                    currentLocation = location
+                }
+                currentLatLng?.let { originLatLng -> zoomOnMap(originLatLng, 15f) }
+                mGoogleMap!!.isMyLocationEnabled = true
+                currentLatLng?.let { direction(it, tripOriginLatLng!!) }
+            }
+        bottomSheetIsComing.state = BottomSheetBehavior.STATE_EXPANDED
+
+        listenToTripCollection()
+    }
+
 
     private fun updateLocationHandle(location: Location?) {
         zoomOnMap(LatLng(location!!.latitude, location.longitude), 16f)
@@ -244,7 +572,9 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
                 val ref = driverID?.let { firestore.collection("Drivers").document(it) }
                 ref?.update(updates)
-                skipTime = 5
+//                skipTime = 5
+                // TODO Revert
+                skipTime = 1
             }
         }
     }
@@ -267,36 +597,17 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         )
     }
 
-    private fun addStartedMarker(position: LatLng): Marker? {
-        return mGoogleMap?.addMarker(
-            MarkerOptions()
-                .position(position)
-                .title("Custom Started Marker")
-                .draggable(false)
-                .icon(
-                    BitmapDescriptorFactory.fromBitmap(
-                        Bitmap.createScaledBitmap(
-                            BitmapFactory.decodeResource(resources, R.drawable.started_marker_icon),
-                            50,
-                            50,
-                            false
-                        )
-                    )
-                )
-        )
-    }
-
     private fun zoomOnMap(latLng: LatLng, zoomRate: Float = 14f) {
         val newLatLngZoom = CameraUpdateFactory.newLatLngZoom(latLng, zoomRate)
         mGoogleMap?.animateCamera(newLatLngZoom)
     }
 
-    private fun addMarkerWithPulseAnimation() {
-        originLatLng?.let { addDefaultMarker(it) }
-        addPulsatingEffect(originLatLng)
+    private fun addMarkerWithPulseAnimation(latLng: LatLng) {
+        addDefaultMarker(latLng)
+        addPulsatingEffect(latLng)
     }
 
-    private fun addPulsatingEffect(originLatLng: LatLng?) {
+    private fun addPulsatingEffect(latLng: LatLng?, isStartSpinningAnimate: Boolean = true) {
         lastPulseAnimator?.cancel()
         if (lastUserCircle != null) {
             lastUserCircle?.remove()
@@ -308,10 +619,15 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
             if (lastUserCircle == null) {
                 lastUserCircle = mGoogleMap!!.addCircle(
                     CircleOptions()
-                        .center(originLatLng!!)
+                        .center(latLng!!)
                         .radius(animatedRadius)
                         .strokeColor(Color.WHITE)
-                        .fillColor(ContextCompat.getColor(this@HomeDriverActivity, R.color.blue_200))
+                        .fillColor(
+                            ContextCompat.getColor(
+                                this@HomeDriverActivity,
+                                R.color.blue_200
+                            )
+                        )
                 )
             } else {
                 lastUserCircle!!.radius = animatedRadius
@@ -319,7 +635,9 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         // Start rotating camera
-        startMapCameraSpinningAnimation(mGoogleMap?.cameraPosition?.target)
+        if (isStartSpinningAnimate) {
+            startMapCameraSpinningAnimation(latLng)
+        }
     }
 
     private fun startMapCameraSpinningAnimation(target: LatLng?) {
@@ -337,7 +655,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 CameraUpdateFactory.newCameraPosition(
                     CameraPosition.Builder()
                         .target(target!!)
-                        .zoom(16f)
+                        .zoom(15f)
                         .tilt(45f)
                         .bearing(newBearingValue)
                         .build()
@@ -436,7 +754,6 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                         if (polylineOptions != null) {
                             mGoogleMap?.addPolyline(polylineOptions)
                         }
-                        addStartedMarker(origin)
                         addDefaultMarker(destination)
 
                         val bounds: LatLngBounds = LatLngBounds.builder()
@@ -474,12 +791,20 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun resetValue() {
         mGoogleMap?.clear()
-        destinationLatLng = null
-        destinationAddress = null
-        originLatLng = null
-        originAddress = null
+        tripDestinationLatLng = null
+        tripDestinationAddress = null
+        currentLatLng = null
+        tripOriginAddress = null
         distance = 0.0
         duration = 0
-        paymentType = null
+        tripPaymentType = null
+        passengerID = null
+        tripBookingTime = null
+        tripPrice = 0.0
+        tripDuration = 0.0
+        tripDistance = 0.0
+        tripOriginLatLng = null
+        passengerPhone = null
+        listenerTrip?.remove()
     }
 }
