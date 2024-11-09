@@ -115,4 +115,31 @@
     <string name="ArriveDestination">Arrived</string>
     <string name="TravelDistance">Travel distance: %1$d km</string>
     <string name="EstimatedTime">Estimated time: %1$d minute</string>
+    <string name="WriteFeedback">\u00A0Write feedback</string>
+    <string name="Send">Send</string>
+    <string name="CancellationTitle">Please select the reason you are Cancelling your trip</string>
+    <string name="CancellationEmergencyTitle">Please indicate the reason for your emergency cancellation.</string>
+    <string name="ReceiptTitle">Your trip has ended</string>
+    <string name="ReceiptTime">Time: %1$d minute</string>
+    <string name="Complete">Complete</string>
+    <string name="PleaseChooseReason">Please choose a reason!</string>
+    <string name="OnGoing">On the trip</string>
+    <string name="TripCanceled">Trip canceled</string>
+    <string name="PleaseTurnOnLocation">Please turn on Location to use the app\'s features!</string>
+    <string name="WaitSecondToDetermineLocation">Please wait a moment for the device to determine your location!</string>
+
+    // Driver Cancellation reasons
+    <string name="CancellationReason1">Pick up point too far</string>
+    <string name="CancellationReason2">Traffic jam</string>
+    <string name="CancellationReason3">I can\'t contact the customer</string>
+    <string name="CancellationReason4">Vehicle breakdown</string>
+    <string name="CancellationReason5">Other reasons</string>
+
+    // Driver Cancellation Emergency reasons
+    <string name="EmergencyReason1">Having vehicle problems</string>
+    <string name="EmergencyReason2">Customer has inappropriate behavior (*)</string>
+    <string name="EmergencyReason3">Traffic jam</string>
+    <string name="EmergencyReason4">Customer ordered wrong vehicle type</string>
+    <string name="EmergencyReason5">Other reasons</string>
+
 </resources>

@@ -24,6 +24,7 @@ object Constants {
     const val GOING = "GOING"
     const val PASSENGER_CANCEL = "PASSENGER_CANCEL"
     const val DRIVER_CANCEL = "DRIVER_CANCEL"
+    const val DRIVER_CANCEL_EMERGENCY = "DRIVER_CANCEL_EMERGENCY"
     const val ARRIVE = "ARRIVE"
     const val COMPLETED = "COMPLETED"
 }

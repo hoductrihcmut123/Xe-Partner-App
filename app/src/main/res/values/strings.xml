@@ -115,4 +115,31 @@
     <string name="ArriveDestination">Đến đích</string>
     <string name="TravelDistance">Quãng đường di chuyển: %1$d km</string>
     <string name="EstimatedTime">Thời gian dự kiến: %1$d phút</string>
+    <string name="WriteFeedback">\u00A0Viết đánh giá</string>
+    <string name="Send">Gửi</string>
+    <string name="CancellationTitle">Vui lòng chọn lý do mà bạn Hủy chuyến xe</string>
+    <string name="CancellationEmergencyTitle">Vui lòng cho biết lý do khiến bạn Hủy chuyến khẩn cấp</string>
+    <string name="ReceiptTitle">Chuyến đi của bạn đã kết thúc</string>
+    <string name="ReceiptTime">Thời gian: %1$d phút</string>
+    <string name="Complete">Hoàn thành</string>
+    <string name="PleaseChooseReason">Bạn vui lòng chọn lý do nhé !</string>
+    <string name="OnGoing">Đang trong chuyến đi</string>
+    <string name="TripCanceled">Đã huỷ chuyến</string>
+    <string name="PleaseTurnOnLocation">Bạn vui lòng bật Vị trí để sử dụng các tính năng của ứng dụng nhé!</string>
+    <string name="WaitSecondToDetermineLocation">Bạn vui lòng đợi giây lát để thiết bị xác định vị trí nhé!</string>
+
+    // Driver Cancellation reasons
+    <string name="CancellationReason1">Điểm đón quá xa</string>
+    <string name="CancellationReason2">Kẹt xe</string>
+    <string name="CancellationReason3">Tôi không thể liên lạc với khách hàng</string>
+    <string name="CancellationReason4">Phương tiện gặp sự cố</string>
+    <string name="CancellationReason5">Lý do khác</string>
+
+    // Driver Cancellation Emergency reasons
+    <string name="EmergencyReason1">Gặp sự cố về phương tiện</string>
+    <string name="EmergencyReason2">Khách hàng có hành vi không phù hợp (*)</string>
+    <string name="EmergencyReason3">Kẹt xe</string>
+    <string name="EmergencyReason4">Khách hàng đặt sai loại phương tiện</string>
+    <string name="EmergencyReason5">Lý do khác</string>
+
 </resources>

@@ -17,4 +17,5 @@
     <color name="gray">#929292</color>
     <color name="yellow">#ffed00</color>
     <color name="refuse_background">#FF0000</color>
+    <color name="hintText">#97ADB6</color>
 </resources>

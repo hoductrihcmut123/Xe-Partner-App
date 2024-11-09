@@ -63,7 +63,11 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
             year_Manufacture = intent.getIntExtra("driverYearManufacture", 0),
             vehicle_Brand = intent.getStringExtra("driverVehicleBrand"),
             point = 0,
-            ready = false
+            ready = false,
+            totalStar = 0,
+            rateStarNum = 0,
+            completeTripNum = 0,
+            totalDistance = 0
         )
 
         // CSO
@@ -165,6 +169,7 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
         collection = if (isDriver) {
             firestore.collection("Drivers")
         } else {
+
             firestore.collection("CSOs")
         }
 

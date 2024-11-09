@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rounded_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="@dimen/_15sdp"
+    app:behavior_hideable="true"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_semibold"
+        android:text="@string/CancellationEmergencyTitle"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/_21ssp"
+        android:layout_marginVertical="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_5sdp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginVertical="@dimen/_15sdp">
+
+        <RadioGroup
+            android:id="@+id/radioGroupEmergencyReasons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="@dimen/_5sdp"
+            tools:ignore="UselessParent">
+
+            <RadioButton
+                android:id="@+id/radioEmergencyReason1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/EmergencyReason1"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="@dimen/_17ssp"
+                android:buttonTint="@color/button_background"
+                android:textColor="@color/text_color"
+                android:paddingStart="@dimen/_10sdp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/hintText"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_12sdp"/>
+
+            <RadioButton
+                android:id="@+id/radioEmergencyReason2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/EmergencyReason2"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="@dimen/_17ssp"
+                android:buttonTint="@color/button_background"
+                android:textColor="@color/refuse_background"
+                android:paddingStart="@dimen/_10sdp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/hintText"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_12sdp"/>
+
+            <RadioButton
+                android:id="@+id/radioEmergencyReason3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/EmergencyReason3"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="@dimen/_17ssp"
+                android:buttonTint="@color/button_background"
+                android:textColor="@color/text_color"
+                android:paddingStart="@dimen/_10sdp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/hintText"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_12sdp"/>
+
+            <RadioButton
+                android:id="@+id/radioEmergencyReason4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/EmergencyReason4"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="@dimen/_17ssp"
+                android:buttonTint="@color/button_background"
+                android:textColor="@color/text_color"
+                android:paddingStart="@dimen/_10sdp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/hintText"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_12sdp"/>
+
+            <RadioButton
+                android:id="@+id/radioEmergencyReason5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/EmergencyReason5"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="@dimen/_17ssp"
+                android:buttonTint="@color/button_background"
+                android:textColor="@color/text_color"
+                android:paddingStart="@dimen/_10sdp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/hintText"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_12sdp"/>
+
+        </RadioGroup>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_140sdp"
+        android:hint="@string/WriteFeedback"
+        android:textColorHint="@color/hintText"
+        android:textColor="@color/text_color"
+        android:maxLines="4"
+        android:gravity="top"
+        android:padding="@dimen/_12sdp"
+        android:background="@drawable/edittext_border"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp" />
+
+    <Button
+        android:id="@+id/sendCancellationEmergencyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginVertical="@dimen/_12sdp"
+        android:background="@drawable/button_border"
+        android:backgroundTint="@color/button_background"
+        android:fontFamily="@font/inter_semibold"
+        android:padding="@dimen/_16sdp"
+        android:stateListAnimator="@null"
+        android:text="@string/Send"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_22ssp"
+        android:foreground="?attr/selectableItemBackground"/>
+
+</LinearLayout>

@@ -103,3 +103,18 @@ fun Activity.showLocationPermissionDialog() {
         }
     )
 }
+
+@SuppressLint("StringFormatMatches")
+fun Activity.showLocationRequestDialog() {
+    showCustomDialog<DialogConfirmCancelBinding>(
+        R.layout.dialog_confirm_cancel,
+        title = getString(R.string.PleaseTurnOnLocation),
+        canceledOnTouchOutside = false,
+        textPositive = getString(R.string.NotAllowed),
+        textNegative = getString(R.string.Allow),
+        positiveListener = {}, negativeListener = {
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
+        }
+    )
+}

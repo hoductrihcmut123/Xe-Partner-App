@@ -15,6 +15,8 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 object Utils {
@@ -91,6 +93,18 @@ object Utils {
     fun getHourAndMinute(dateString: String): String {
         val time = dateString.split(" ")[3]
         return time.substring(0, 5)
+    }
+
+    fun calculateMinutesDifference(time1: String, time2: String): Long {
+        val format = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+
+        val date1 = format.parse(time1)
+        val date2 = format.parse(time2)
+
+        val differenceInMillis = (date2?.time ?: 0) - (date1?.time ?: 0)
+
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis).toDouble()
+        return round(minutes).toLong()
     }
 
     fun valueAnimate(duration: Int, listener: AnimatorUpdateListener?): ValueAnimator? {

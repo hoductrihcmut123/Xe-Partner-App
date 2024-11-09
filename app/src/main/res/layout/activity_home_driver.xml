@@ -149,4 +149,28 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:visibility="gone" />
 
+    <include
+        android:id="@+id/bottomSheetCancellation"
+        layout="@layout/cancellation_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="gone" />
+
+    <include
+        android:id="@+id/bottomSheetCancellationEmergency"
+        layout="@layout/cancellation_emergency_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="gone" />
+
+    <include
+        android:id="@+id/bottomSheetReceipt"
+        layout="@layout/receipt_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="gone" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

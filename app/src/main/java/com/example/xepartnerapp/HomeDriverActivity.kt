@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -26,6 +27,7 @@ import com.example.xepartnerapp.common.utils.Constants.DESIRED_NUM_OF_SPINS
 import com.example.xepartnerapp.common.utils.Constants.DESIRED_SECOND_PER_ONE_FULL_360_SPIN
 import com.example.xepartnerapp.common.utils.Constants.EFFECT_DURATION
 import com.example.xepartnerapp.common.utils.Utils
+import com.example.xepartnerapp.common.utils.Utils.calculateMinutesDifference
 import com.example.xepartnerapp.common.utils.Utils.convertMetersToKilometers
 import com.example.xepartnerapp.common.utils.Utils.convertSecondsToMinutes
 import com.example.xepartnerapp.common.utils.Utils.formatCurrency
@@ -33,6 +35,8 @@ import com.example.xepartnerapp.common.utils.Utils.getHourAndMinute
 import com.example.xepartnerapp.common.utils.Utils.isCheckLocationPermission
 import com.example.xepartnerapp.common.utils.Utils.vibrateCustomPattern
 import com.example.xepartnerapp.common.utils.showLocationPermissionDialog
+import com.example.xepartnerapp.common.utils.showLocationRequestDialog
+import com.example.xepartnerapp.data.PassengerFeedback
 import com.example.xepartnerapp.databinding.ActivityHomeDriverBinding
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
@@ -42,6 +46,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -65,6 +70,7 @@ import douglasspgyn.com.github.circularcountdown.CircularCountdown
 import douglasspgyn.com.github.circularcountdown.listener.CircularListener
 import org.json.JSONArray
 import org.json.JSONException
+import java.util.Date
 
 class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mGoogleMap: GoogleMap? = null
@@ -95,6 +101,9 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
     private var tripBookingTime: String? = null
     private var passengerID: String? = null
     private var passengerPhone: String? = null
+    private var tripReasonID: String? = null
+    private var tripStartTime: String? = null
+    private var tripEndTime: String? = null
 
     private var listenerTrip: ListenerRegistration? = null
 
@@ -104,6 +113,9 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var bottomSheetBookingInfo: BottomSheetBehavior<View>
     private lateinit var bottomSheetIsComing: BottomSheetBehavior<View>
     private lateinit var bottomSheetDriverOnGoing: BottomSheetBehavior<View>
+    private lateinit var bottomSheetCancellation: BottomSheetBehavior<View>
+    private lateinit var bottomSheetCancellationEmergency: BottomSheetBehavior<View>
+    private lateinit var bottomSheetReceipt: BottomSheetBehavior<View>
 
     // Effect
     private var lastUserCircle: Circle? = null
@@ -164,25 +176,66 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         bottomSheetIsComing.isDraggable = false
 
         // Set up bottomSheetDriverOnGoing
-        bottomSheetDriverOnGoing = BottomSheetBehavior.from(findViewById(R.id.bottomSheetDriverOnGoing))
+        bottomSheetDriverOnGoing =
+            BottomSheetBehavior.from(findViewById(R.id.bottomSheetDriverOnGoing))
         bottomSheetDriverOnGoing.peekHeight = 0
-        bottomSheetDriverOnGoing.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetDriverOnGoing.state = BottomSheetBehavior.STATE_COLLAPSED
         bottomSheetDriverOnGoing.isDraggable = false
 
+        // Set up bottomSheetCancellation
+        bottomSheetCancellation =
+            BottomSheetBehavior.from(findViewById(R.id.bottomSheetCancellation))
+        bottomSheetCancellation.peekHeight = 0
+        bottomSheetCancellation.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetCancellation.isDraggable = false
+
+        // Set up bottomSheetCancellationEmergency
+        bottomSheetCancellationEmergency =
+            BottomSheetBehavior.from(findViewById(R.id.bottomSheetCancellationEmergency))
+        bottomSheetCancellationEmergency.peekHeight = 0
+        bottomSheetCancellationEmergency.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetCancellationEmergency.isDraggable = false
+
+        // Set up bottomSheetReceipt
+        bottomSheetReceipt = BottomSheetBehavior.from(findViewById(R.id.bottomSheetReceipt))
+        bottomSheetReceipt.peekHeight = 0
+        bottomSheetReceipt.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetReceipt.isDraggable = false
+
         binding.currentLocationButton.setOnClickListener {
-            if (this@HomeDriverActivity.isCheckLocationPermission()) {
-                mGoogleMap?.clear()
-                mFusedLocationClient?.lastLocation
-                    ?.addOnSuccessListener { location: Location? ->
-                        if (location != null) {
-                            currentLatLng = LatLng(location.latitude, location.longitude)
-                            currentLocation = location
+            val locationDeviceRequest = LocationRequest.create().apply {
+                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            }
+            val builder =
+                LocationSettingsRequest.Builder().addLocationRequest(locationDeviceRequest)
+            val client = LocationServices.getSettingsClient(this)
+            val task = client.checkLocationSettings(builder.build())
+
+            task.addOnSuccessListener {
+                if (this@HomeDriverActivity.isCheckLocationPermission()) {
+                    mGoogleMap?.clear()
+                    mFusedLocationClient?.lastLocation
+                        ?.addOnSuccessListener { location: Location? ->
+                            if (location != null) {
+                                currentLatLng = LatLng(location.latitude, location.longitude)
+                                currentLocation = location
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    getString(R.string.WaitSecondToDetermineLocation),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            currentLatLng?.let { originLatLng -> zoomOnMap(originLatLng, 16f) }
+                            mGoogleMap!!.isMyLocationEnabled = true
                         }
-                        currentLatLng?.let { originLatLng -> zoomOnMap(originLatLng, 16f) }
-                        mGoogleMap!!.isMyLocationEnabled = true
-                    }
-            } else {
-                showLocationPermissionDialog()
+                } else {
+                    showLocationPermissionDialog()
+                }
+            }
+            task.addOnFailureListener {
+                binding.switchButton.isChecked = false
+                showLocationRequestDialog()
             }
         }
 
@@ -190,7 +243,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         val currentUser = auth.currentUser
 
         binding.backButton.setOnClickListener {
-            resetValue()
+            // TODO later
         }
 
         binding.menuButton.setOnClickListener {
@@ -202,31 +255,35 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         binding.switchButton.setOnCheckedChangeListener { _, isChecked ->
-            isReady = isChecked
-            val ref = driverID?.let { firestore.collection("Drivers").document(it) }
-            if (isChecked) {
-                binding.title.text = getString(R.string.ReadyAccept)
-                val lat = currentLocation?.latitude
-                val lng = currentLocation?.longitude
-                val hash = GeoFireUtils.getGeoHashForLocation(GeoLocation(lat!!, lng!!))
-                ref?.update(
-                    mapOf(
-                        "geohash" to hash,
-                        "current_Lat" to lat,
-                        "current_Lng" to lng,
-                        "ready" to true
+            if (currentLocation != null) {
+                isReady = isChecked
+                val ref = driverID?.let { firestore.collection("Drivers").document(it) }
+                if (isChecked) {
+                    binding.title.text = getString(R.string.ReadyAccept)
+                    val lat = currentLocation?.latitude
+                    val lng = currentLocation?.longitude
+                    val hash = GeoFireUtils.getGeoHashForLocation(GeoLocation(lat!!, lng!!))
+                    ref?.update(
+                        mapOf(
+                            "geohash" to hash,
+                            "current_Lat" to lat,
+                            "current_Lng" to lng,
+                            "ready" to true
+                        )
                     )
-                )
+                } else {
+                    binding.title.text = getString(R.string.NotAccepting)
+                    ref?.update(
+                        mapOf(
+                            "geohash" to FieldValue.delete(),
+                            "current_Lat" to FieldValue.delete(),
+                            "current_Lng" to FieldValue.delete(),
+                            "ready" to false
+                        )
+                    )
+                }
             } else {
-                binding.title.text = getString(R.string.NotAccepting)
-                ref?.update(
-                    mapOf(
-                        "geohash" to FieldValue.delete(),
-                        "current_Lat" to FieldValue.delete(),
-                        "current_Lng" to FieldValue.delete(),
-                        "ready" to false
-                    )
-                )
+                checkLocationRequest()
             }
         }
 
@@ -292,13 +349,37 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
             passengerBoardButton.setOnClickListener {
+                tripStartTime = Date().toString()
                 val tripRef = tripId?.let { it1 -> firestore.collection("Trips").document(it1) }
                 tripRef?.update(
                     mapOf(
-                        "status" to Constants.GOING
+                        "status" to Constants.GOING,
+                        "startTime" to tripStartTime
                     )
                 )
-                // TODO later
+                binding.bottomSheetIsComing.passengerBoardButton.isVisible = false
+                bottomSheetIsComing.state = BottomSheetBehavior.STATE_COLLAPSED
+                binding.title.text = getString(R.string.OnGoing)
+
+                animator?.cancel()
+                direction(tripOriginLatLng!!, tripDestinationLatLng!!)
+                when (tripPaymentType) {
+                    Constants.CASH -> binding.bottomSheetDriverOnGoing.tvPaymentType2.text =
+                        getString(R.string.Cash)
+
+                    Constants.MOMO -> binding.bottomSheetDriverOnGoing.tvPaymentType2.text =
+                        getString(R.string.Momo)
+                }
+                binding.bottomSheetDriverOnGoing.tvPrice2.text = tripPrice.formatCurrency()
+                binding.bottomSheetDriverOnGoing.tvEstimateTime.text = getString(
+                    R.string.EstimatedTime,
+                    tripDuration.toInt().convertSecondsToMinutes()
+                )
+                binding.bottomSheetDriverOnGoing.tvTravelDistance.text = getString(
+                    R.string.TravelDistance,
+                    tripDistance.convertMetersToKilometers().toInt()
+                )
+                bottomSheetDriverOnGoing.state = BottomSheetBehavior.STATE_EXPANDED
             }
             cancelTripButton.setOnClickListener {
                 val ref = driverID?.let { firestore.collection("Drivers").document(it) }
@@ -315,10 +396,245 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
                 resetValue()
 
-                binding.title.text = getString(R.string.NotAccepting)
+                binding.title.text = getString(R.string.ReadyAccept)
                 binding.switchButton.isVisible = true
+                binding.menuButton.isVisible = true
+                binding.bottomSheetIsComing.passengerBoardButton.isVisible = false
                 bottomSheetIsComing.state = BottomSheetBehavior.STATE_COLLAPSED
+                bottomSheetCancellation.state = BottomSheetBehavior.STATE_EXPANDED
+
+                animator?.cancel()
+                mGoogleMap?.setPadding(0, 0, 0, 0)
+                mGoogleMap?.moveCamera(
+                    CameraUpdateFactory.newCameraPosition(
+                        CameraPosition.Builder().target(mGoogleMap?.cameraPosition!!.target)
+                            .tilt(0f)
+                            .zoom(14f)
+                            .build()
+                    )
+                )
+            }
+            passengerInfoLayout.setOnClickListener {
+                // TODO later
+                Toast.makeText(this@HomeDriverActivity, "Passenger Info", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        with(binding.bottomSheetCancellation) {
+            var cancelReason = ""
+            radioGroupReasons.setOnCheckedChangeListener { _, checkId ->
+                cancelReason = when (checkId) {
+                    R.id.radioReason1 -> getString(R.string.CancellationReason1)
+                    R.id.radioReason2 -> getString(R.string.CancellationReason2)
+                    R.id.radioReason3 -> getString(R.string.CancellationReason3)
+                    R.id.radioReason4 -> getString(R.string.CancellationReason4)
+                    R.id.radioReason5 -> getString(R.string.CancellationReason5)
+                    else -> ""
+                }
+            }
+            sendCancellationButton.setOnClickListener {
+                if (cancelReason.isNotEmpty()) {
+                    bottomSheetCancellation.state = BottomSheetBehavior.STATE_COLLAPSED
+                    firestore.collection("Trips").document(tripId!!).collection("Reason")
+                        .document(tripReasonID!!)
+                        .update(
+                            mapOf(
+                                "driverCancelReason" to cancelReason
+                            )
+                        )
+                    radioGroupReasons.clearCheck()
+                    tripId = null
+                    tripReasonID = null
+                } else {
+                    Toast.makeText(
+                        this@HomeDriverActivity,
+                        getString(R.string.PleaseChooseReason),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        with(binding.bottomSheetDriverOnGoing) {
+            arriveDestinationButton.setOnClickListener {
+                binding.title.isVisible = false
+                mGoogleMap?.clear()
+                bottomSheetDriverOnGoing.state = BottomSheetBehavior.STATE_COLLAPSED
+
+                tripEndTime = Date().toString()
+                val exactDuration = calculateMinutesDifference(tripStartTime!!, tripEndTime!!)
+                val tripRef = tripId?.let { it1 -> firestore.collection("Trips").document(it1) }
+                tripRef?.update(
+                    mapOf(
+                        "status" to Constants.ARRIVE,
+                        "endTime" to tripEndTime,
+                        "exactDuration" to exactDuration
+                    )
+                )
+
+                binding.bottomSheetReceipt.tvTimeBookingReceipt.text = getHourAndMinute(tripStartTime!!)
+                binding.bottomSheetReceipt.tvTimeCompleteReceipt.text = getHourAndMinute(tripEndTime!!)
+                binding.bottomSheetReceipt.tvOriginAddressReceipt.text = tripOriginAddress
+                binding.bottomSheetReceipt.tvDestinationAddressReceipt.text = tripDestinationAddress
+                when (tripPaymentType) {
+                    Constants.CASH -> binding.bottomSheetReceipt.tvPaymentTypeReceipt.text =
+                        getString(R.string.Cash)
+
+                    Constants.MOMO -> binding.bottomSheetReceipt.tvPaymentTypeReceipt.text =
+                        getString(R.string.Momo)
+                }
+                binding.bottomSheetReceipt.tvPriceReceipt.text = tripPrice.formatCurrency()
+                binding.bottomSheetReceipt.tvBookingTimeReceipt.text = tripBookingTime
+                binding.bottomSheetReceipt.tvTravelDistanceReceipt.text = getString(
+                    R.string.TravelDistance,
+                    tripDistance.convertMetersToKilometers().toInt()
+                )
+                binding.bottomSheetReceipt.TvExactTimeReceipt.text = getString(
+                    R.string.ReceiptTime,
+                    exactDuration
+                )
+                bottomSheetReceipt.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+            cancelButton.setOnClickListener {
+                val ref = driverID?.let { firestore.collection("Drivers").document(it) }
+                ref?.update(
+                    mapOf(
+                        "trip_ID" to FieldValue.delete()
+                    )
+                )
+                val tripRef = tripId?.let { it1 -> firestore.collection("Trips").document(it1) }
+                tripRef?.update(
+                    mapOf(
+                        "status" to Constants.DRIVER_CANCEL_EMERGENCY
+                    )
+                )
+                resetValue(needDeletePassengerId = false)
+
+                binding.title.text = getString(R.string.ReadyAccept)
+                binding.switchButton.isVisible = true
+                binding.menuButton.isVisible = true
+                bottomSheetDriverOnGoing.state = BottomSheetBehavior.STATE_COLLAPSED
+                bottomSheetCancellationEmergency.state = BottomSheetBehavior.STATE_EXPANDED
+
+                animator?.cancel()
+                mGoogleMap?.setPadding(0, 0, 0, 0)
+                mGoogleMap?.moveCamera(
+                    CameraUpdateFactory.newCameraPosition(
+                        CameraPosition.Builder().target(mGoogleMap?.cameraPosition!!.target)
+                            .tilt(0f)
+                            .zoom(14f)
+                            .build()
+                    )
+                )
+            }
+        }
+
+        with(binding.bottomSheetCancellationEmergency) {
+            var cancelEmergencyReason = ""
+            radioGroupEmergencyReasons.setOnCheckedChangeListener { _, checkId ->
+                cancelEmergencyReason = when (checkId) {
+                    R.id.radioEmergencyReason1 -> getString(R.string.EmergencyReason1)
+                    R.id.radioEmergencyReason2 -> getString(R.string.EmergencyReason2)
+                    R.id.radioEmergencyReason3 -> getString(R.string.EmergencyReason3)
+                    R.id.radioEmergencyReason4 -> getString(R.string.EmergencyReason4)
+                    R.id.radioEmergencyReason5 -> getString(R.string.EmergencyReason5)
+                    else -> ""
+                }
+            }
+            sendCancellationEmergencyButton.setOnClickListener {
+                if (cancelEmergencyReason.isNotEmpty()) {
+                    val emergencyDetail = etFeedback.text.toString()
+                    firestore.collection("Trips").document(tripId!!).collection("Reason")
+                        .document(tripReasonID!!)
+                        .update(
+                            mapOf(
+                                "driverCancelEmergency" to cancelEmergencyReason,
+                                "driverCancelEmergencyDetail" to emergencyDetail
+                            )
+                        )
+
+                    if (cancelEmergencyReason == getString(R.string.EmergencyReason2)) {
+                        val passengerFeedbackId =
+                            firestore.collection("PassengerFeedbacks").document().id
+                        firestore.collection("Passengers").document(passengerID!!).update(
+                            mapOf(
+                                "reportPassengerNum" to FieldValue.increment(1)
+                            )
+                        )
+                        val passengerFeedbackData = PassengerFeedback(
+                            passengerFeedback_ID = passengerFeedbackId,
+                            driver_ID = driverID!!,
+                            passenger_ID = passengerID!!,
+                            reportPassengerReason = cancelEmergencyReason,
+                            reportPassengerReasonDetail = emergencyDetail,
+                            passengerFeedbackTime = Date().toString()
+                        )
+                        firestore.collection("PassengerFeedbacks").document(passengerFeedbackId)
+                            .set(passengerFeedbackData)
+                        firestore.collection("Trips").document(tripId!!).collection("Reason")
+                            .document(tripReasonID!!)
+                            .update(
+                                mapOf(
+                                    "feedbackPassengerRef" to firestore.collection("PassengerFeedbacks")
+                                        .document(passengerFeedbackId)
+                                )
+                            )
+                    }
+
+                    Toast.makeText(
+                        this@HomeDriverActivity,
+                        getString(R.string.TripCanceled),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    bottomSheetCancellationEmergency.state = BottomSheetBehavior.STATE_COLLAPSED
+                    etFeedback.text.clear()
+                    radioGroupEmergencyReasons.clearCheck()
+                    tripId = null
+                    passengerID = null
+                    tripReasonID = null
+                } else {
+                    Toast.makeText(
+                        this@HomeDriverActivity,
+                        getString(R.string.PleaseChooseReason),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        with(binding.bottomSheetReceipt) {
+            completeReceiptButton.setOnClickListener {
+                val tripRef = tripId?.let { it1 -> firestore.collection("Trips").document(it1) }
+                tripRef?.update(
+                    mapOf(
+                        "status" to Constants.COMPLETED
+                    )
+                )
+                val driverRef = driverID?.let { firestore.collection("Drivers").document(it) }
+                driverRef?.update(
+                    mapOf(
+                        "completeTripNum" to FieldValue.increment(1),
+                        "totalDistance" to FieldValue.increment(tripDistance.convertMetersToKilometers().toLong()),
+                        "point" to FieldValue.increment(tripDistance.convertMetersToKilometers().toLong()),
+                        "trip_ID" to FieldValue.delete()
+                    )
+                )
+                val passengerRef = passengerID?.let { firestore.collection("Passengers").document(it) }
+                passengerRef?.update(
+                    mapOf(
+                        "bookingTripNum" to FieldValue.increment(1),
+                        "point" to FieldValue.increment(Math.round(tripPrice / 1000.0))
+                    )
+                )
+                resetValue()
+
+                binding.title.text = getString(R.string.ReadyAccept)
+                binding.title.isVisible = true
+                binding.switchButton.isVisible = true
+                binding.menuButton.isVisible = true
+                bottomSheetReceipt.state = BottomSheetBehavior.STATE_COLLAPSED
                 tripId = null
+                tripReasonID = null
 
                 animator?.cancel()
                 mGoogleMap?.setPadding(0, 0, 0, 0)
@@ -355,8 +671,9 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                     )
                     resetValue()
 
-                    binding.title.text = getString(R.string.NotAccepting)
+                    binding.title.text = getString(R.string.ReadyAccept)
                     binding.switchButton.isVisible = true
+                    binding.bottomSheetIsComing.passengerBoardButton.isVisible = false
                     bottomSheetIsComing.state = BottomSheetBehavior.STATE_COLLAPSED
                     tripId = null
 
@@ -384,7 +701,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 Log.w("FirestoreListener", "Listen failed.", e)
                 return@addSnapshotListener
             }
-            if (snapshot != null && snapshot.exists()) {
+            if (snapshot != null && snapshot.exists() && tripId == null) {
                 tripId = snapshot.getString("trip_ID")
                 if (tripId != null) {
                     vibrateCustomPattern(this, times = 2, duration = 250L, interval = 400L)
@@ -405,6 +722,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                             tripDestinationLatLng = document.getGeoPoint("destinationLatLng")?.let {
                                 LatLng(it.latitude, it.longitude)
                             }
+                            tripReasonID = document.getString("reason_ID")
 
                             binding.bottomSheetBookingInfo.tvTimeBooking.text =
                                 getHourAndMinute(tripBookingTime!!)
@@ -526,7 +844,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
         bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.refuseButton.isVisible = false
-        binding.menuButton.isVisible = true
+        binding.menuButton.isVisible = false
         binding.title.isVisible = true
         binding.title.text = getString(R.string.IsComing)
         animator?.cancel()
@@ -572,9 +890,8 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
                 val ref = driverID?.let { firestore.collection("Drivers").document(it) }
                 ref?.update(updates)
-//                skipTime = 5
-                // TODO Revert
-                skipTime = 1
+                // TODO Change if need
+                skipTime = 2
             }
         }
     }
@@ -789,7 +1106,32 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         requestQueue.add(jsonObjectRequest)
     }
 
-    private fun resetValue() {
+    private fun checkLocationRequest() {
+        val locationRequest = LocationRequest.create().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+        val client = LocationServices.getSettingsClient(this)
+        val task = client.checkLocationSettings(builder.build())
+
+        task.addOnSuccessListener {
+            binding.switchButton.isChecked = false
+            Toast.makeText(
+                this,
+                getString(R.string.WaitSecondToDetermineLocation),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        task.addOnFailureListener {
+            binding.switchButton.isChecked = false
+            showLocationRequestDialog()
+        }
+    }
+
+    private fun resetValue(needDeletePassengerId: Boolean = true) {
+        if (needDeletePassengerId) {
+            passengerID = null
+        }
         mGoogleMap?.clear()
         tripDestinationLatLng = null
         tripDestinationAddress = null
@@ -798,13 +1140,14 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         distance = 0.0
         duration = 0
         tripPaymentType = null
-        passengerID = null
         tripBookingTime = null
         tripPrice = 0.0
         tripDuration = 0.0
         tripDistance = 0.0
         tripOriginLatLng = null
         passengerPhone = null
+        tripStartTime = null
+        tripEndTime = null
         listenerTrip?.remove()
     }
 }

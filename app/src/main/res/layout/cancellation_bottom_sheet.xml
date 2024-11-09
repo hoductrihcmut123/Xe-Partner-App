@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rounded_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="@dimen/_15sdp"
+    app:behavior_hideable="true"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_semibold"
+        android:text="@string/CancellationTitle"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/_21ssp"
+        android:layout_marginVertical="@dimen/_25sdp"
+        android:layout_marginHorizontal="@dimen/_5sdp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_20sdp">
+
+        <RadioGroup
+            android:id="@+id/radioGroupReasons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="@dimen/_5sdp"
+            tools:ignore="UselessParent">
+
+            <RadioButton
+                android:id="@+id/radioReason1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/CancellationReason1"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="@dimen/_17ssp"
+                android:buttonTint="@color/button_background"
+                android:textColor="@color/text_color"
+                android:paddingStart="@dimen/_10sdp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/hintText"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_12sdp"/>
+
+            <RadioButton
+                android:id="@+id/radioReason2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/CancellationReason2"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="@dimen/_17ssp"
+                android:buttonTint="@color/button_background"
+                android:textColor="@color/text_color"
+                android:paddingStart="@dimen/_10sdp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/hintText"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_12sdp"/>
+
+            <RadioButton
+                android:id="@+id/radioReason3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/CancellationReason3"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="@dimen/_17ssp"
+                android:buttonTint="@color/button_background"
+                android:textColor="@color/text_color"
+                android:paddingStart="@dimen/_10sdp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/hintText"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_12sdp"/>
+
+            <RadioButton
+                android:id="@+id/radioReason4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/CancellationReason4"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="@dimen/_17ssp"
+                android:buttonTint="@color/button_background"
+                android:textColor="@color/text_color"
+                android:paddingStart="@dimen/_10sdp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/hintText"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_12sdp"/>
+
+            <RadioButton
+                android:id="@+id/radioReason5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/CancellationReason5"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="@dimen/_17ssp"
+                android:buttonTint="@color/button_background"
+                android:textColor="@color/text_color"
+                android:paddingStart="@dimen/_10sdp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/hintText"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_12sdp"/>
+
+        </RadioGroup>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/sendCancellationButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginVertical="@dimen/_12sdp"
+        android:background="@drawable/button_border"
+        android:backgroundTint="@color/button_background"
+        android:fontFamily="@font/inter_semibold"
+        android:padding="@dimen/_16sdp"
+        android:stateListAnimator="@null"
+        android:text="@string/Send"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_22ssp"
+        android:foreground="?attr/selectableItemBackground"/>
+
+</LinearLayout>

@@ -1,16 +1,16 @@
 package com.example.xepartnerapp.data
 
 data class DriverData(
-    val driver_ID :String? = null,
-    val firstname :String? = null,
-    val lastname :String? = null,
-    val email :String? = null,
-    val gender :Boolean? = null,
-    val mobile_No :String? = null,
-    val point :Int? = null,
-    val password :String? = null,
-    val avatar_Link :String? = null,
-    val vehicle_Link :String? = null,
+    val driver_ID: String? = null,
+    val firstname: String? = null,
+    val lastname: String? = null,
+    val email: String? = null,
+    val gender: Boolean? = null,
+    val mobile_No: String? = null,
+    val point: Int? = null,
+    val password: String? = null,
+    val avatar_Link: String? = null,
+    val vehicle_Link: String? = null,
     val card_ID: String? = null,
     val license: String? = null,
     val machine_Number: String? = null,
@@ -21,5 +21,9 @@ data class DriverData(
     val seat_Num: Int? = null,
     val year_Manufacture: Int? = null,
     val vehicle_Brand: String? = null,
-    val ready: Boolean? = null
+    val ready: Boolean? = null,
+    val totalStar: Int? = null,
+    val rateStarNum: Int? = null,
+    val completeTripNum: Int? = null,
+    val totalDistance: Int? = null,
 )

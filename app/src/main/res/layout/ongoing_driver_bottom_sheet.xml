@@ -27,7 +27,7 @@
         android:textSize="@dimen/_16ssp" />
 
     <TextView
-        android:id="@+id/TvEstimateTime"
+        android:id="@+id/tvEstimateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
@@ -140,7 +140,8 @@
             android:layout_marginVertical="@dimen/_12sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:background="@drawable/button_with_border"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@color/refuse_background"
             android:fontFamily="@font/inter_semibold"
             android:foreground="?attr/selectableItemBackground"
             android:paddingHorizontal="@dimen/_10sdp"
@@ -148,7 +149,7 @@
             android:stateListAnimator="@null"
             android:text="@string/CancelTrip"
             android:textAllCaps="false"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/_20ssp" />
 
     </LinearLayout>
