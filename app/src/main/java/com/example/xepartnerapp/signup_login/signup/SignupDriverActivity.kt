@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.xepartnerapp.HomeDriverActivity
 import com.example.xepartnerapp.R
+import com.example.xepartnerapp.common.utils.Constants
 import com.example.xepartnerapp.databinding.ActivitySignupDriverBinding
 import com.example.xepartnerapp.signup_login.login.LoginActivity
 import com.google.firebase.FirebaseException
@@ -37,11 +38,12 @@ class SignupDriverActivity : AppCompatActivity() {
     private lateinit var cardID: String
     private lateinit var license: String
     private var gender: Boolean? = null
+    private var classify: String? = null
     private lateinit var machineNumber: String
     private lateinit var licensePlate: String
     private lateinit var placeManufacture: String
     private lateinit var vehicleColor: String
-    private lateinit var vehicleType: String
+    private lateinit var vehicleLine: String
     private var seatNum: Int? = null
     private var yearManufacture: Int? = null
     private lateinit var vehicleBrand: String
@@ -68,6 +70,14 @@ class SignupDriverActivity : AppCompatActivity() {
                 else -> null
             }
         }
+        binding.radioGroupClassify.setOnCheckedChangeListener { _, checkedId ->
+            classify = when (checkedId) {
+                R.id.radioBike -> Constants.BIKE
+                R.id.radioCar -> Constants.CAR
+                R.id.radioMvp -> Constants.MVP
+                else -> null
+            }
+        }
 
         binding.signupButton.setOnClickListener {
             lastname = binding.signupLastname.text.toString()
@@ -80,15 +90,15 @@ class SignupDriverActivity : AppCompatActivity() {
             licensePlate = binding.signupLicensePlate.text.toString()
             placeManufacture = binding.signupPlaceManufacture.text.toString()
             vehicleColor = binding.signupColor.text.toString()
-            vehicleType = binding.signupType.text.toString()
+            vehicleLine = binding.signupLine.text.toString()
             seatNum = binding.signupSeatNum.text.toString().toIntOrNull()
             yearManufacture = binding.signupYearManufacture.text.toString().toIntOrNull()
             vehicleBrand = binding.signupVehicleBrand.text.toString()
 
             if (lastname.isNotEmpty() && firstname.isNotEmpty() && phoneNumber.isNotEmpty()
                 && password.isNotEmpty() && cardID.isNotEmpty() && license.isNotEmpty()
-                && gender != null && machineNumber.isNotEmpty() && licensePlate.isNotEmpty()
-                && placeManufacture.isNotEmpty() && vehicleColor.isNotEmpty() && vehicleType.isNotEmpty()
+                && gender != null && classify != null && machineNumber.isNotEmpty() && licensePlate.isNotEmpty()
+                && placeManufacture.isNotEmpty() && vehicleColor.isNotEmpty() && vehicleLine.isNotEmpty()
                 && seatNum != null && yearManufacture != null && vehicleBrand.isNotEmpty()) {
                 signupDriver(phoneNumber)
             } else {
@@ -137,11 +147,12 @@ class SignupDriverActivity : AppCompatActivity() {
                 intent.putExtra("driverCardID", cardID)
                 intent.putExtra("driverLicense", license)
                 intent.putExtra("driverGender", gender)
+                intent.putExtra("driverClassify", classify)
                 intent.putExtra("driverMachineNumber", machineNumber)
                 intent.putExtra("driverLicensePlate", licensePlate)
                 intent.putExtra("driverPlaceManufacture", placeManufacture)
                 intent.putExtra("driverVehicleColor", vehicleColor)
-                intent.putExtra("driverVehicleType", vehicleType)
+                intent.putExtra("driverVehicleLine", vehicleLine)
                 intent.putExtra("driverSeatNum", seatNum)
                 intent.putExtra("driverYearManufacture", yearManufacture)
                 intent.putExtra("driverVehicleBrand", vehicleBrand)

@@ -173,4 +173,12 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:visibility="gone" />
 
+    <include
+        android:id="@+id/bottomSheetPassengerPersonalInfo"
+        layout="@layout/passenger_personal_info_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="gone" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

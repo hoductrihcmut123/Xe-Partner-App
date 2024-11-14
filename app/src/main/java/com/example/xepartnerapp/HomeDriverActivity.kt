@@ -22,6 +22,7 @@ import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.xepartnerapp.common.adapter.PassengerFeedbackAdapter
 import com.example.xepartnerapp.common.utils.Constants
 import com.example.xepartnerapp.common.utils.Constants.DESIRED_NUM_OF_SPINS
 import com.example.xepartnerapp.common.utils.Constants.DESIRED_SECOND_PER_ONE_FULL_360_SPIN
@@ -116,6 +117,10 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var bottomSheetCancellation: BottomSheetBehavior<View>
     private lateinit var bottomSheetCancellationEmergency: BottomSheetBehavior<View>
     private lateinit var bottomSheetReceipt: BottomSheetBehavior<View>
+    private lateinit var bottomSheetPassengerPersonalInfo: BottomSheetBehavior<View>
+
+    // Adapter
+    private val passengerFeedbackAdapter: PassengerFeedbackAdapter by lazy { PassengerFeedbackAdapter() }
 
     // Effect
     private var lastUserCircle: Circle? = null
@@ -202,6 +207,17 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         bottomSheetReceipt.state = BottomSheetBehavior.STATE_COLLAPSED
         bottomSheetReceipt.isDraggable = false
 
+        // Set up bottomSheetPassengerPersonalInfo
+        bottomSheetPassengerPersonalInfo =
+            BottomSheetBehavior.from(findViewById(R.id.bottomSheetPassengerPersonalInfo))
+        bottomSheetPassengerPersonalInfo.peekHeight = 0
+        bottomSheetPassengerPersonalInfo.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetPassengerPersonalInfo.isDraggable = false
+
+        // Set up feedback adapter
+        binding.bottomSheetPassengerPersonalInfo.recyclerViewReport.adapter =
+            passengerFeedbackAdapter
+
         binding.currentLocationButton.setOnClickListener {
             val locationDeviceRequest = LocationRequest.create().apply {
                 priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -243,7 +259,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         val currentUser = auth.currentUser
 
         binding.backButton.setOnClickListener {
-            // TODO later
+            // TODO implement if need
         }
 
         binding.menuButton.setOnClickListener {
@@ -415,8 +431,50 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             }
             passengerInfoLayout.setOnClickListener {
-                // TODO later
-                Toast.makeText(this@HomeDriverActivity, "Passenger Info", Toast.LENGTH_SHORT).show()
+                with(binding.bottomSheetPassengerPersonalInfo) {
+                    firestore.collection("Passengers").document(passengerID!!).get()
+                        .addOnSuccessListener { document ->
+                            tvPassengerNamePersonalInfo.text = buildString {
+                                append(document.getString("lastname"))
+                                append(" ")
+                                append(document.getString("firstname"))
+                            }
+                            tvBookingTripNumValue.text =
+                                document.getLong("bookingTripNum").toString()
+                            tvReportedNumValue.text =
+                                document.getLong("reportPassengerNum").toString()
+                            when (document.getBoolean("gender")) {
+                                true -> tvGenderValue.text = getString(R.string.Male)
+                                false -> tvGenderValue.text = getString(R.string.Female)
+                                else -> tvGenderValue.text = getString(R.string.NoInformation)
+                            }
+                        }
+                }
+                firestore.collection("PassengerFeedbacks")
+                    .whereEqualTo("passenger_ID", passengerID)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        if (documents.isEmpty) {
+                            binding.bottomSheetPassengerPersonalInfo.tvNotHaveReview.isVisible = true
+                            binding.bottomSheetPassengerPersonalInfo.recyclerViewReport.isVisible = false
+                        } else {
+                            binding.bottomSheetPassengerPersonalInfo.tvNotHaveReview.isVisible = false
+                            binding.bottomSheetPassengerPersonalInfo.recyclerViewReport.isVisible = true
+                        }
+                        passengerFeedbackAdapter.updateData(documents.toObjects(PassengerFeedback::class.java))
+                        bottomSheetIsComing.state = BottomSheetBehavior.STATE_COLLAPSED
+                        bottomSheetPassengerPersonalInfo.state = BottomSheetBehavior.STATE_EXPANDED
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w("Firestore", "Error getting documents: ", exception)
+                    }
+            }
+        }
+
+        with(binding.bottomSheetPassengerPersonalInfo) {
+            backButtonPersonalInfo.setOnClickListener {
+                bottomSheetPassengerPersonalInfo.state = BottomSheetBehavior.STATE_COLLAPSED
+                bottomSheetIsComing.state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
 
@@ -472,8 +530,10 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                     )
                 )
 
-                binding.bottomSheetReceipt.tvTimeBookingReceipt.text = getHourAndMinute(tripStartTime!!)
-                binding.bottomSheetReceipt.tvTimeCompleteReceipt.text = getHourAndMinute(tripEndTime!!)
+                binding.bottomSheetReceipt.tvTimeBookingReceipt.text =
+                    getHourAndMinute(tripStartTime!!)
+                binding.bottomSheetReceipt.tvTimeCompleteReceipt.text =
+                    getHourAndMinute(tripEndTime!!)
                 binding.bottomSheetReceipt.tvOriginAddressReceipt.text = tripOriginAddress
                 binding.bottomSheetReceipt.tvDestinationAddressReceipt.text = tripDestinationAddress
                 when (tripPaymentType) {
@@ -614,12 +674,17 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 driverRef?.update(
                     mapOf(
                         "completeTripNum" to FieldValue.increment(1),
-                        "totalDistance" to FieldValue.increment(tripDistance.convertMetersToKilometers().toLong()),
-                        "point" to FieldValue.increment(tripDistance.convertMetersToKilometers().toLong()),
+                        "totalDistance" to FieldValue.increment(
+                            tripDistance.convertMetersToKilometers().toLong()
+                        ),
+                        "point" to FieldValue.increment(
+                            tripDistance.convertMetersToKilometers().toLong()
+                        ),
                         "trip_ID" to FieldValue.delete()
                     )
                 )
-                val passengerRef = passengerID?.let { firestore.collection("Passengers").document(it) }
+                val passengerRef =
+                    passengerID?.let { firestore.collection("Passengers").document(it) }
                 passengerRef?.update(
                     mapOf(
                         "bookingTripNum" to FieldValue.increment(1),

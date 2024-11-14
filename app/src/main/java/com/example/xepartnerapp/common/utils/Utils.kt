@@ -107,6 +107,26 @@ object Utils {
         return round(minutes).toLong()
     }
 
+    fun getLastThreeChars(input: String): String {
+        return if (input.length >= 3) {
+            input.takeLast(3)
+        } else {
+            input
+        }
+    }
+
+    fun extractDate(input: String): String? {
+        val inputFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+        val outputFormat = SimpleDateFormat("MMM dd yyyy", Locale.ENGLISH)
+        return try {
+            val date = inputFormat.parse(input)
+            date?.let { outputFormat.format(it) }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     fun valueAnimate(duration: Int, listener: AnimatorUpdateListener?): ValueAnimator? {
         val valueAnimate = ValueAnimator.ofFloat(0f, 200f)
         valueAnimate.duration = duration.toLong()

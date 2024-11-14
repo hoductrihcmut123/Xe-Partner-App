@@ -88,13 +88,14 @@
     <string name="IDCard">ID CARD</string>
     <string name="License">LICENSE</string>
     <string name="Gender">GENDER</string>
+    <string name="Classify">VEHICLE CLASSIFICATION (IMPORTANT)</string>
     <string name="Male">Male</string>
     <string name="Female">Female</string>
     <string name="MachineNumber">Frame number/Engine number</string>
     <string name="LicensePlate">License plate</string>
     <string name="PlaceOfManufacture">Place of manufacture</string>
     <string name="Color">COLOR</string>
-    <string name="Type">TYPE</string>
+    <string name="Line">LINE</string>
     <string name="NumberOfSeats">NUMBER OF SEATS</string>
     <string name="YearOfManufacture">YEAR OF MANUFACTURE</string>
     <string name="VehicleBrand">VEHICLE BRAND</string>
@@ -127,6 +128,16 @@
     <string name="TripCanceled">Trip canceled</string>
     <string name="PleaseTurnOnLocation">Please turn on Location to use the app\'s features!</string>
     <string name="WaitSecondToDetermineLocation">Please wait a moment for the device to determine your location!</string>
+    <string name="PassengerInfo">Booker information</string>
+    <string name="TotalBookedTripNum">Total number of booked trips</string>
+    <string name="TotalReportedNum">Number of Bad Reports</string>
+    <string name="TitleGender">Gender</string>
+    <string name="DetailsReports">Details of bad reports:</string>
+    <string name="DriverItemId">Driver: *****%1$s</string>
+    <string name="Report">Report</string>
+    <string name="ReportContent">Report content</string>
+    <string name="NoInformation">No information yet</string>
+    <string name="HaveNoReview">There are no reviews yet</string>
 
     // Driver Cancellation reasons
     <string name="CancellationReason1">Pick up point too far</string>

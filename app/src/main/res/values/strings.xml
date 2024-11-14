@@ -88,13 +88,14 @@
     <string name="IDCard">SỐ CCCD</string>
     <string name="License">BẰNG LÁI XE</string>
     <string name="Gender">GIỚI TÍNH</string>
+    <string name="Classify">PHÂN LOẠI PHƯƠNG TIỆN (QUAN TRỌNG)</string>
     <string name="Male">Nam</string>
     <string name="Female">Nữ</string>
     <string name="MachineNumber">SỐ KHUNG/SỐ MÁY</string>
     <string name="LicensePlate">BIỂN SỐ XE</string>
     <string name="PlaceOfManufacture">NƠI SẢN XUẤT</string>
     <string name="Color">MÀU XE</string>
-    <string name="Type">LOẠI XE</string>
+    <string name="Line">DÒNG XE</string>
     <string name="NumberOfSeats">SỐ CHỖ NGỒI</string>
     <string name="YearOfManufacture">NĂM SẢN XUẤT</string>
     <string name="VehicleBrand">HIỆU XE</string>
@@ -127,6 +128,16 @@
     <string name="TripCanceled">Đã huỷ chuyến</string>
     <string name="PleaseTurnOnLocation">Bạn vui lòng bật Vị trí để sử dụng các tính năng của ứng dụng nhé!</string>
     <string name="WaitSecondToDetermineLocation">Bạn vui lòng đợi giây lát để thiết bị xác định vị trí nhé!</string>
+    <string name="PassengerInfo">Thông tin người đặt</string>
+    <string name="TotalBookedTripNum">Tổng số chuyến xe đã đặt</string>
+    <string name="TotalReportedNum">Số lần bị Báo xấu</string>
+    <string name="TitleGender">Giới tính</string>
+    <string name="DetailsReports">Chi tiết những lần bị Báo xấu:</string>
+    <string name="DriverItemId">Tài xế: *****%1$s</string>
+    <string name="Report">Báo xấu</string>
+    <string name="ReportContent">Nội dung báo xấu</string>
+    <string name="NoInformation">Chưa có thông tin</string>
+    <string name="HaveNoReview">Hiện chưa có đánh giá nào</string>
 
     // Driver Cancellation reasons
     <string name="CancellationReason1">Điểm đón quá xa</string>

@@ -259,7 +259,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_25sdp"
             android:layout_marginEnd="@dimen/_25sdp"
-            app:layout_constraintBottom_toTopOf="@id/titleMachineNumber"
+            app:layout_constraintBottom_toTopOf="@id/titleClassify"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titlePassword">
@@ -284,6 +284,58 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/titleClassify"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
+            android:fontFamily="@font/inter"
+            android:text="@string/Classify"
+            android:textColor="@color/text_color"
+            android:textFontWeight="700"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintBottom_toTopOf="@id/radioGroupClassify"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signupPassword" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupClassify"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/titleMachineNumber"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleClassify">
+
+            <RadioButton
+                android:id="@+id/radioBike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/Bike" />
+
+            <RadioButton
+                android:id="@+id/radioCar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/Car" />
+
+            <RadioButton
+                android:id="@+id/radioMvp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/MVP" />
+        </RadioGroup>
+
+        <TextView
             android:id="@+id/titleMachineNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -298,7 +350,7 @@
             app:layout_constraintBottom_toTopOf="@id/signupMachineNumber"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signupPassword" />
+            app:layout_constraintTop_toBottomOf="@id/radioGroupClassify" />
 
         <EditText
             android:id="@+id/signupMachineNumber"
@@ -391,7 +443,7 @@
             android:textFontWeight="700"
             android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toTopOf="@id/signupColor"
-            app:layout_constraintEnd_toStartOf="@id/titleType"
+            app:layout_constraintEnd_toStartOf="@id/titleLine"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/signupPlaceManufacture" />
 
@@ -405,30 +457,30 @@
             android:textColor="@color/text_color"
             android:textColorHint="@color/edittext_background"
             app:layout_constraintBottom_toTopOf="@id/titleSeatNum"
-            app:layout_constraintEnd_toStartOf="@id/signupType"
+            app:layout_constraintEnd_toStartOf="@id/signupLine"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleColor" />
 
         <TextView
-            android:id="@+id/titleType"
+            android:id="@+id/titleLine"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_25sdp"
             android:fontFamily="@font/inter"
-            android:text="@string/Type"
+            android:text="@string/Line"
             android:textColor="@color/text_color"
             android:textFontWeight="700"
             android:textSize="@dimen/_14ssp"
-            app:layout_constraintBottom_toTopOf="@id/signupType"
+            app:layout_constraintBottom_toTopOf="@id/signupLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/titleColor"
             app:layout_constraintTop_toBottomOf="@id/signupPlaceManufacture" />
 
         <EditText
-            android:id="@+id/signupType"
+            android:id="@+id/signupLine"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_30sdp"
@@ -440,7 +492,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/signupColor"
-            app:layout_constraintTop_toBottomOf="@id/titleType" />
+            app:layout_constraintTop_toBottomOf="@id/titleLine" />
 
         <TextView
             android:id="@+id/titleSeatNum"
@@ -489,7 +541,7 @@
             app:layout_constraintBottom_toTopOf="@id/signupYearManufacture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/titleSeatNum"
-            app:layout_constraintTop_toBottomOf="@id/signupType" />
+            app:layout_constraintTop_toBottomOf="@id/signupLine" />
 
         <EditText
             android:id="@+id/signupYearManufacture"
