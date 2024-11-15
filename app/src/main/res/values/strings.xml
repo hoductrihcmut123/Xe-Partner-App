@@ -138,6 +138,12 @@
     <string name="ReportContent">Nội dung báo xấu</string>
     <string name="NoInformation">Chưa có thông tin</string>
     <string name="HaveNoReview">Hiện chưa có đánh giá nào</string>
+    <string name="FeatureInDevelop">Tính năng đang trong quá trình phát triển. Bạn thông cảm nhé !</string>
+    <string name="LogoutTitle">Đăng xuất</string>
+    <string name="AreYouSureLogout">Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không ?</string>
+    <string name="Logout">ĐĂNG XUẤT</string>
+    <string name="Cancel">HUỶ</string>
+    <string name="TurnOffSwitch">Trạng thái sẵn sàng đã bị tắt khi mở Menu</string>
 
     // Driver Cancellation reasons
     <string name="CancellationReason1">Điểm đón quá xa</string>
@@ -152,5 +158,15 @@
     <string name="EmergencyReason3">Kẹt xe</string>
     <string name="EmergencyReason4">Khách hàng đặt sai loại phương tiện</string>
     <string name="EmergencyReason5">Lý do khác</string>
+
+    // Menu Driver items
+    <string name="MenuDriverItem1">Tìm chuyến</string>
+    <string name="MenuDriverItem2">Thông tin cá nhân</string>
+    <string name="MenuDriverItem3">Thống kê chi tiết</string>
+    <string name="MenuDriverItem4">Khách hàng đánh giá</string>
+    <string name="MenuDriverItem5">Nhà xe dịch vụ</string>
+    <string name="MenuDriverItem6">Cài đặt</string>
+    <string name="MenuDriverItem7">Hỗ trợ</string>
+    <string name="MenuDriverItem8"><u>Đăng xuất</u></string>
 
 </resources>

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.xepartnerapp.HomeCsoActivity
+import com.example.xepartnerapp.features.cso.home.HomeCsoActivity
 import com.example.xepartnerapp.R
 import com.example.xepartnerapp.databinding.ActivitySignupCsoBinding
 import com.example.xepartnerapp.signup_login.login.LoginActivity

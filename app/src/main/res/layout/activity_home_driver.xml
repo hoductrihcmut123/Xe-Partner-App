@@ -5,7 +5,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeDriverActivity">
+    tools:context=".features.driver.booking.HomeDriverActivity">
 
     <!-- ConstraintLayout chứa các view chính, bao gồm bản đồ -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -179,6 +179,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="gone" />
+
+    <View
+        android:id="@+id/dimOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/sideSheetMenu"
+        layout="@layout/menu_driver_side_sheet"
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:layout_behavior="com.google.android.material.sidesheet.SideSheetBehavior"
         tools:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

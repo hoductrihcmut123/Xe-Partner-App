@@ -20,6 +20,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CustomSplashScreenTheme"
         tools:targetApi="31">
+        <activity
+            android:name=".features.driver.menu.personal_info.PersonalInfoDriverActivity"
+            android:exported="false"
+            android:theme="@style/Theme.XePartnerApp"/>
+        <activity
+            android:name=".features.driver.menu.statistics.StatisticsDriverActivity"
+            android:exported="false"
+            android:theme="@style/Theme.XePartnerApp"/>
+        <activity
+            android:name=".features.driver.menu.feedbacks.PassengerFeedbackDriver"
+            android:exported="false"
+            android:theme="@style/Theme.XePartnerApp"/>
+        <activity
+            android:name=".features.driver.menu.setting.SettingDriverActivity"
+            android:exported="false"
+            android:theme="@style/Theme.XePartnerApp"/>
+        <activity
+            android:name=".features.driver.menu.support.SupportDriverActivity"
+            android:exported="false"
+            android:theme="@style/Theme.XePartnerApp"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -42,11 +62,11 @@
             android:exported="false"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
-            android:name=".HomeDriverActivity"
+            android:name=".features.driver.booking.HomeDriverActivity"
             android:exported="false"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
-            android:name=".HomeCsoActivity"
+            android:name=".features.cso.home.HomeCsoActivity"
             android:exported="false"
             android:theme="@style/Theme.XePartnerApp" />
         <activity

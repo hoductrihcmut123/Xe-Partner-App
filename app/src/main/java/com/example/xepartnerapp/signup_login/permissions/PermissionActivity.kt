@@ -10,8 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.xepartnerapp.HomeCsoActivity
-import com.example.xepartnerapp.HomeDriverActivity
+import com.example.xepartnerapp.features.cso.home.HomeCsoActivity
+import com.example.xepartnerapp.features.driver.booking.HomeDriverActivity
 import com.example.xepartnerapp.R
 import com.example.xepartnerapp.databinding.ActivityPermissionBinding
 

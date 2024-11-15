@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.xepartnerapp.HomeDriverActivity
+import com.example.xepartnerapp.features.driver.booking.HomeDriverActivity
 import com.example.xepartnerapp.R
 import com.example.xepartnerapp.common.utils.Constants
 import com.example.xepartnerapp.databinding.ActivitySignupDriverBinding

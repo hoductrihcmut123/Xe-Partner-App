@@ -138,6 +138,12 @@
     <string name="ReportContent">Report content</string>
     <string name="NoInformation">No information yet</string>
     <string name="HaveNoReview">There are no reviews yet</string>
+    <string name="FeatureInDevelop">Feature is in development. Thank you!</string>
+    <string name="LogoutTitle">Log out</string>
+    <string name="AreYouSureLogout">Are you sure you want to log out of your account?</string>
+    <string name="Logout">LOG OUT</string>
+    <string name="Cancel">CANCEL</string>
+    <string name="TurnOffSwitch">Ready status is disabled when opening the Menu</string>
 
     // Driver Cancellation reasons
     <string name="CancellationReason1">Pick up point too far</string>
@@ -152,5 +158,15 @@
     <string name="EmergencyReason3">Traffic jam</string>
     <string name="EmergencyReason4">Customer ordered wrong vehicle type</string>
     <string name="EmergencyReason5">Other reasons</string>
+
+    // Menu Driver items
+    <string name="MenuDriverItem1">Booking</string>
+    <string name="MenuDriverItem2">Personal information</string>
+    <string name="MenuDriverItem3">Detailed statistics</string>
+    <string name="MenuDriverItem4">Passenger reviews</string>
+    <string name="MenuDriverItem5">Service vehicle</string>
+    <string name="MenuDriverItem6">Setting</string>
+    <string name="MenuDriverItem7">Support</string>
+    <string name="MenuDriverItem8"><u>Log out</u></string>
 
 </resources>
