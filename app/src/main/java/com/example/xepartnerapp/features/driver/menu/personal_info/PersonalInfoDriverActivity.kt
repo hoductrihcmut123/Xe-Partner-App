@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.xepartnerapp.MainActivity
 import com.example.xepartnerapp.R
+import com.example.xepartnerapp.common.utils.Constants
 import com.example.xepartnerapp.databinding.ActivityDriverPersonalInfoBinding
 import com.example.xepartnerapp.features.driver.booking.HomeDriverActivity
 import com.example.xepartnerapp.features.driver.menu.feedbacks.PassengerFeedbackDriver
@@ -24,7 +25,6 @@ import com.google.android.material.sidesheet.SideSheetCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PersonalInfoDriverActivity : AppCompatActivity() {
@@ -32,13 +32,8 @@ class PersonalInfoDriverActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDriverPersonalInfoBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var passengersCollection: CollectionReference
     private lateinit var driversCollection: CollectionReference
-    private lateinit var tripsCollection: CollectionReference
-    private var passengerID: String = ""
     private var driverID: String = ""
-    private var tripID: String = ""
-    private var reasonID: String = ""
 
     private lateinit var sideSheetMenu: SideSheetBehavior<View>
 
@@ -49,9 +44,7 @@ class PersonalInfoDriverActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firestore = FirebaseFirestore.getInstance()
-        passengersCollection = firestore.collection("Passengers")
         driversCollection = firestore.collection("Drivers")
-        tripsCollection = firestore.collection("Trips")
         driverID = intent.getStringExtra("user_ID").toString()
 
         // Set up sideSheetMenu
@@ -95,14 +88,16 @@ class PersonalInfoDriverActivity : AppCompatActivity() {
             }
             sideSheetMenuItem3.setOnClickListener {
                 sideSheetMenu.state = SideSheetBehavior.STATE_HIDDEN
-                val intent = Intent(this@PersonalInfoDriverActivity, StatisticsDriverActivity::class.java)
+                val intent =
+                    Intent(this@PersonalInfoDriverActivity, StatisticsDriverActivity::class.java)
                 intent.putExtra("user_ID", driverID)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
             }
             sideSheetMenuItem4.setOnClickListener {
                 sideSheetMenu.state = SideSheetBehavior.STATE_HIDDEN
-                val intent = Intent(this@PersonalInfoDriverActivity, PassengerFeedbackDriver::class.java)
+                val intent =
+                    Intent(this@PersonalInfoDriverActivity, PassengerFeedbackDriver::class.java)
                 intent.putExtra("user_ID", driverID)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
@@ -116,20 +111,81 @@ class PersonalInfoDriverActivity : AppCompatActivity() {
             }
             sideSheetMenuItem6.setOnClickListener {
                 sideSheetMenu.state = SideSheetBehavior.STATE_HIDDEN
-                val intent = Intent(this@PersonalInfoDriverActivity, SettingDriverActivity::class.java)
+                val intent =
+                    Intent(this@PersonalInfoDriverActivity, SettingDriverActivity::class.java)
                 intent.putExtra("user_ID", driverID)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
             }
             sideSheetMenuItem7.setOnClickListener {
                 sideSheetMenu.state = SideSheetBehavior.STATE_HIDDEN
-                val intent = Intent(this@PersonalInfoDriverActivity, SupportDriverActivity::class.java)
+                val intent =
+                    Intent(this@PersonalInfoDriverActivity, SupportDriverActivity::class.java)
                 intent.putExtra("user_ID", driverID)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
             }
             sideSheetMenuItem8.setOnClickListener {
                 logout(currentUser)
+            }
+        }
+
+        binding.editButton.setOnClickListener {
+            val intent = Intent(this, UpdatePersonalInfoDriverActivity::class.java)
+            intent.putExtra("user_ID", driverID)
+            startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        fetchDriverInfoData()
+        super.onResume()
+    }
+
+    private fun fetchDriverInfoData() {
+        driversCollection.document(driverID).get().addOnSuccessListener { document ->
+            if (document != null) {
+                binding.tvNamePersonalInfo.text = buildString {
+                    append(document.getString("lastname"))
+                    append(" ")
+                    append(document.getString("firstname"))
+                }
+                binding.tvPhoneValue.text = document.getString("mobile_No")
+                binding.tvIDCardValue.text = document.getString("card_ID")
+                binding.tvLicenseValue.text = document.getString("license")
+                binding.tvGenderValue.text = when (document.getBoolean("gender")) {
+                    true -> getString(R.string.Male)
+                    false -> getString(R.string.Female)
+                    else -> ""
+                }
+                binding.tvCompleteTripNumberValue.text =
+                    document.getLong("completeTripNum").toString()
+                binding.tvTotalDistanceValue.text =
+                    getString(R.string.DistancePI, document.getDouble("totalDistance").toString())
+                binding.tvClassifyValue.text = when (document.getString("classify")) {
+                    Constants.BIKE -> getString(R.string.Bike)
+                    Constants.CAR -> getString(R.string.Car)
+                    Constants.MVP -> getString(R.string.MVP)
+                    else -> ""
+                }
+                binding.tvMachineNumberValue.text = document.getString("machine_Number")
+                binding.tvLicensePlateValue.text = document.getString("license_Plate")
+                binding.tvPlaceOfManufactureValue.text = document.getString("place_Manufacture")
+                binding.tvColorValue.text = document.getString("vehicle_Color")
+                binding.tvLineValue.text = document.getString("vehicle_Line")
+                binding.tvSeatNumberValue.text = document.getLong("seat_Num").toString()
+                binding.tvYearOfManufactureValue.text =
+                    document.getLong("year_Manufacture").toString()
+                binding.tvBrandValue.text = document.getString("vehicle_Brand")
+
+                if (document.getString("email")?.isNotEmpty() == true) {
+                    binding.tvEmailValue.text = document.getString("email")
+                    binding.llEmail.isVisible = true
+                    binding.separateViewEmail.isVisible = true
+                } else {
+                    binding.llEmail.isVisible = false
+                    binding.separateViewEmail.isVisible = false
+                }
             }
         }
     }
@@ -149,18 +205,6 @@ class PersonalInfoDriverActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         auth.signOut()
-    }
-
-    @SuppressLint("DefaultLocale")
-    private fun calculateRateAverage(document: DocumentSnapshot): Double {
-        val rateStarNum = document.getDouble("rateStarNum") ?: 0.0
-        val rateAverage = if (rateStarNum != 0.0) {
-            document.getDouble("totalStar")?.div(rateStarNum) ?: 5.0
-        } else {
-            5.0
-        }
-        val formattedRate = String.format("%.1f", rateAverage).replace(",", ".")
-        return formattedRate.toDoubleOrNull() ?: 5.0
     }
 
     @OptIn(ExperimentalAnimationApi::class, ExperimentalPagerApi::class)

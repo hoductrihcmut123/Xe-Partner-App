@@ -18,4 +18,5 @@
     <color name="yellow">#ffed00</color>
     <color name="refuse_background">#FF0000</color>
     <color name="hintText">#97ADB6</color>
+    <color name="normal_text_color">#4B545A</color>
 </resources>

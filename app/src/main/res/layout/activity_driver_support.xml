@@ -11,6 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:id="@+id/blueView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_335sdp"
+            android:background="@color/button_background"/>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/menuButton"
             android:layout_width="wrap_content"
@@ -26,27 +32,208 @@
             app:srcCompat="@drawable/menu_icon"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:backgroundTint="@color/white"
-            android:visibility="gone"
-            app:borderWidth="0dp"
-            app:elevation="@dimen/_10sdp"
-            app:fabCustomSize="@dimen/_42sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter_bold"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/_75sdp"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_6sdp"
+            android:text="@string/MenuDriverItem7"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_23ssp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/back_icon"
-            tools:ignore="SpeakableTextPresentCheck" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/appSystemName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter_bold"
             android:gravity="center"
-            android:text="SupportDriverActivity" />
+            android:maxLines="1"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_6sdp"
+            android:text="@string/Xe"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_100ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/whiteCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="-50dp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/blueView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llFrequentlyAskedQuestions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvFrequentlyAskedQuestions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="@string/FrequentlyAskedQuestions"
+                        android:textColor="@color/normal_text_color"
+                        android:textSize="@dimen/_17ssp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:src="@drawable/choose_icon" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:background="@color/hintText" />
+
+                <LinearLayout
+                    android:id="@+id/llRequestSupport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvRequestSupport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="@string/RequestSupport"
+                        android:textColor="@color/normal_text_color"
+                        android:textSize="@dimen/_17ssp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:src="@drawable/choose_icon" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:background="@color/hintText" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvAboutUs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="@string/AboutUs"
+                        android:textColor="@color/normal_text_color"
+                        android:textSize="@dimen/_17ssp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:src="@drawable/expand_icon" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvTopic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/Topic"
+            android:textColor="@color/normal_text_color"
+            android:textSize="@dimen/_16ssp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/whiteCard"/>
+
+        <TextView
+            android:id="@+id/tvImplementer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/Implementer"
+            android:textColor="@color/normal_text_color"
+            android:textSize="@dimen/_16ssp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTopic"/>
+
+        <LinearLayout
+            android:id="@+id/llGithubAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvImplementer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:src="@drawable/github_icon"
+                android:layout_marginEnd="@dimen/_10sdp"/>
+
+            <TextView
+                android:id="@+id/tvGithubAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="hoductrihcmut123"
+                android:textColor="@color/normal_text_color"
+                android:textSize="@dimen/_19ssp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_10sdp"/>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -55,7 +242,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80000000"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <include
         android:id="@+id/sideSheetMenu"

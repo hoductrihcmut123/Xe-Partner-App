@@ -144,6 +144,65 @@
     <string name="Logout">LOG OUT</string>
     <string name="Cancel">CANCEL</string>
     <string name="TurnOffSwitch">Ready status is disabled when opening the Menu</string>
+    <string name="FrequentlyAskedQuestions">Frequently Asked Questions</string>
+    <string name="RequestSupport">Request support</string>
+    <string name="AboutUs">About us</string>
+    <string name="Topic">+ Topic: “Developing a Car Booking Application System in Rural Areas” is a car booking application that helps users (especially in rural areas) to easily search for means of transportation. The topic is carried out in the subject “Major Project” in Semester 231 and the subject “Graduation Project” in Semester 241.</string>
+    <string name="Implementer">+ Performed by: Ho Duc Tri (Student ID 1912288)</string>
+    <string name="Account">Account</string>
+    <string name="Payment">Payment</string>
+    <string name="WebSupport">The support website is under development. Thank you!</string>
+    <string name="RequestDetail">Request support details</string>
+    <string name="TalkWithUs">Tell us</string>
+    <string name="WriteHere">Please leave a message here</string>
+    <string name="RequestSend">Request sent</string>
+    <string name="PleaseWriteContent">Please fill in the content!</string>
+    <string name="AverageStarCount">Average star count</string>
+    <string name="Point">points</string>
+    <string name="TitleDetailedReviews">Detailed reviews:</string>
+    <string name="PassengerItemId">User: *****%1$s</string>
+    <string name="IDCardPI">CCCD</string>
+    <string name="LicensePI">License</string>
+    <string name="GenderPI">Gender</string>
+    <string name="ClassifyPI">Classify</string>
+    <string name="MachineNumberPI">Machine number</string>
+    <string name="LicensePlatePI">License plate</string>
+    <string name="PlaceOfManufacturePI">Place of manufacture</string>
+    <string name="ColorPI">Color</string>
+    <string name="LinePI">Line</string>
+    <string name="NumberOfSeatsPI">Number of seats</string>
+    <string name="YearOfManufacturePI">Year of manufacture</string>
+    <string name="VehicleBrandPI">Brand</string>
+    <string name="CompleteTripPI">Total complete trips</string>
+    <string name="TotalDistancePI">Total distance</string>
+    <string name="UpdatePI">Update personal information</string>
+    <string name="UploadVehicleImage">UPLOAD VEHICLE IMAGE</string>
+    <string name="Update">Update</string>
+    <string name="UpdateLicense">LICENSE *</string>
+    <string name="UpdateColor">COLOR *</string>
+    <string name="PleaseFillAllStarFields">Please do not leave fields marked with an asterisk (*) blank!</string>
+    <string name="UpdateSuccessfully">Update successfully</string>
+    <string name="DistancePI">%1$s km</string>
+
+    // Setting items
+    <string name="DriverSettingTitle1">System Notifications</string>
+    <string name="DriverSettingContent1">To receive notifications, vibrations from the system when you start your trip</string>
+    <string name="DriverSettingTitle2">Radius Limit</string>
+    <string name="DriverSettingContent2">Enable limit to only prioritize accepting rides within a close radius</string>
+    <string name="DriverSettingTitle3">Dark Mode</string>
+    <string name="DriverSettingContent3">When turned on the app will switch to dark mode</string>
+
+    // Account FAQs
+    <string name="AccountItem1">Account locked</string>
+    <string name="AccountItem2">How to change phone number</string>
+    <string name="AccountItem3">Privacy Information</string>
+
+    // Payment FAQs
+    <string name="PaymentItem1">Payment methods</string>
+    <string name="PaymentItem2">Disclaimer</string>
+    <string name="PaymentItem3">Fees are too high</string>
+    <string name="PaymentItem4">Reference price</string>
+    <string name="PaymentItem5">Momo cannot pay</string>
 
     // Driver Cancellation reasons
     <string name="CancellationReason1">Pick up point too far</string>

@@ -130,6 +130,12 @@ dependencies {
 
     // CircularCountdown
     implementation 'com.github.douglasspgyn:CircularCountdown:0.3.0'
+
+    // Ring Chart
+    implementation 'com.github.Taosif7:RingChartLib:1.0.0'
+
+    // Count Animation Text View
+    implementation 'com.github.hamzaahmedkhan:CounterAnimationTextView:1.0.1'
 }
 
 def getMapKey() {

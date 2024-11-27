@@ -2,6 +2,7 @@ package com.example.xepartnerapp.features.driver.menu.support
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -23,22 +24,12 @@ import com.google.android.material.sidesheet.SideSheetBehavior
 import com.google.android.material.sidesheet.SideSheetCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
 
 class SupportDriverActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDriverSupportBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
-    private lateinit var passengersCollection: CollectionReference
-    private lateinit var driversCollection: CollectionReference
-    private lateinit var tripsCollection: CollectionReference
-    private var passengerID: String = ""
     private var driverID: String = ""
-    private var tripID: String = ""
-    private var reasonID: String = ""
 
     private lateinit var sideSheetMenu: SideSheetBehavior<View>
 
@@ -48,10 +39,6 @@ class SupportDriverActivity : AppCompatActivity() {
         binding = ActivityDriverSupportBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        firestore = FirebaseFirestore.getInstance()
-        passengersCollection = firestore.collection("Passengers")
-        driversCollection = firestore.collection("Drivers")
-        tripsCollection = firestore.collection("Trips")
         driverID = intent.getStringExtra("user_ID").toString()
 
         // Set up sideSheetMenu
@@ -132,6 +119,21 @@ class SupportDriverActivity : AppCompatActivity() {
                 logout(currentUser)
             }
         }
+
+        binding.llFrequentlyAskedQuestions.setOnClickListener {
+            val intent = Intent(this, FAQDriverActivity::class.java)
+            startActivity(intent)
+        }
+        binding.llRequestSupport.setOnClickListener {
+            val intent = Intent(this, RequestSupportDriverActivity::class.java)
+            intent.putExtra("user_ID", driverID)
+            startActivity(intent)
+        }
+        binding.llGithubAccount.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://github.com/hoductrihcmut123")
+            startActivity(intent)
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -149,18 +151,6 @@ class SupportDriverActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         auth.signOut()
-    }
-
-    @SuppressLint("DefaultLocale")
-    private fun calculateRateAverage(document: DocumentSnapshot): Double {
-        val rateStarNum = document.getDouble("rateStarNum") ?: 0.0
-        val rateAverage = if (rateStarNum != 0.0) {
-            document.getDouble("totalStar")?.div(rateStarNum) ?: 5.0
-        } else {
-            5.0
-        }
-        val formattedRate = String.format("%.1f", rateAverage).replace(",", ".")
-        return formattedRate.toDoubleOrNull() ?: 5.0
     }
 
     @OptIn(ExperimentalAnimationApi::class, ExperimentalPagerApi::class)

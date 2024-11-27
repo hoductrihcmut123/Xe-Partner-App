@@ -46,7 +46,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/ivAvatarPersonalInfo"
+            android:id="@+id/ivEditAvatar"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="@dimen/_80sdp"
             android:layout_marginStart="@dimen/_20sdp"

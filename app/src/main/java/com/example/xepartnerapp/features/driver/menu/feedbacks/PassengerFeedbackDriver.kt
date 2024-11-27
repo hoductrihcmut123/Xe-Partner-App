@@ -3,6 +3,7 @@ package com.example.xepartnerapp.features.driver.menu.feedbacks
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -10,8 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.example.xepartnerapp.MainActivity
 import com.example.xepartnerapp.R
+import com.example.xepartnerapp.common.adapter.DriverFeedbackAdapter
+import com.example.xepartnerapp.data.DriverFeedback
 import com.example.xepartnerapp.databinding.ActivityPassengerFeedbackDriverBinding
 import com.example.xepartnerapp.features.driver.booking.HomeDriverActivity
 import com.example.xepartnerapp.features.driver.menu.personal_info.PersonalInfoDriverActivity
@@ -26,21 +30,24 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.taosif7.android.ringchartlib.RingChart
+import com.taosif7.android.ringchartlib.models.RingChartData
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 
 class PassengerFeedbackDriver : AppCompatActivity() {
 
     private lateinit var binding: ActivityPassengerFeedbackDriverBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var passengersCollection: CollectionReference
     private lateinit var driversCollection: CollectionReference
-    private lateinit var tripsCollection: CollectionReference
-    private var passengerID: String = ""
     private var driverID: String = ""
-    private var tripID: String = ""
-    private var reasonID: String = ""
 
     private lateinit var sideSheetMenu: SideSheetBehavior<View>
+
+    // Adapter
+    private val driverFeedbackAdapter: DriverFeedbackAdapter by lazy { DriverFeedbackAdapter() }
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,15 +56,16 @@ class PassengerFeedbackDriver : AppCompatActivity() {
         setContentView(binding.root)
 
         firestore = FirebaseFirestore.getInstance()
-        passengersCollection = firestore.collection("Passengers")
         driversCollection = firestore.collection("Drivers")
-        tripsCollection = firestore.collection("Trips")
         driverID = intent.getStringExtra("user_ID").toString()
 
         // Set up sideSheetMenu
         sideSheetMenu = SideSheetBehavior.from(findViewById(R.id.sideSheetMenu))
         sideSheetMenu.state = SideSheetBehavior.STATE_HIDDEN
         sideSheetMenu.isDraggable = true
+
+        // Set up feedback adapter
+        binding.recyclerViewFeedback.adapter = driverFeedbackAdapter
 
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
@@ -95,14 +103,16 @@ class PassengerFeedbackDriver : AppCompatActivity() {
             }
             sideSheetMenuItem2.setOnClickListener {
                 sideSheetMenu.state = SideSheetBehavior.STATE_HIDDEN
-                val intent = Intent(this@PassengerFeedbackDriver, PersonalInfoDriverActivity::class.java)
+                val intent =
+                    Intent(this@PassengerFeedbackDriver, PersonalInfoDriverActivity::class.java)
                 intent.putExtra("user_ID", driverID)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
             }
             sideSheetMenuItem3.setOnClickListener {
                 sideSheetMenu.state = SideSheetBehavior.STATE_HIDDEN
-                val intent = Intent(this@PassengerFeedbackDriver, StatisticsDriverActivity::class.java)
+                val intent =
+                    Intent(this@PassengerFeedbackDriver, StatisticsDriverActivity::class.java)
                 intent.putExtra("user_ID", driverID)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
@@ -132,6 +142,86 @@ class PassengerFeedbackDriver : AppCompatActivity() {
                 logout(currentUser)
             }
         }
+
+        setUpProfile()
+        setUpFeedbacks()
+    }
+
+    private fun setUpProfile() {
+        // Set up Ring Chart Feedback
+        var starRatio = 0.0
+        binding.feedbackRingChart.setLayoutMode(RingChart.renderMode.MODE_OVERLAP)
+        val blueFeedback = RingChartData(
+            (starRatio / 5).toFloat(),
+            ContextCompat.getColor(this, R.color.button_background),
+            ""
+        )
+        val dataListPointFeedback: ArrayList<RingChartData?> =
+            object : ArrayList<RingChartData?>() {
+                init {
+                    add(blueFeedback)
+                }
+            }
+        binding.feedbackRingChart.setData(dataListPointFeedback)
+
+        // Get data from Firestore
+        driversCollection.document(driverID).get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                starRatio = calculateRateAverage(document)
+                val point = document.getDouble("point") ?: 0
+                binding.tvRatingAverage.text = starRatio.toString()
+                dataListPointFeedback[0]?.value = (starRatio / 5).toFloat()
+                binding.feedbackRingChart.updateData(dataListPointFeedback)
+                binding.tvPoint.setDecimalFormat(DecimalFormat("###,###,###"))
+                    .setAnimationDuration(2700).countAnimation(0, point.toInt())
+            }
+        }
+
+        // Set up Ring Chart Point
+        binding.pointRingChart.setLayoutMode(RingChart.renderMode.MODE_OVERLAP)
+        val blue200 = RingChartData(0.2f, ContextCompat.getColor(this, R.color.blue_200), "")
+        val gray = RingChartData(0.4f, ContextCompat.getColor(this, R.color.text_color), "")
+        val red = RingChartData(0.6f, ContextCompat.getColor(this, R.color.refuse_background), "")
+        val blue = RingChartData(0.8f, ContextCompat.getColor(this, R.color.button_background), "")
+        val dataListPoint: ArrayList<RingChartData?> = object : ArrayList<RingChartData?>() {
+            init {
+                add(blue200)
+                add(gray)
+                add(red)
+                add(blue)
+            }
+        }
+        binding.pointRingChart.setData(dataListPoint)
+
+        // Start animation
+        binding.feedbackRingChart.startAnimateLoading()
+        binding.pointRingChart.startAnimateLoading()
+
+        // Stop animation after 2.5s
+        lifecycleScope.launch {
+            delay(2500)
+            binding.feedbackRingChart.stopAnimateLoading()
+            binding.pointRingChart.stopAnimateLoading()
+        }
+    }
+
+    private fun setUpFeedbacks() {
+        firestore.collection("DriverFeedbacks")
+            .whereEqualTo("driver_ID", driverID)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    binding.tvNotHaveReview.isVisible = true
+                    binding.recyclerViewFeedback.isVisible = false
+                } else {
+                    binding.tvNotHaveReview.isVisible = false
+                    binding.recyclerViewFeedback.isVisible = true
+                }
+                driverFeedbackAdapter.updateData(documents.toObjects(DriverFeedback::class.java))
+            }
+            .addOnFailureListener { exception ->
+                Log.w("Firestore", "Error getting documents: ", exception)
+            }
     }
 
     @Deprecated("Deprecated in Java")

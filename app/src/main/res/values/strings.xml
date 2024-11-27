@@ -144,6 +144,65 @@
     <string name="Logout">ĐĂNG XUẤT</string>
     <string name="Cancel">HUỶ</string>
     <string name="TurnOffSwitch">Trạng thái sẵn sàng đã bị tắt khi mở Menu</string>
+    <string name="FrequentlyAskedQuestions">Những câu hỏi thường gặp</string>
+    <string name="RequestSupport">Yêu cầu hỗ trợ</string>
+    <string name="AboutUs">Về chúng tôi</string>
+    <string name="Topic">+ Đề tài: Phát triển Hệ thống ứng dụng đặt xe ở vùng nông thôn (Developing a car booking application system in rural areas) là ứng dụng đặt xe hỗ trợ cho người dùng (đặc biệt là ở vùng nông thôn) có thể tìm kiếm phương tiện đi lại một cách dễ dàng. Đề tài được thực hiện trong môn “Đồ án chuyên ngành” ở Học Kỳ 231 và môn “Đồ án chuyên ngành” ở Học Kỳ 241.</string>
+    <string name="Implementer">+ Người thực hiện: Hồ Đức Trí (MSSV 1912288)</string>
+    <string name="Account">Tài khoản</string>
+    <string name="Payment">Thanh toán</string>
+    <string name="WebSupport">Web hỗ trợ đang trong giai đoạn phát triển. Bạn thông cảm nhé !</string>
+    <string name="RequestDetail">Chi tiết yêu cầu</string>
+    <string name="TalkWithUs">Nói với chúng tôi</string>
+    <string name="WriteHere">Bạn hãy để lại lời nhắn ở đây</string>
+    <string name="RequestSend">Đã gửi yêu cầu</string>
+    <string name="PleaseWriteContent">Bạn vui lòng điền nội dung nhé !</string>
+    <string name="AverageStarCount">Số sao trung bình</string>
+    <string name="Point">điểm</string>
+    <string name="TitleDetailedReviews">Các đánh giá chi tiết:</string>
+    <string name="PassengerItemId">Người dùng: *****%1$s</string>
+    <string name="IDCardPI">CCCD</string>
+    <string name="LicensePI">Bằng lái xe</string>
+    <string name="GenderPI">Giới tính</string>
+    <string name="ClassifyPI">Loại</string>
+    <string name="MachineNumberPI">Số máy</string>
+    <string name="LicensePlatePI">Biển số</string>
+    <string name="PlaceOfManufacturePI">Nơi sản xuất</string>
+    <string name="ColorPI">Màu xe</string>
+    <string name="LinePI">Dòng xe</string>
+    <string name="NumberOfSeatsPI">Số chỗ ngồi</string>
+    <string name="YearOfManufacturePI">Năm sản xuất</string>
+    <string name="VehicleBrandPI">Hiệu xe</string>
+    <string name="CompleteTripPI">Tổng số chuyến</string>
+    <string name="TotalDistancePI">Tổng quãng đường</string>
+    <string name="UpdatePI">Cập nhật thông tin cá nhân</string>
+    <string name="UploadVehicleImage">TẢI LÊN ẢNH PHƯƠNG TIỆN</string>
+    <string name="Update">Cập nhật</string>
+    <string name="UpdateLicense">BẰNG LÁI XE *</string>
+    <string name="UpdateColor">MÀU XE *</string>
+    <string name="PleaseFillAllStarFields">Bạn vui lòng không bỏ trống những mục có dấu (*) nhé !</string>
+    <string name="UpdateSuccessfully">Cập nhật thành công</string>
+    <string name="DistancePI">%1$s km</string>
+
+    // Setting items
+    <string name="DriverSettingTitle1">Thông báo hệ thống</string>
+    <string name="DriverSettingContent1">Để nhận những thông báo, rung từ hệ thống khi bạn bắt đầu hành trình</string>
+    <string name="DriverSettingTitle2">Giới hạn bán kính</string>
+    <string name="DriverSettingContent2">Bật giới hạn chỉ ưu tiên nhận những cuốc xe trong bán kính gần</string>
+    <string name="DriverSettingTitle3">Chế độ tối</string>
+    <string name="DriverSettingContent3">Khi bật ứng dụng sẽ chuyển sang chế độ tối</string>
+
+    // Account FAQs
+    <string name="AccountItem1">Tài khoản bị khóa</string>
+    <string name="AccountItem2">Cách đổi số điện thoại</string>
+    <string name="AccountItem3">Thông tin riêng tư</string>
+
+    // Payment FAQs
+    <string name="PaymentItem1">Những cách thức thanh toán</string>
+    <string name="PaymentItem2">Miễn trừ trách nhiệm</string>
+    <string name="PaymentItem3">Phí quá cao</string>
+    <string name="PaymentItem4">Giá tham khảo</string>
+    <string name="PaymentItem5">Momo không thanh toán được</string>
 
     // Driver Cancellation reasons
     <string name="CancellationReason1">Điểm đón quá xa</string>
