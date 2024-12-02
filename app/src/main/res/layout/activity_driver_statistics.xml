@@ -26,27 +26,35 @@
             app:srcCompat="@drawable/menu_icon"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:backgroundTint="@color/white"
-            android:visibility="gone"
-            app:borderWidth="0dp"
-            app:elevation="@dimen/_10sdp"
-            app:fabCustomSize="@dimen/_42sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/back_icon"
-            tools:ignore="SpeakableTextPresentCheck" />
-
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter_bold"
             android:gravity="center"
-            android:text="StatisticsDriverActivity" />
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/_75sdp"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_6sdp"
+            android:text="@string/MenuDriverItem3"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/_23ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_monthly"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_760sdp"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_52sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

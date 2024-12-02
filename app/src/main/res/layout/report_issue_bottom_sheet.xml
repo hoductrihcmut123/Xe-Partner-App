@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_personal_info_bottom_sheet"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/backButtonReportIssue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_17sdp"
+            android:layout_marginBottom="@dimen/_17sdp"
+            android:backgroundTint="@color/white"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/_10sdp"
+            app:fabCustomSize="@dimen/_42sdp"
+            app:srcCompat="@drawable/back_icon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_21sdp"
+            android:layout_marginEnd="@dimen/_58sdp"
+            android:fontFamily="@font/inter_semibold"
+            android:gravity="center"
+            android:text="@string/ReportWithUs"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/_22ssp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_17sdp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:layout_marginVertical="@dimen/_15sdp"
+            android:fontFamily="@font/inter_semibold"
+            android:text="@string/ReportIssueTitle"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/_21ssp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:layout_marginVertical="@dimen/_15sdp"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/radioGroupReportIssueReasons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+
+                <RadioButton
+                    android:id="@+id/radioReportIssueReason1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/button_background"
+                    android:fontFamily="@font/inter_medium"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="@string/ReportIssueReason1"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/_17ssp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_45sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:background="@color/hintText" />
+
+                <RadioButton
+                    android:id="@+id/radioReportIssueReason2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/button_background"
+                    android:fontFamily="@font/inter_medium"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="@string/ReportIssueReason2"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/_17ssp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_45sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:background="@color/hintText" />
+
+                <RadioButton
+                    android:id="@+id/radioReportIssueReason3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/button_background"
+                    android:fontFamily="@font/inter_medium"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="@string/ReportIssueReason3"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/_17ssp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_45sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:background="@color/hintText" />
+
+                <RadioButton
+                    android:id="@+id/radioReportIssueReason4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/button_background"
+                    android:fontFamily="@font/inter_medium"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="@string/ReportIssueReason4"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/_17ssp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_45sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:background="@color/hintText" />
+
+                <RadioButton
+                    android:id="@+id/radioReportIssueReason5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/button_background"
+                    android:fontFamily="@font/inter_medium"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="@string/ReportIssueReason5"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/_17ssp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_45sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:background="@color/hintText" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_160sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@drawable/edittext_border"
+            android:gravity="top"
+            android:hint="@string/WriteFeedback"
+            android:maxLines="4"
+            android:padding="@dimen/_12sdp"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/hintText" />
+
+        <Button
+            android:id="@+id/sendReportIssueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginVertical="@dimen/_12sdp"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@color/button_background"
+            android:fontFamily="@font/inter_semibold"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="@dimen/_16sdp"
+            android:stateListAnimator="@null"
+            android:text="@string/Send"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_22ssp" />
+
+    </LinearLayout>
+
+</LinearLayout>

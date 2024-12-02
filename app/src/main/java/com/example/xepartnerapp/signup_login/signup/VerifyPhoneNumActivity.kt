@@ -50,6 +50,7 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
             firstname = intent.getStringExtra("driverFirstname"),
             lastname = intent.getStringExtra("driverLastname"),
             mobile_No = intent.getStringExtra("driverPhoneNumber"),
+            momoPhone = intent.getStringExtra("driverMomoPhone"),
             password = intent.getStringExtra("driverPassword"),
             card_ID = intent.getStringExtra("driverCardID"),
             license = intent.getStringExtra("driverLicense"),

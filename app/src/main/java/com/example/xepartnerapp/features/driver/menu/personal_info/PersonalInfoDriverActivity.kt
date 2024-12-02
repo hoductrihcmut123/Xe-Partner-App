@@ -135,6 +135,11 @@ class PersonalInfoDriverActivity : AppCompatActivity() {
             intent.putExtra("user_ID", driverID)
             startActivity(intent)
         }
+        binding.tvMomoValueWarning.setOnClickListener {
+            val intent = Intent(this, UpdatePersonalInfoDriverActivity::class.java)
+            intent.putExtra("user_ID", driverID)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
@@ -185,6 +190,17 @@ class PersonalInfoDriverActivity : AppCompatActivity() {
                 } else {
                     binding.llEmail.isVisible = false
                     binding.separateViewEmail.isVisible = false
+                }
+
+                if (document.getString("momoPhone")?.isNotEmpty() == true) {
+                    binding.tvMomoValue.text = document.getString("momoPhone")
+                    binding.tvMomoValue.isVisible = true
+                    binding.tvMomoValueWarning.isVisible = false
+                    binding.tvMomoValueStar.isVisible = false
+                } else {
+                    binding.tvMomoValue.isVisible = false
+                    binding.tvMomoValueWarning.isVisible = true
+                    binding.tvMomoValueStar.isVisible = true
                 }
             }
         }

@@ -53,6 +53,7 @@
     <string name="RecoverPassword">Recover password</string>
     <string name="SendOTPToPhone">We will send a verification code to the Phone Number you provided to proceed with re-issuing a new password</string>
     <string name="PhoneNum">PHONE NUMBER</string>
+    <string name="MomoPhone">MOMO REGISTERED PHONE NUMBER *</string>
     <string name="Continue">Continue</string>
     <string name="NotHaveAccount">You don\'t have account?</string>
     <string name="Password">PASSWORD</string>
@@ -183,6 +184,71 @@
     <string name="PleaseFillAllStarFields">Please do not leave fields marked with an asterisk (*) blank!</string>
     <string name="UpdateSuccessfully">Update successfully</string>
     <string name="DistancePI">%1$s km</string>
+    <string name="MonthStatistics">Month %1$s</string>
+    <string name="TotalRequestStatistics">Total requests: %1$d</string>
+    <string name="TripSuccessStatistics">Number of trips run: %1$d</string>
+    <string name="TotalCancelStatistics">Number of cancellations: %1$d</string>
+    <string name="DriverCancelStatistics">You canceled: %1$d</string>
+    <string name="PassengerCancelStatistics">Passenger canceled: %1$d</string>
+    <string name="TotalDistanceStatistics">Total distance: %1$.1f km</string>
+    <string name="TotalDurationStatistics">Estimated total running time: %1$d minutes</string>
+    <string name="TotalIncomeStatistics">Estimated total income: %1$s</string>
+    <string name="DayStatistics">Day %1$s</string>
+    <string name="Canceled">CANCELED</string>
+    <string name="TripDetail">Trip detail</string>
+    <string name="StatusDetail">Status :</string>
+    <string name="ExactTimeDetail">Actual time: %1$d minutes</string>
+    <string name="PassengerVote">Passenger Reviews</string>
+    <string name="Detail">Detail:</string>
+    <string name="DriverCancelReason">Reason for driver cancellation:</string>
+    <string name="PassengerCancelReason">Reason for passenger cancellation:</string>
+    <string name="DriverCancelEmergencyReason">Reason for driver emergency cancellation:</string>
+    <string name="ReportIssue">Report an issue</string>
+    <string name="ReportIssueTitle">What problem did you encounter on this trip?</string>
+    <string name="EmptyStar">__</string>
+    <string name="ReportWithUs">Report to us</string>
+    <string name="ReportIssueSuccess">Report sent successfully</string>
+    <string name="ReportOnceTime">You can only submit a Report once</string>
+    <string name="AccountBusiness">Business Account</string>
+    <string name="AccountBusinessInDevelop">We\'re sorry, Business Account is under development and will be completed soon.</string>
+    <string name="MomoWarning">Need update</string>
+    <string name="MomoPhonePI">MOMO REGISTERED PHONE NUMBER</string>
+
+
+    // Report issue reasons
+    <string name="ReportIssueReason1">Unreasonable trip costs</string>
+    <string name="ReportIssueReason2">There is a system error</string>
+    <string name="ReportIssueReason3">I had an accident</string>
+    <string name="ReportIssueReason4">Destination is incorrect</string>
+    <string name="ReportIssueReason5">Other reasons</string>
+
+    // Trip status
+    <string name="StatusNew">NEW</string>
+    <string name="StatusWaiting">WAITING</string>
+    <string name="StatusAccept">ACCEPTED</string>
+    <string name="StatusRefuse">REFUSED</string>
+    <string name="StatusPickUpPoint">PICKED UP POINT</string>
+    <string name="StatusGoing">GOING</string>
+    <string name="StatusPassengerCancel">PASSENGER CANCELED</string>
+    <string name="StatusDriverCancel">DRIVER CANCELED</string>
+    <string name="StatusDriverCancelEmergency">DRIVER CANCELED EMERGENCY</string>
+    <string name="StatusArrive">ARRIVED</string>
+    <string name="StatusCompleted">COMPLETED</string>
+
+    // Monthly title
+    <string name="JanuaryThisYear">January/2024</string>
+    <string name="FebruaryThisYear">February/2024</string>
+    <string name="MarchThisYear">March/2024</string>
+    <string name="AprilThisYear">April/2024</string>
+    <string name="MayThisYear">May/2024</string>
+    <string name="JuneThisYear">June/2024</string>
+    <string name="JulyThisYear">July/2024</string>
+    <string name="AugustThisYear">August/2024</string>
+    <string name="SeptemberThisYear">September/2024</string>
+    <string name="OctoberThisYear">October/2024</string>
+    <string name="NovemberThisYear">November/2024</string>
+    <string name="DecemberThisYear">December/2024</string>
+    <string name="JanuaryNextYear">January/2025</string>
 
     // Setting items
     <string name="DriverSettingTitle1">System Notifications</string>

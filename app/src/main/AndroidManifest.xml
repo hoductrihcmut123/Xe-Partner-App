@@ -21,9 +21,21 @@
         android:theme="@style/Theme.CustomSplashScreenTheme"
         tools:targetApi="31">
         <activity
+            android:name=".features.driver.menu.statistics.TripDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.XePartnerApp" />
+        <activity
+            android:name=".features.driver.menu.statistics.TripsInDayActivity"
+            android:exported="false"
+            android:theme="@style/Theme.XePartnerApp" />
+        <activity
+            android:name=".features.driver.menu.statistics.StatisticsDailyActivity"
+            android:exported="false"
+            android:theme="@style/Theme.XePartnerApp" />
+        <activity
             android:name=".features.driver.menu.personal_info.UpdatePersonalInfoDriverActivity"
             android:exported="false"
-            android:theme="@style/Theme.XePartnerApp"/>
+            android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.support.RequestSupportDriverActivity"
             android:exported="false"

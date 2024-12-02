@@ -67,10 +67,44 @@
             android:padding="@dimen/_12sdp"
             android:textColor="@color/text_color"
             android:textColorHint="@color/edittext_background"
-            app:layout_constraintBottom_toTopOf="@id/titleLicense"
+            app:layout_constraintBottom_toTopOf="@id/titleMomo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleEmail" />
+
+        <TextView
+            android:id="@+id/titleMomo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
+            android:fontFamily="@font/inter"
+            android:text="@string/MomoPhonePI"
+            android:textColor="@color/text_color"
+            android:textFontWeight="700"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintBottom_toTopOf="@id/momoValue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emailValue" />
+
+        <EditText
+            android:id="@+id/momoValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
+            android:background="@drawable/edittext_border"
+            android:inputType="phone"
+            android:padding="@dimen/_12sdp"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/edittext_background"
+            app:layout_constraintBottom_toTopOf="@id/titleLicense"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleMomo" />
 
         <TextView
             android:id="@+id/titleLicense"
@@ -87,7 +121,7 @@
             app:layout_constraintBottom_toTopOf="@id/licenseValue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/emailValue" />
+            app:layout_constraintTop_toBottomOf="@id/momoValue" />
 
         <EditText
             android:id="@+id/licenseValue"
@@ -185,7 +219,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_25sdp"
-            android:layout_marginTop="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/_45sdp"
             android:layout_marginEnd="@dimen/_25sdp"
             android:background="@drawable/button_border"
             android:backgroundTint="@color/button_background"

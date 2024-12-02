@@ -141,6 +141,65 @@
                         android:background="@color/hintText" />
 
                     <LinearLayout
+                        android:id="@+id/llMomoPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivMomo"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:src="@drawable/momo" />
+
+                        <TextView
+                            android:id="@+id/tvMomoValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_25sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="01234567777"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_16ssp"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/tvMomoValueWarning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_25sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="@string/MomoWarning"
+                            android:textStyle="italic"
+                            android:textColor="@color/sub_content"
+                            android:textSize="@dimen/_16ssp"
+                            android:visibility="visible"/>
+
+                        <TextView
+                            android:id="@+id/tvMomoValueStar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="*"
+                            android:textColor="@color/refuse_background"
+                            android:textSize="@dimen/_17ssp"
+                            android:visibility="visible"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/separateViewMomo"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_marginHorizontal="@dimen/_15sdp"
+                        android:layout_marginVertical="@dimen/_10sdp"
+                        android:background="@color/hintText" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">

@@ -54,6 +54,7 @@ class UpdatePersonalInfoDriverActivity : AppCompatActivity() {
         driversCollection.document(driverID).get().addOnSuccessListener { document ->
             if (document != null) {
                 binding.emailValue.setText(document.getString("email"))
+                binding.momoValue.setText(document.getString("momoPhone"))
                 binding.licenseValue.setText(document.getString("license"))
                 binding.vehicleColorValue.setText(document.getString("vehicle_Color"))
             }
@@ -62,6 +63,7 @@ class UpdatePersonalInfoDriverActivity : AppCompatActivity() {
 
     private fun updateData() {
         val email = binding.emailValue.text.toString()
+        val momoPhone = binding.momoValue.text.toString()
         val license = binding.licenseValue.text.toString()
         val vehicleColor = binding.vehicleColorValue.text.toString()
 
@@ -73,6 +75,7 @@ class UpdatePersonalInfoDriverActivity : AppCompatActivity() {
         driversCollection.document(driverID).update(
             mapOf(
                 "email" to email,
+                "momoPhone" to momoPhone,
                 "license" to license,
                 "vehicle_Color" to vehicleColor
             )

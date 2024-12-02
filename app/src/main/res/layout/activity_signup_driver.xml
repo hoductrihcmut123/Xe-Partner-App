@@ -231,10 +231,43 @@
             android:padding="@dimen/_12sdp"
             android:textColor="@color/text_color"
             android:textColorHint="@color/edittext_background"
-            app:layout_constraintBottom_toTopOf="@id/titlePassword"
+            app:layout_constraintBottom_toTopOf="@id/titleMomoPhone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titlePhoneNumber" />
+
+        <TextView
+            android:id="@+id/titleMomoPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
+            android:fontFamily="@font/inter"
+            android:text="@string/MomoPhone"
+            android:textColor="@color/text_color"
+            android:textFontWeight="700"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintBottom_toTopOf="@id/signupMomoPhone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signupPhoneNumber" />
+
+        <EditText
+            android:id="@+id/signupMomoPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
+            android:background="@drawable/edittext_border"
+            android:inputType="phone"
+            android:padding="@dimen/_12sdp"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/edittext_background"
+            app:layout_constraintBottom_toTopOf="@id/titlePassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleMomoPhone" />
 
         <TextView
             android:id="@+id/titlePassword"
@@ -251,7 +284,7 @@
             app:layout_constraintBottom_toTopOf="@id/signupPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signupPhoneNumber" />
+            app:layout_constraintTop_toBottomOf="@id/signupMomoPhone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/signupPassword"

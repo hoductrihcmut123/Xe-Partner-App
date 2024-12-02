@@ -53,6 +53,7 @@
     <string name="RecoverPassword">Lấy lại mật khẩu</string>
     <string name="SendOTPToPhone">Chúng tôi sẽ gửi mã xác minh đến Số điện thoại mà bạn cung cấp để tiến hành cấp lại mật khẩu mới</string>
     <string name="PhoneNum">SỐ ĐIỆN THOẠI</string>
+    <string name="MomoPhone">SỐ ĐIỆN THOẠI ĐĂNG KÝ MOMO *</string>
     <string name="Continue">Tiếp tục</string>
     <string name="NotHaveAccount">Bạn chưa có tài khoản ?</string>
     <string name="Password">MẬT KHẨU</string>
@@ -183,6 +184,70 @@
     <string name="PleaseFillAllStarFields">Bạn vui lòng không bỏ trống những mục có dấu (*) nhé !</string>
     <string name="UpdateSuccessfully">Cập nhật thành công</string>
     <string name="DistancePI">%1$s km</string>
+    <string name="MonthStatistics">Tháng %1$s</string>
+    <string name="TotalRequestStatistics">Tổng số yêu cầu: %1$d</string>
+    <string name="TripSuccessStatistics">Số chuyến đã chạy: %1$d</string>
+    <string name="TotalCancelStatistics">Số chuyến hủy: %1$d</string>
+    <string name="DriverCancelStatistics">Bạn đã huỷ: %1$d</string>
+    <string name="PassengerCancelStatistics">Hành khách huỷ: %1$d</string>
+    <string name="TotalDistanceStatistics">Tổng quãng đường: %1$.1f km</string>
+    <string name="TotalDurationStatistics">Tổng thời gian chạy uớc lượng: %1$d phút</string>
+    <string name="TotalIncomeStatistics">Tổng thu nhập ước lượng: %1$s</string>
+    <string name="DayStatistics">Ngày %1$s</string>
+    <string name="Canceled">BỊ HUỶ</string>
+    <string name="TripDetail">Chi tiết chuyến đi</string>
+    <string name="StatusDetail">Trạng thái :</string>
+    <string name="ExactTimeDetail">Thời gian thực tế: %1$d phút</string>
+    <string name="PassengerVote">Đánh giá của khách hàng</string>
+    <string name="Detail">Chi tiết:</string>
+    <string name="DriverCancelReason">Lý do tài xế huỷ:</string>
+    <string name="PassengerCancelReason">Lý do khách huỷ:</string>
+    <string name="DriverCancelEmergencyReason">Lý do tài xế huỷ khẩn cấp:</string>
+    <string name="ReportIssue">Báo cáo vấn đề</string>
+    <string name="ReportIssueTitle">Vấn đề bạn gặp phải trong chuyến đi này là gì ?</string>
+    <string name="EmptyStar">__</string>
+    <string name="ReportWithUs">Báo cáo với chúng tôi</string>
+    <string name="ReportIssueSuccess">Gửi báo cáo thành công</string>
+    <string name="ReportOnceTime">Bạn chỉ có thể gửi Báo cáo 1 lần</string>
+    <string name="AccountBusiness">Tài khoản Kinh doanh</string>
+    <string name="AccountBusinessInDevelop">Chúng tôi rất tiếc, Tài khoản Kinh doanh đang trong quá trình phát triển và sẽ sớm hoàn thành trong thời gian sắp tới.</string>
+    <string name="MomoWarning">Cần cập nhật</string>
+    <string name="MomoPhonePI">SỐ ĐIỆN THOẠI ĐĂNG KÝ MOMO</string>
+
+    // Report issue reasons
+    <string name="ReportIssueReason1">Chi phí chuyến đi chưa hợp lý</string>
+    <string name="ReportIssueReason2">Có lỗi hệ thống</string>
+    <string name="ReportIssueReason3">Tôi đã gặp phải tai nạn</string>
+    <string name="ReportIssueReason4">Điểm đến không đúng</string>
+    <string name="ReportIssueReason5">Lý do khác</string>
+
+    // Trip status
+    <string name="StatusNew">MỚI TẠO</string>
+    <string name="StatusWaiting">ĐANG CHỜ</string>
+    <string name="StatusAccept">ĐÃ CHẤP NHẬN</string>
+    <string name="StatusRefuse">TỪ CHỐI</string>
+    <string name="StatusPickUpPoint">ĐẾN ĐIỂM ĐÓN</string>
+    <string name="StatusGoing">TRONG HÀNH TRÌNH</string>
+    <string name="StatusPassengerCancel">HÀNH KHÁCH HUỶ</string>
+    <string name="StatusDriverCancel">TÀI XẾ HUỶ</string>
+    <string name="StatusDriverCancelEmergency">HUỶ KHẨN CẤP</string>
+    <string name="StatusArrive">ĐẾN ĐÍCH</string>
+    <string name="StatusCompleted">HOÀN THÀNH</string>
+
+    // Monthly title
+    <string name="JanuaryThisYear">Tháng 1/2024</string>
+    <string name="FebruaryThisYear">Tháng 2/2024</string>
+    <string name="MarchThisYear">Tháng 3/2024</string>
+    <string name="AprilThisYear">Tháng 4/2024</string>
+    <string name="MayThisYear">Tháng 5/2024</string>
+    <string name="JuneThisYear">Tháng 6/2024</string>
+    <string name="JulyThisYear">Tháng 7/2024</string>
+    <string name="AugustThisYear">Tháng 8/2024</string>
+    <string name="SeptemberThisYear">Tháng 9/2024</string>
+    <string name="OctoberThisYear">Tháng 10/2024</string>
+    <string name="NovemberThisYear">Tháng 11/2024</string>
+    <string name="DecemberThisYear">Tháng 12/2024</string>
+    <string name="JanuaryNextYear">Tháng 1/2025</string>
 
     // Setting items
     <string name="DriverSettingTitle1">Thông báo hệ thống</string>

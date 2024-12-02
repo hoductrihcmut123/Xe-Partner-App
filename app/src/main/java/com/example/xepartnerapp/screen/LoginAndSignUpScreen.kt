@@ -53,26 +53,32 @@ fun LoginAndSignUpScreen() {
             .background(Color.White),
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Spacer(modifier = Modifier.height(if (screenHeight < 725.dp) 50.sdp else 150.sdp) )
+            Spacer(modifier = Modifier.height(if (screenHeight < 680.dp) 10.dp else
+                if (screenHeight < 775.dp) 70.sdp else 150.sdp))
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = if (screenHeight < 725.dp) 50.sdp else 75.sdp),
+                    .padding(bottom = if (screenHeight < 680.dp) 40.dp else
+                        if (screenHeight < 775.dp) 50.sdp else 75.sdp),
                 painter = painterResource(id = R.drawable.login_and_signup),
                 contentDescription = "Login_and_Signup Image"
             )
             Text(
                 buildAnnotatedString {
-                    withStyle(style = SpanStyle(
-                        color = Color(62,73,88),
-                        fontSize = MaterialTheme.typography.h5.fontSize,
-                    )) {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color(62, 73, 88),
+                            fontSize = MaterialTheme.typography.h5.fontSize,
+                        )
+                    ) {
                         append(stringResource(id = R.string.WelcomeTitle))
                     }
-                    withStyle(style = SpanStyle(
-                        color = Color(17,82,253),
-                        fontSize = MaterialTheme.typography.h4.fontSize,
-                    )) {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color(17, 82, 253),
+                            fontSize = MaterialTheme.typography.h4.fontSize,
+                        )
+                    ) {
                         append(stringResource(id = R.string.Xe))
                     }
                 },
@@ -86,7 +92,8 @@ fun LoginAndSignUpScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 40.sdp)
-                    .padding(top = if (screenHeight < 725.dp) 50.sdp else 75.sdp, bottom = 25.sdp),
+                    .padding(top = if (screenHeight < 680.dp) 40.dp else
+                        if (screenHeight < 775.dp) 50.sdp else 75.sdp, bottom = 25.sdp),
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -153,10 +160,10 @@ fun LoginAndSignUpScreen() {
                         context.startActivity(Intent(context, LoginActivity::class.java))
                     },
                     colors = ButtonDefaults.buttonColors(
-                        contentColor = Color(17,82,253),
+                        contentColor = Color(17, 82, 253),
                         backgroundColor = Color.White
                     ),
-                    border = BorderStroke(2.sdp, Color(17,82,253)),
+                    border = BorderStroke(2.sdp, Color(17, 82, 253)),
                     elevation = ButtonDefaults.elevation(0.sdp, 0.sdp)
                 ) {
                     Text(

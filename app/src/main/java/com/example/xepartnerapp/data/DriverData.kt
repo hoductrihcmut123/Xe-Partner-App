@@ -27,4 +27,5 @@ data class DriverData(
     val rateStarNum: Int? = null,
     val completeTripNum: Int? = null,
     val totalDistance: Int? = null,
+    val momoPhone: String? = null,
 )

@@ -34,6 +34,7 @@ class SignupDriverActivity : AppCompatActivity() {
     private lateinit var lastname: String
     private lateinit var firstname: String
     private lateinit var phoneNumber: String
+    private lateinit var momoPhone: String
     private lateinit var password: String
     private lateinit var cardID: String
     private lateinit var license: String
@@ -83,6 +84,7 @@ class SignupDriverActivity : AppCompatActivity() {
             lastname = binding.signupLastname.text.toString()
             firstname = binding.signupFirstname.text.toString()
             phoneNumber = binding.signupPhoneNumber.text.toString()
+            momoPhone = binding.signupMomoPhone.text.toString()
             password = binding.signupPasswordChild.text.toString()
             cardID = binding.signupIDCard.text.toString()
             license = binding.signupLicense.text.toString()
@@ -143,6 +145,7 @@ class SignupDriverActivity : AppCompatActivity() {
                 intent.putExtra("driverLastname", lastname)
                 intent.putExtra("driverFirstname", firstname)
                 intent.putExtra("driverPhoneNumber", phoneNumber)
+                intent.putExtra("driverMomoPhone", momoPhone)
                 intent.putExtra("driverPassword", password)
                 intent.putExtra("driverCardID", cardID)
                 intent.putExtra("driverLicense", license)
