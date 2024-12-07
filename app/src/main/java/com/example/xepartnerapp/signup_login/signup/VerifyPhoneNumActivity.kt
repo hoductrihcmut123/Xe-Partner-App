@@ -171,7 +171,6 @@ class VerifyPhoneNumActivity : AppCompatActivity() {
         collection = if (isDriver) {
             firestore.collection("Drivers")
         } else {
-
             firestore.collection("CSOs")
         }
 
