@@ -214,6 +214,17 @@
     <string name="MomoWarning">Cần cập nhật</string>
     <string name="MomoPhonePI">SỐ ĐIỆN THOẠI ĐĂNG KÝ MOMO</string>
 
+    // Shortcuts title
+    <string name="SignUpDriverShortcutShortLabel">Tạo TK Tài xế</string>
+    <string name="SignUpDriverShortcutLongLabel">Tạo tài khoản Tài xế</string>
+    <string name="SignUpDriverShortcutDisabledMessage">Hiện chưa hỗ trợ tạo tài khoản Tài xế</string>
+    <string name="SignUpCsoShortcutShortLabel">TK Kinh doanh</string>
+    <string name="SignUpCsoShortcutLongLabel">Tạo TK Kinh doanh</string>
+    <string name="SignUpCsoShortcutDisabledMessage">Hiện chưa hỗ trợ tạo tài khoản Kinh doanh</string>
+    <string name="SignInShortcutShortLabel">Đăng nhập</string>
+    <string name="SignInShortcutLongLabel">Đăng nhập tài khoản</string>
+    <string name="SignInShortcutDisabledMessage">Hiện chưa hỗ trợ đăng nhập vào tài khoản</string>
+
     // Report issue reasons
     <string name="ReportIssueReason1">Chi phí chuyến đi chưa hợp lý</string>
     <string name="ReportIssueReason2">Có lỗi hệ thống</string>

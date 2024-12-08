@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--static shortcut 1-->
+    <shortcut
+        android:shortcutId="signUpDriver"
+        android:enabled="true"
+        android:icon="@drawable/driver_shortcut_icon"
+        android:shortcutShortLabel="@string/SignUpDriverShortcutShortLabel"
+        android:shortcutLongLabel="@string/SignUpDriverShortcutLongLabel"
+        android:shortcutDisabledMessage="@string/SignUpDriverShortcutDisabledMessage"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.xepartnerapp.signup_login.signup.SignupDriverActivity"
+            android:targetPackage="com.example.xepartnerapp" />
+    </shortcut>
+
+    <!--static shortcut 2-->
+    <shortcut
+        android:shortcutId="signUpCso"
+        android:enabled="true"
+        android:icon="@drawable/cso_shortcut_icon"
+        android:shortcutShortLabel="@string/SignUpCsoShortcutShortLabel"
+        android:shortcutLongLabel="@string/SignUpCsoShortcutLongLabel"
+        android:shortcutDisabledMessage="@string/SignUpCsoShortcutDisabledMessage"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.xepartnerapp.signup_login.signup.SignupCsoActivity"
+            android:targetPackage="com.example.xepartnerapp" />
+    </shortcut>
+
+    <!--static shortcut 3-->
+    <shortcut
+        android:shortcutId="Login"
+        android:enabled="true"
+        android:icon="@drawable/login_shortcut_icon"
+        android:shortcutShortLabel="@string/SignInShortcutShortLabel"
+        android:shortcutLongLabel="@string/SignInShortcutLongLabel"
+        android:shortcutDisabledMessage="@string/SignInShortcutDisabledMessage"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.xepartnerapp.signup_login.login.LoginActivity"
+            android:targetPackage="com.example.xepartnerapp" />
+    </shortcut>
+
+</shortcuts>

@@ -214,6 +214,16 @@
     <string name="MomoWarning">Need update</string>
     <string name="MomoPhonePI">MOMO REGISTERED PHONE NUMBER</string>
 
+    // Shortcuts title
+    <string name="SignUpDriverShortcutShortLabel">Sign up driver</string>
+    <string name="SignUpDriverShortcutLongLabel">Create driver account</string>
+    <string name="SignUpDriverShortcutDisabledMessage">Currently, creating a Driver account is not supported</string>
+    <string name="SignUpCsoShortcutShortLabel">Sign up business</string>
+    <string name="SignUpCsoShortcutLongLabel">Create business account</string>
+    <string name="SignUpCsoShortcutDisabledMessage">Currently, creating a Business account is not supported</string>
+    <string name="SignInShortcutShortLabel">Log in</string>
+    <string name="SignInShortcutLongLabel">Log in to your account</string>
+    <string name="SignInShortcutDisabledMessage">Account login is not currently supported</string>
 
     // Report issue reasons
     <string name="ReportIssueReason1">Unreasonable trip costs</string>
