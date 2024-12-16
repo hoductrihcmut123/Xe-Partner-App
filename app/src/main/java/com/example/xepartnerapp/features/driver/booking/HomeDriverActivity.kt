@@ -2,6 +2,7 @@ package com.example.xepartnerapp.features.driver.booking
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
@@ -121,6 +122,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var isReady: Boolean? = null
     private var skipTime: Int = 5
+    private var isTurnOnVibrate: Boolean = true
 
     private lateinit var bottomSheetBookingInfo: BottomSheetBehavior<View>
     private lateinit var bottomSheetIsComing: BottomSheetBehavior<View>
@@ -141,6 +143,9 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
 
     // Spinning animation
     private var animator: ValueAnimator? = null
+
+    // Check CircularCountdown circle odd or even
+    private var isCircularCountdownEven = true
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -179,6 +184,10 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
             locationCallback,
             null
         )
+
+        // Shared Preferences
+        val sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+        isTurnOnVibrate = sharedPreferences.getBoolean("isTurnOnVibrate", true)
 
         // Set up bottomSheetBookingInfo
         bottomSheetBookingInfo = BottomSheetBehavior.from(findViewById(R.id.bottomSheetBookingInfo))
@@ -405,6 +414,7 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
             resetValue()
 
             binding.bottomSheetBookingInfo.circularCountdown.stop()
+            isCircularCountdownEven = !isCircularCountdownEven
             binding.title.isVisible = true
             binding.switchButton.isVisible = true
             binding.menuButton.isVisible = true
@@ -541,11 +551,15 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                     .get()
                     .addOnSuccessListener { documents ->
                         if (documents.isEmpty) {
-                            binding.bottomSheetPassengerPersonalInfo.tvNotHaveReview.isVisible = true
-                            binding.bottomSheetPassengerPersonalInfo.recyclerViewReport.isVisible = false
+                            binding.bottomSheetPassengerPersonalInfo.tvNotHaveReview.isVisible =
+                                true
+                            binding.bottomSheetPassengerPersonalInfo.recyclerViewReport.isVisible =
+                                false
                         } else {
-                            binding.bottomSheetPassengerPersonalInfo.tvNotHaveReview.isVisible = false
-                            binding.bottomSheetPassengerPersonalInfo.recyclerViewReport.isVisible = true
+                            binding.bottomSheetPassengerPersonalInfo.tvNotHaveReview.isVisible =
+                                false
+                            binding.bottomSheetPassengerPersonalInfo.recyclerViewReport.isVisible =
+                                true
                         }
                         passengerFeedbackAdapter.updateData(documents.toObjects(PassengerFeedback::class.java))
                         bottomSheetIsComing.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -813,7 +827,9 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
             if (snapshot != null && snapshot.exists()) {
                 val status = snapshot.getString("status")
                 if (status == Constants.PASSENGER_CANCEL) {
-                    vibrateCustomPattern(this, times = 1, duration = 350L, interval = 500L)
+                    if (isTurnOnVibrate) {
+                        vibrateCustomPattern(this, times = 1, duration = 350L, interval = 500L)
+                    }
                     val ref = driverID?.let { firestore.collection("Drivers").document(it) }
                     ref?.update(
                         mapOf(
@@ -852,10 +868,13 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                 Log.w("FirestoreListener", "Listen failed.", e)
                 return@addSnapshotListener
             }
-            if (snapshot != null && snapshot.exists() && tripId == null) {
+            val cancelInProcess = snapshot?.getBoolean("cancelInProcess")
+            if (snapshot != null && snapshot.exists() && (tripId == null || cancelInProcess != null)) {
                 tripId = snapshot.getString("trip_ID")
                 if (tripId != null) {
-                    vibrateCustomPattern(this, times = 2, duration = 250L, interval = 400L)
+                    if (isTurnOnVibrate) {
+                        vibrateCustomPattern(this, times = 2, duration = 250L, interval = 400L)
+                    }
                     val tripRef = firestore.collection("Trips").document(tripId!!)
                     tripRef.get().addOnSuccessListener { document ->
                         if (document.exists()) {
@@ -909,7 +928,8 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                                     }
 
                                     override fun onFinish(newCycle: Boolean, cycleCount: Int) {
-                                        if (cycleCount > 1 && cycleCount % 2 == 0) {
+                                        val remainderNumber = if (isCircularCountdownEven) 0 else 1
+                                        if (cycleCount > 1 && cycleCount % 2 == remainderNumber) {
                                             binding.bottomSheetBookingInfo.circularCountdown.stop()
                                             tripRef.update(
                                                 mapOf(
@@ -958,7 +978,10 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                     binding.refuseButton.isVisible = true
                 } else {
                     resetValue()
-                    binding.bottomSheetBookingInfo.circularCountdown.stop()
+                    if (cancelInProcess != null) {
+                        binding.bottomSheetBookingInfo.circularCountdown.stop()
+                        isCircularCountdownEven = !isCircularCountdownEven
+                    }
                     binding.title.isVisible = true
                     if (sideSheetMenu.state == SideSheetBehavior.STATE_HIDDEN) {
                         binding.switchButton.isVisible = true
@@ -967,6 +990,12 @@ class HomeDriverActivity : AppCompatActivity(), OnMapReadyCallback {
                     bottomSheetBookingInfo.state = BottomSheetBehavior.STATE_COLLAPSED
                     binding.refuseButton.isVisible = false
                     tripId = null
+
+                    firestore.collection("Drivers").document(driverID!!).update(
+                        mapOf(
+                            "cancelInProcess" to FieldValue.delete()
+                        )
+                    )
 
                     animator?.cancel()
                     mGoogleMap?.setPadding(0, 0, 0, 0)

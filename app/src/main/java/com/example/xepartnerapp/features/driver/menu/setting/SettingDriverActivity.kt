@@ -1,6 +1,7 @@
 package com.example.xepartnerapp.features.driver.menu.setting
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -24,7 +25,6 @@ import com.google.android.material.sidesheet.SideSheetCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SettingDriverActivity : AppCompatActivity() {
@@ -47,6 +47,11 @@ class SettingDriverActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDriverSettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Shared Preferences
+        val sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+        val isTurnOnVibrate = sharedPreferences.getBoolean("isTurnOnVibrate", true)
+        binding.switchButton1.isChecked = isTurnOnVibrate
 
         firestore = FirebaseFirestore.getInstance()
         passengersCollection = firestore.collection("Passengers")
@@ -144,6 +149,12 @@ class SettingDriverActivity : AppCompatActivity() {
         binding.overlayView3.setOnClickListener {
             Toast.makeText(this, getString(R.string.FeatureInDevelop), Toast.LENGTH_LONG).show()
         }
+
+        binding.switchButton1.setOnCheckedChangeListener { _, isChecked ->
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("isTurnOnVibrate", isChecked)
+            editor.apply()
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -161,18 +172,6 @@ class SettingDriverActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         auth.signOut()
-    }
-
-    @SuppressLint("DefaultLocale")
-    private fun calculateRateAverage(document: DocumentSnapshot): Double {
-        val rateStarNum = document.getDouble("rateStarNum") ?: 0.0
-        val rateAverage = if (rateStarNum != 0.0) {
-            document.getDouble("totalStar")?.div(rateStarNum) ?: 5.0
-        } else {
-            5.0
-        }
-        val formattedRate = String.format("%.1f", rateAverage).replace(",", ".")
-        return formattedRate.toDoubleOrNull() ?: 5.0
     }
 
     @OptIn(ExperimentalAnimationApi::class, ExperimentalPagerApi::class)

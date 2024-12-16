@@ -23,46 +23,57 @@
         <activity
             android:name=".features.driver.menu.statistics.TripDetailActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.statistics.TripsInDayActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.statistics.StatisticsDailyActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.personal_info.UpdatePersonalInfoDriverActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.support.RequestSupportDriverActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.support.FAQDriverActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.personal_info.PersonalInfoDriverActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.statistics.StatisticsDriverActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.feedbacks.PassengerFeedbackDriver"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.setting.SettingDriverActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.menu.support.SupportDriverActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
 
         <meta-data
@@ -72,46 +83,57 @@
         <activity
             android:name=".signup_login.forgot_password.NewPasswordActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".signup_login.forgot_password.VerifyPhoneNumFPActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".signup_login.forgot_password.ForgotPasswordActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".signup_login.permissions.PermissionActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.driver.booking.HomeDriverActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".features.cso.home.HomeCsoActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".signup_login.signup.SignupCsoActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".signup_login.signup.VerifyPhoneNumActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".signup_login.signup.SignupDriverActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".signup_login.login.LoginActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.XePartnerApp" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.CustomSplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
